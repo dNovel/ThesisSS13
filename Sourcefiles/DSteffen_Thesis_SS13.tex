@@ -1,0 +1,206 @@
+\documentclass[12pt,a4paper]{scrreprt}
+\usepackage[a4paper, left=3cm, right=3cm, top=2cm, bottom=2cm]{}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{setspace}
+% Festlegung Art der Zitierung - Havardmethode: Abkuerzung Autor + Jahr
+\bibliographystyle{alphadin}
+
+
+
+% Authoren
+\author{
+Dominik Steffen \and
+Erstbetreuer: Prof. Christoph Müller, Fakultät DM \and
+Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
+}
+
+
+
+% Titel
+\title{LINQ for Geometry - VORLÄUFIGES DOKUMENT}
+\subtitle{Implementierung der Half-Edge Datenstruktur zu Manipulation und Handling Dreidimensionaler Meshes insbesondere durch den Einsatz von LINQ und LAMBA Ausdrücken in Microsofts \CS}
+
+
+
+\parindent 0pt
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Commands START - Makros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% C# makro OHNE space nach dem logo
+\newcommand{\CS}{C\texttt{\#}}
+% C# makro MIT space nach dem logo
+\newcommand{\CSS}{C\texttt{\# }}
+% C++ Logo
+\newcommand{\CPP}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Commands ENDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\makeindex
+\onehalfspacing
+
+\begin{document}
+% Titelblatt START
+\maketitle
+\newpage
+% Titelblatt ENDE
+
+% Inhaltsverzeichnis START
+\begingroup
+	\clearpage
+	\pagestyle{empty}
+	\renewcommand*{\chapterpagestyle}{empty}
+	\tableofcontents
+	\clearpage
+\endgroup
+% Inhaltsverzeichnis ENDE
+
+% Passe Seitenzahlen wieder an START
+\pagestyle{plain}
+\setcounter{page}{1}
+% Passe Seitenzahlen wieder an ENDE
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Inhalt START
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%
+% Strukturierung der Thesis in vorläufiger Form
+%%%%%%%%%%
+
+
+
+%%%%%%
+%	Einführung / Einleitung START
+%%%%%%
+
+\chapter {Einleitung}
+	\section {Fragestellung}
+		Ist es möglich die „halfedge data structure“ (kurz HES) in einer gemanagten Programmiersprache wie \CSS unter der Berücksichtigung von Linq und Lambda Ausdrücken so performant zu gestalten dass damit grundlegende Geometriemanipulation erfolgen kann.
+	\section {Warum \CSS ?}
+	\section {Die halfedge data structure (kurz HES) als Algorithmus}
+		%Content
+		\subsection {Die Basis der HES}
+			%Content
+		\subsection {Speicherverbrauch im Gegensatz zu Face basierten Lösungen}
+			%Content
+		\subsection {Vorteile der HES}
+			%Content
+	\section {Aktueller Forschungsstatus}
+		%Content
+	\section {Probleme der aktuellen Forschung}
+		%Content
+	\section {Einführung zu LINQ in \CS}
+		%Content
+	\section {Einführung zu Lambda in \CS}
+		%Content
+%%%%%%
+%	Einführung / Einleitung ENDE
+%%%%%%
+
+
+
+%%%%%%
+%	Hauptteil START
+%%%%%%
+
+\chapter {Hauptteil}
+	\section {Gegenüberstellung nativer (OpenMesh.org) und gemanagter HES}
+		%Content	
+	\section {Geschwindigkeitsunterschiede von nativem und Code in der \CSS Umgebung}
+		%Content
+	\section {Implementierung und Funktion der Handler für die einzelnen Komponenten der HEDS}
+		%\subsection {Design-Patterns - Prototype zur Laufzeit}
+		\subsection {Edges und Handler}
+			%Content
+		\subsection {Half-Edges und Handler}
+			%Content
+		\subsection {Vertices und Handler}
+			%Content
+		\subsection {Faces und Handler}
+			%Content
+	\section {LINQ und Lambda Ausdrücke und ihre Stärken bei der Selektierung großer Datenmengen}
+		%Content
+	\section {Stern- und Umlaufenumeratoren (Iteratoren)}
+		%Content
+		\subsection {Verwendete „Design-Patterns“ und Softwarelösungen}
+			%Content
+		\subsection {Linq und Lambda Ausdrücke der Enumeratoren}
+			%Content
+	\section {Der Import von Geometriedaten im „Wavefront Object“ Format}
+		%Content
+		\subsection {Warum das Wavefront Object Format}
+			%Content
+		\subsection {Importer für das Wavefront Format}
+			%Content
+	\section {Manipulation von Mesh Daten in der Datenstruktur}
+		%Content
+		\subsection {Manipulation von Vertices}
+			%Content
+		\subsection {Manipulation von Kanten}
+			%Content
+		\subsection {Manipulation von Faces}
+			%Content
+	\section {Evtl. beispielhafte Implementierung von Standard Geometriemanipulationsalgorithmen}
+		%Content
+
+%%%%%%
+%	Hauptteil ENDE
+%%%%%%
+
+
+
+%%%%%%
+%	Schluss START
+%%%%%%
+
+\chapter {Schluss}
+	\section {Ergebnis der Arbeit}
+		%Content
+		\subsection {In wie weit ist das Programm produktiv Nutzbar}
+			%Content
+		\subsection {Welche Schnittstellen müssen noch geschaffen werden}
+			%Content
+	\section {Abschließender Vergleich von Native und Managed Code}
+		%Content
+		\subsection {Wie groß sind die Unterschiede Tatsächlich ausgefallen}
+			%Content
+	\section {Zukünftige Entwicklung}
+		%Content
+
+%%%%%%
+%	Schluss ENDE
+%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Inhalt ENDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bilbiographie START
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{literatur}
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bilbiographie ENDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
