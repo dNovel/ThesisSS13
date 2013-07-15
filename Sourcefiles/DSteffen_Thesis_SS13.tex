@@ -7,9 +7,56 @@
 \usepackage{amssymb}
 \usepackage{makeidx}
 \usepackage{setspace}
-% Festlegung Art der Zitierung - Havardmethode: Abkuerzung Autor + Jahr
-\bibliographystyle{alphadin}
+\usepackage{color}
+\usepackage{cite} % Paket fuer die Zitation
+%\usepackage{sourcesanspro}
+% Paket fuer das anzeigen von Quellcode
+\usepackage{listings}
+% Setze die Programmiersprache auf CSharp
+\lstset{language=[Sharp]C} 
 
+% Festlegung Art der Zitierung - Havardmethode: Abkuerzung Autor + Jahr
+\bibliographystyle{plain}
+
+% Festlegen der Sprache
+\selectlanguage{german}
+
+% Settings fuer den Sourcecode START
+\definecolor{mygreen}{rgb}{0,0.4,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{bggray}{rgb}{0.97,0.97,0.97}
+
+\lstset{
+backgroundcolor=\color{bggray},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+basicstyle=\scriptsize, % the size of the fonts that are used for the code
+breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+breaklines=true,                 % sets automatic line breaking
+captionpos=b,                    % sets the caption-position to bottom
+commentstyle=\color{mygreen},    % comment style
+deletekeywords={...},            % if you want to delete keywords from the given language
+escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+frame=single,                    % adds a frame around the code
+keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+keywordstyle=\color{blue},       % keyword style
+language=[Sharp]C,                 % the language of the code
+morekeywords={*,Select},            % if you want to add more keywords to the set
+numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+numbersep=5pt,                   % how far the line-numbers are from the code
+numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+showstringspaces=false,          % underline spaces within strings only
+showtabs=false,                  % show tabs within strings adding particular underscores
+stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+stringstyle=\color{mymauve},     % string literal style
+tabsize=2,                       % sets default tabsize to 2 spaces
+title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+captionpos=t,
+%morecomment=[il]{///}
+}
+% Settings fuer den Sourcecode ENDE
 
 
 % Authoren
@@ -40,6 +87,10 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 \newcommand{\CSS}{C\texttt{\# }}
 % C++ Logo
 \newcommand{\CPP}{C\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}}
+% LINQ For Geometry
+\newcommand{\LFG}{LINQ For Geometry}
+% LINQ For Geometry mit Space
+\newcommand{\LFGS}{LINQ For Geometry }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	Commands ENDE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,13 +142,15 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 
 \chapter {Einleitung}
 	\section {Fragestellung}
-		Ist es möglich die „halfedge data structure“ (kurz HES) in einer gemanagten Programmiersprache wie \CSS unter der Berücksichtigung von Linq und Lambda Ausdrücken so performant zu gestalten dass damit grundlegende Geometriemanipulation in der Computergrafik erfolgen kann?
-	\section {Warum \CSS ?}
-	\section {Die halfedge data structure (kurz HES) als Algorithmus}
+		Ist es möglich die „Half-Edge Data Structure“ (kurz HES) in einer gemanagten Programmiersprache wie \CSS unter der Berücksichtigung von LINQ und Lambda Ausdrücken so zu implementueren, dass damit grundlegende Geometriemanipulation in der Computergrafik erfolgen kann?
+	\section {Die Half-Edge Data Structure (kurz HES) als Algorithmus}
 		%Content
 		\subsection {Die Basis der HES}
 			%Content
 			\subsubsection {Verbindungen und Beziehungen in der HES}
+			%Content
+			\subsubsection {Doubly Connected Edge List}
+			Die doubly connected edge list (kurz DECL) ist der verwendeten HES nicht unähnlich. Beide Datenstrukturen ähneln sich immens und haben doch ein paar wenige entscheidende Unterschiede. TODO
 			%Content
 		\subsection {Speicherverbrauch im Gegensatz zu Face basierten Lösungen}
 			%Content
@@ -105,12 +158,21 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 			%Content
 	\section {Aktueller Forschungsstatus}
 		%Content
-	\section {Probleme der aktuellen Forschung}
-		%Content
+		\subsection {Probleme der aktuellen Forschung}
+			%Content
 	\section {Einführung zu LINQ in \CS}
+		%Content
+		\subsection {Was ist LINQ in \CS}
+		%Content
+		\subsection {"`Highlevel"' LINQ in \CS}
+		%Content
+		\subsection {"`Lowlevel"' LINQ in \CS}
 		%Content
 	\section {Einführung zu Lambda in \CS}
 		%Content
+		\subsection {Was sind Lambda Ausdr"ucke in \CS}
+		%Content
+		\subsection {Lambda Ausdr"ucke in Verbindung mit LINQ}
 %%%%%%
 %	Einführung / Einleitung ENDE
 %%%%%%
@@ -122,46 +184,152 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 %%%%%%
 
 \chapter {Hauptteil}
-	\section {Gegenüberstellung nativer (OpenMesh.org) und gemanagter HES}
+	\section {Gegenüberstellung nativer (OpenMesh.org) und gemanagter Implementierungen der Half-Edge Data Structure}
 		%Content	
-	\section {Geschwindigkeitsunterschiede von nativem und Code in der \CSS Umgebung}
 		%Content
-	\section {Implementierung und Funktion der Handler für die einzelnen Komponenten der HEDS}
-		%\subsection {Design-Patterns - Prototype zur Laufzeit}
-		\subsection {Edges und Handler}
+	\section {Geschwindigkeitsunterschiede von nativem und \CSS Code}
+		%Content
+		%Content
+	\section {Die Vorteile in der Entwicklung von managed Code}
+		%Content
+		%Content
+	\section {Das Software Projekt LINQ For Geometry (LFG)}
+		%Content
+		%Content
+		\subsection {Warum die Programmiersprache \CSS ?}
 			%Content
-		\subsection {Half-Edges und Handler}
 			%Content
-		\subsection {Vertices und Handler}
+		\subsection {Furtwangen University Simulation and Entertainment Engine (FUSEE)}
 			%Content
-		\subsection {Faces und Handler}
+			%Content
+		\subsection {Grober Ablauf einer HES Initialisierung}
+			%Content
+			%Content
+			\subsubsection {UML Diagramme zum Initialisierungslauf}
+				%Content
+				%Content
+	\section {Der Import von Geometriedaten im „Wavefront Object“ Format}
+		%Content
+		%Content
+		\subsection {Warum das Wavefront Object Format}
+			%Content
+			%Content
+			\subsubsection {Face basierter Import - Edge basiertes Handling}
+				%Content
+				%Content
+		\subsection {Importer für das Wavefront Format}
+			%Content
+			%Content
+	\section {Implementierung und Funktion der Handler für die einzelnen Komponenten der HES}
+		\subsection {Beispiel eines Handler Konstruktes und seiner Implementierung}
+		%Content
+Die Handler Konstrukte "`Structs"' in dieser Arbeit, welcher Art auch immer, können vereinfacht gesagt als Zeiger auf Datens"atze von realen Daten betrachtet werden.
+\lstinputlisting
+			[caption={HandleHalf-Edge.cs - Variablen Deklaration des "`Zeigers"'}, label=code:hhezeiger, firstline=21, lastline=21]
+			{E:/Development/HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+Sie enthalten nur einen Index als Zeiger und sehr wenige Funktionen. Ein Handler speichert zur Laufzeit pro Instanz einen Index auf den realen Datensatz f"ur den er einen Handle darstellt. Handler Structs gibt es f"ur Edges, Half-Edges, Faces, FaceNormals, Vertices, VertexNormals und VertexUVs. Sie unterscheiden sich hierbei nur durch die Namensgebung der Structs und der Konstrukturen.
+Ein Handler Struct stellt eine implizite Konvertierung des Handlers, siehe Listing \ref{code:hhecast}, in den Datentypen Integer (int) zur Verfügung.
+\lstinputlisting
+			[caption={HandleHalf-Edge.cs - Impliziter cast nach Integer}, label=code:hhecast, firstline=37, lastline=40]
+			{E:/Development/HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+
+Zus"atzlich kann der Entwickler jederzeit abfragen ob der aktuell verwendete Handler schon als valide betrachtet werden kann. Hierzu Listing \ref{code:isvalid} betrachten. Ein Handler ist dann valide, wenn sein Index nicht kleiner als 0 ist. In dieser Arbeit werden einstweilen Handler initialisiert f"ur die zum Zeitpunkt der Initialisierung noch kein Index zur Speicherung bereit steht. Diese vorerst nicht validen Handler werden dann mit dem Wert -1 initialisiert und sind somit zu diesem Zeitpunkt als nicht valide also nicht verwendbar zu betrachten. Um diese sp"ater im Programm zu benutzen, muss also noch der korrekte Index, meistens der Wert einer Count Funktion auf einer Liste eingef"ugt werden.
+\lstinputlisting
+			[caption={HandleHalf-Edge.cs - Is Valid?}, label=code:isvalid, firstline=45, lastline=48]
+			{E:/Development/HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+
+Eine Besonderheit der Handler ist die mit "`internal"' gekennzeichnete Deklaration der Indizes. Siehe hierzu Listing \ref{code:hheinternal}. Durch das "`internal"' \CSS Schl"usselwort k"onnen die Handler nur aus der jeweiligen gleichen Assembly angesprochen und ver"andert werden. Dies verhindert einen unbefugten oder unabsichtlichen Fremdzugriff von Au"sen. W"ahrend der Laufzeit wird also die Konsistenz der Datenstruktur in sich gesch"utzt um so das Programm vor Abst"urzen durch Zeiger Fehler zu sch"utzen.
+\lstinputlisting
+			[caption={HandleHalf-Edge.cs - Deklarationen als internal}, label=code:hheinternal, firstline=21, lastline=21]
+			{E:/Development/HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+
+\begin{quote}{\dq}Der interne Zugriff wird h{\"a}ufig in komponentenbasierter Entwicklung verwendet, da er einer Gruppe von Komponenten erm{\"o}glicht, in einer nicht {\"o}ffentlichen Weise zusammenzuwirken, ohne dem Rest des Anwendungscodes zug{\"a}nglich zu sein.{\dq} \cite{MicrosoftCReferenz.2013}\end{quote}
+
+
+Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann im Visual Studio 2010 Projekt auf dem diese Arbeit aufbaut unter folgender Verzeichnisstruktur betrachtet werden. "`LinqForGeometry/LinqForGeometry.Core/src/Handles"'
+		%Content
+
+\section {Pointer Container und ihre Rolle in \LFG}
+		%Content
+		%Content
+		\subsection {Half-Edges Pointer-Container}
+			%Content
+
+			%Content
+			\subsubsection {Vertex Normal Handler}
+				%Content
+			
+				%Content
+			\subsubsection {Vertex UV Handler}
+				%Content
+
+				%Content
+		\subsection {Edges Pointer-Container}
+			%Content
+
+			%Content	
+		\subsection {Vertices Pointer-Container}
+			%Content
+
+			%Content
+		\subsection {Faces Pointer-Container}
+			%Content
+
+			%Content
+	\section {Der Geometry Teil in LINQ For Geometry}
+		%Content
+			Hier Information über das Geometry Objekt und die darin enthaltenen Daten etc.
+		%Content
+		\subsection {Benchmarks zu Laufzeiten des Programms}
+			%Content
+			%Content
+	\section {Anwendungsfälle von LINQ For Geometry}
+		%Content
+		%Content
+		\subsection {\LFGS als Editor Datenstruktur in FUSEE}
+			%Content
 			%Content
 	\section {LINQ und Lambda Ausdrücke und ihre Stärken und Schwächen bei der Selektierung großer Datenmengen}
 		%Content
 	\section {Stern- und Umlaufenumeratoren (Iteratoren)}
 		%Content
+		%Content
+		\subsection {Die Geschwindigkeit der Half-Edge Datenstruktur in den Enumeratoren}
+			%Content
+			%Content
 		\subsection {Verwendete „Design-Patterns“ und Softwarelösungen}
 			%Content
-		\subsection {Linq und Lambda Ausdrücke in den Enumeratoren}
 			%Content
-	\section {Der Import von Geometriedaten im „Wavefront Object“ Format}
-		%Content
-		\subsection {Warum das Wavefront Object Format}
+		\subsection {LINQ und Lambda Ausdrücke in den Enumeratoren}
 			%Content
-		\subsection {Importer für das Wavefront Format}
 			%Content
-			\subsubsection {Face basierter Import - Edge basiertes Handling}
+		\subsection {Unterschiedliche Iteratoren kurz dargestellt}
+			%Content
 			%Content
 	\section {Manipulation von Mesh Daten in der Datenstruktur}
 		%Content
+		%Content
 		\subsection {Manipulation von Vertices}
 			%Content
-		\subsection {Manipulation von Kanten}
+			%Content
+		\subsection {Manipulation von Edges und Half-Edges}
+			%Content
 			%Content
 		\subsection {Manipulation von Faces}
 			%Content
-	\section {Evtl. beispielhafte Implementierung von Standard Geometriemanipulationsalgorithmen}
-		%Content
+			%Content
+		\subsection {Beispielhafte Implementierung von Standard Algorithmen zur Geometriemanipulation als Modul}
+			%Content
+			%Content
+		\subsection {Implementierung von Catmull Clark als Modul f"ur \LFG}
+			%Content
+			%Content
+			\subsubsection {Was ist der Catmull Clark Algorithmus?}
+				%Content
+				%Content
+			\subsubsection {Vorteile der Implementierung in der HES}
+				%Content
+				%Content
 
 %%%%%%
 %	Hauptteil ENDE
@@ -176,15 +344,11 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 \chapter {Schluss}
 	\section {Ergebnis der Arbeit}
 		%Content
-		\subsection {In wie weit ist das Programm produktiv Nutzbar}
+		\subsection {Wie weit ist \LFGS fortgeschritten}
 			%Content
-		\subsection {Welche Schnittstellen müssen noch geschaffen werden}
+		\subsection {Welche M"oglichkeiten zur Erweiterung durch eigenen Code bietet \LFG}
 			%Content
-	\section {Abschließender Vergleich von Native und Managed Code}
-		%Content
-		\subsection {Wie groß sind die Unterschiede Tatsächlich ausgefallen}
-			%Content
-	\section {Zukünftige Entwicklung}
+	\section {Zukünftige Entwicklungen und Ausblick auf die Verwendung von \LFG}
 		%Content
 
 %%%%%%
@@ -198,9 +362,18 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Source Code Verzeichnis START
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstlistoflistings
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Source Code Verzeichnis ENDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bilbiographie START
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bibliography{literatur}
+\bibliography{Citavi}
 \addcontentsline{toc}{chapter}{Literaturverzeichnis}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
