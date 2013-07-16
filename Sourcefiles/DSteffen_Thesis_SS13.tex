@@ -1,6 +1,5 @@
-%\documentclass[12pt, a4paper]{scrreprt}
 \documentclass[pagesize, paper=a4, fontsize=12pt,titlepage=true, headings=small, headnosepline, abstractoff, liststotoc, nochapterprefix, plainheadsepline]{scrreprt}
-\usepackage[a4paper, left=3cm, right=3cm, top=2cm, bottom=2cm]{}
+\usepackage[a4paper, left=40mm, right=30mm, top=20mm, bottom=20mm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[german]{babel}
 \usepackage{amsmath}
@@ -96,6 +95,8 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 \newcommand{\LFG}{LINQ For Geometry}
 % LINQ For Geometry mit Space
 \newcommand{\LFGS}{LINQ For Geometry }
+% LINQ mit spaces links und rechts
+\newcommand{\LQ}{ LINQ }
 % Generic zeichen <T>
 \newcommand{\GT}{\textless T\textgreater}
 \newcommand{\GTS}{\textless T\textgreater\space}
@@ -192,12 +193,16 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 			%Content
 	\section {Einführung zu LINQ in \CS}
 		%Content
-		Language Integrated Query, kurz LINQ und zu deutsch Sprachintegrierte Abfrage,funktioniert ab \CSS 3.0 und ist ein Feature von Microsofts .NET Paket. LINQ ist also ein Produkt von Microsoft und erinnert auf den ersten Blick in seinem syntaktischen und semantischem Aufbau stark an das Open Source Projekt MySQL welches aktuell (Stand Juli 2013) von der Oracle Corporation betreut wird. Beide Projekte unterscheiden sich jedoch wesentlich. LINQ ist in erster Linie ein Feature, dass direkt auf Objekten arbeitet wohingegen MySQL auf relationale Daten angewendet wird. Allerdings kann LINQ viel mehr als das. LINQ kann als Layer und Bindeglied zwischen Collections aus Daten und den Programmiersprachen des .NET Frameworks betrachtet werden. Es ist hierbei m"oglich LINQ in verschiedenen Bereichen zu nutzen. Es arbeitet sowohl wie bereits erw"ahnt auf Collections aus Daten wie z.B. Listen aus Objekten die sich bereits im Hauptspeicher befinden oder fungiert als Bindeglied zu SQL um Daten aus einem Persistenten Medium auszulesen. Es kann aber auch dazu verwendet werden mit XML Datens"atzen bzw. Dokumenten zu arbeiten ist aber auch in der Lage mit Filesystemen und anderen Datenquellen zu interagieren. Das bedeutet dass LINQ sich nicht grunds"atzlich auf die vorher genannten M"oglichkeiten beschr"ankt sondern offen ist f"ur viele Arten von Daten. Weitere sind LINQ to DataSet und LINQ to SharePoint auf die hier mangels Relevanz zum Projekt nicht weiter eingegangen wird. Diese Arbeit besch"aftigt sich also haupts"achlich mit dem LINQ Provider (LINQ Anbieter) LINQ to Objects da sich die zu verarbeitenden Daten w"ahrend der Bearbeitungszeit mit LINQ bereits im Speicher des Rechners befinden. Wie erw"ahnt, ist LINQ ein Layer f"ur die Programmiersprachen von .NET und kann deswegen nicht nur in \CSS verwendet werden wie hier, sondern auch in Microsofts VB.NET. Dieses Projekt beschr"ankt sich auf \CSS als Programmiersprache, weswegen auch alle folgenden Codebeispiele in \CSS geschrieben sind. Ein weiterer nicht zu verachtender Vorteil von LINQ im Gegensatz zu den meisten Implementationen von SQL Statements ist, dass die Statemtents vom \CSS compiler zum Zeitpunkt der Kompilierung auf syntaktische Korrektheit gepr"uft werden und der Benutzer vom IntelliSense System von Visual Studio wertvolle Hinweise w"ahrend der Generierung von LINQ Statements erh"alt.
+		Language Integrated Query, kurz LINQ und zu deutsch Sprachintegrierte Abfrage, funktioniert ab \CSS 3.0 und ist ein Feature von Microsofts .NET Paket. LINQ ist also ein Produkt von Microsoft und erinnert auf den ersten Blick in seinem syntaktischen und semantischem Aufbau stark an das Open Source Projekt MySQL welches aktuell (Stand Juli 2013) von der Oracle Corporation betreut wird. Beide Projekte unterscheiden sich jedoch wesentlich. LINQ ist in erster Linie ein Feature, dass direkt auf Objekten arbeitet wohingegen MySQL auf relationale Daten angewendet wird. Allerdings kann LINQ viel mehr als das.
+
+LINQ kann als Layer und Bindeglied zwischen Collections aus Daten und den Programmiersprachen des .NET Frameworks betrachtet werden. Es ist hierbei m"oglich LINQ in verschiedenen Bereichen zu nutzen. Es arbeitet sowohl wie bereits erw"ahnt auf Collections aus Daten wie z.B. Listen aus Objekten die sich bereits im Hauptspeicher befinden oder fungiert als Bindeglied zu SQL um Daten aus einem Persistenten Medium auszulesen. Es kann aber auch dazu verwendet werden mit XML Datens"atzen bzw. Dokumenten zu arbeiten ist aber auch in der Lage mit Filesystemen und anderen Datenquellen zu interagieren. Das bedeutet dass LINQ sich nicht grunds"atzlich auf die vorher genannten M"oglichkeiten beschr"ankt sondern offen ist f"ur viele Arten von Daten. Weitere sind LINQ to DataSet und LINQ to SharePoint auf die hier mangels Relevanz zum Projekt nicht weiter eingegangen wird.
+
+Diese Arbeit besch"aftigt sich also haupts"achlich mit dem LINQ Provider (LINQ Anbieter) LINQ to Objects da sich die zu verarbeitenden Daten w"ahrend der Bearbeitungszeit mit LINQ bereits im Speicher des Rechners befinden. Wie erw"ahnt, ist LINQ ein Layer f"ur die Programmiersprachen von .NET und kann deswegen nicht nur in \CSS verwendet werden wie hier, sondern auch in Microsofts VB.NET. Dieses Projekt beschr"ankt sich auf \CSS als Programmiersprache, weswegen auch alle folgenden Codebeispiele in \CSS geschrieben sind. Ein weiterer nicht zu verachtender Vorteil von LINQ im Gegensatz zu den meisten Implementationen von SQL Statements ist, dass die Statemtents vom \CSS compiler zum Zeitpunkt der Kompilierung auf syntaktische Korrektheit gepr"uft werden und der Benutzer vom IntelliSense System von Visual Studio wertvolle Hinweise w"ahrend der Generierung von LINQ Statements erh"alt.
 		%Content
 		\subsection {Was ist LINQ to Objects genau? }
 		%Content
 		LINQ to Objects wie in diesem Projekt verwendet, erfordert zur Benutzung erst einmal die grunds"atzliche Eigenschaft des Datensatzes eine Collection zu sein. Jede Collection aus Objekten auf die LINQ to objects angewendet wird muss also die Schnittstelle IEnumerable\GTS implementieren. Diese Objekte werden im LINQ Vokabular dann als Sequences bezeichnet. In dieser Arbeit werden fast aussschliesslich die generischen Collections von \CSS verwendet welche grunds"atzlich auch alle das generische IEnumerable\GTS Interface implementieren. Der am meisten verwendete Datentyp in dieser Arbeit ist die generischen Implementierung von List\GT.
-\\
+
 Eine LINQ to object Abfrage besteht immer aus drei Abfrageoperationen
 \begin{itemize}
 \item Bereitstellen einer Datenquelle
@@ -217,10 +222,10 @@ Ein Statement kann jedoch auch erzwungen direkt ausgef"uhrt werden. Durch einen 
 			[caption={LINQdirectQueryList.cs - Einfaches direktes LINQ Abfrage Beispiel} \protect\cite{MicrosoftCReferenz.2013}, label=code:linqdirectquery]
 			{../Codebeispiele/LINQdirectQueryList.cs}
 		%Content
-		\subsection {"`Abfragesyntax"' in LINQ}
+		\subsection {Abfragesyntax in LINQ}
 		Was im vorigen Absatz als LINQ Statement bezeichnet wurde ist ein LINQ Statement geschrieben in der Abfragesyntax. Diese Syntax zeichnet sich durch einfache Lesbarkeit und einfache Zug"anglichkeit aus. Zur Kompilierzeit wird diese Syntax vom Compiler in die so genannte Methodensyntax "ubersetzt. Beide Methoden sind Semantisch identisch auch wenn sie sich auf den ersten Blick Syntaktisch sehr unterscheiden.
 		%Content
-		\subsection {"`Methodensyntax"' in LINQ}
+		\subsection {Methodensyntax in LINQ}
 		Die Methodensyntax in LINQ unterscheidet sich von der Abfragesyntax dadurch, dass anstatt fester keywords wie where, from und select um eine Abfrage zu formen Lambda Ausdr"ucke verwendet werden (Lambda Ausdr"ucke werden im n"achsten Abschnitt n"aher erleutert). In der Referenzdokumentation zu LINQ (Stand Juli 2013) \cite{MicrosoftCReferenz.2013} wird haupts"achlich diese Art der Syntax verwendet. Aus den dort aufgef"uhrten Typen wird in dieser Arbeit sehr h"aufig der Enumerable Typ verwendet.
 \\
 Hier ein Vergleich der beiden Syntaktischen M"oglichkeiten zum erstellen von LINQ Statements.
