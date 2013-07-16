@@ -93,7 +93,9 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 \newcommand{\LFGS}{LINQ For Geometry }
 % Generic zeichen <T>
 \newcommand{\GT}{\textless T\textgreater}
-\newcommand{\GTS}{\textless T\textgreater }
+\newcommand{\GTS}{\textless T\textgreater\space}
+% Lambda Zeichen in C#
+\newcommand{\LAM}{ =\textgreater\space}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	Commands ENDE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -146,26 +148,34 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 \chapter {Einleitung}
 	\section {Fragestellung}
 		Ist es möglich die „Half-Edge Data Structure“ (kurz HES) in einer gemanagten Programmiersprache wie \CSS unter der Berücksichtigung von LINQ und Lambda Ausdrücken so zu implementueren, dass damit grundlegende Geometriemanipulation in der Computergrafik erfolgen kann?
+	\section {Anforderungen und Ziele}
+	%Content
+	
+	%Content
 	\section {Die Half-Edge Data Structure (kurz HES) als Algorithmus}
 		%Content
+		% Mark de Berg, Otfried Cheong, Marc van Kreveld, Mark Overmars: Computational Geometry: Algorithms and Applications. Springer-Verlag Berlin Heidelberg New York, 2000, ISBN 3-540-65620-0, S. 31–32
 		\subsection {Die Basis der HES}
 			%Content
+			%TODO Planare Graphen erkläutern und verstehen
 			\subsubsection {Verbindungen und Beziehungen in der HES}
 			%Content
 			\subsubsection {Doubly Connected Edge List}
-			Die doubly connected edge list (kurz DECL) ist der verwendeten HES nicht unähnlich. Beide Datenstrukturen ähneln sich immens und haben doch ein paar wenige entscheidende Unterschiede. TODO
+			Die doubly connected edge list (kurz DECL) ist der verwendeten HES nicht unähnlich. Beide Datenstrukturen ähneln sich immens und haben doch ein paar wenige entscheidende Unterschiede. TODO % Eher genau gleich?
 			%Content
 		\subsection {Speicherverbrauch im Gegensatz zu Face basierten Lösungen}
 			%Content
+			% TODO, höherer verbrauch, aber gleichzeit auch wesentlich flexibler. Speicher ist vorhanden, geschwindigkeit wird gesucht als ziel
 		\subsection {Vorteile der HES}
 			%Content
+			%TODO rasche geschwindigkeit in iterationen. Beispiel für einen Algorithmus anführen der Kanten eines Polygons sucht oder sonstwie über ein Polygon iteriert.
 	\section {Aktueller Forschungsstatus}
 		%Content
 		\subsection {Probleme der aktuellen Forschung}
 			%Content
 	\section {Einführung zu LINQ in \CS}
 		%Content
-		Language Integrated Query, kurz LINQ und zu deutsch Sprachintegrierte Abfrage,funktioniert ab \CSS 3.0 und ist ein Feature von Microsofts .NET Paket. LINQ ist also ein Produkt von Microsoft und erinnert auf den ersten Blick in seinem syntaktischen und semantischem Aufbau stark an das Open Source Projekt MySQL welches aktuell (Stand Juli 2013) von der Oracle Corporation betreut wird. Beide Projekte unterscheiden sich jedoch wesentlich. LINQ ist in erster Linie ein Feature, dass direkt auf Objekten arbeitet wohingegen MySQL auf relationale Daten angewendet wird. Allerdings kann LINQ viel mehr als das. LINQ kann als Layer und Bindeglied zwischen Collections aus Daten und den Programmiersprachen des .NET Frameworks betrachtet werden. Es ist hierbei m"oglich LINQ in verschiedenen Bereichen zu nutzen. Es arbeitet sowohl wie bereits erw"ahnt auf Collections aus Daten wie z.B. Listen aus Objekten die sich bereits im Hauptspeicher befinden oder fungiert als Bindeglied zu SQL um Daten aus einem Persistenten Medium auszulesen. Es kann aber auch dazu verwendet werden mit XML Datens"atzen bzw. Dokumenten zu arbeiten ist aber auch in der Lage mit Filesystemen und anderen Datenquellen zu interagieren. Das bedeutet dass LINQ sich nicht grunds"atzlich auf die vorher genannten M"oglichkeiten beschr"ankt sondern offen ist f"ur viele Arten von Daten. Weitere sind LINQ to DataSet und LINQ to SharePoint auf die hier mangels Relevanz zum Projekt nicht weiter eingegangen wird. Diese Arbeit besch"aftigt sich also haupts"achlich mit dem LINQ Provider (LINQ Anbieter) LINQ to Objects da sich die zu verarbeitenden Daten w"ahrend der Bearbeitungszeit mit LINQ bereits im Speicher des Rechners befinden. Wie erw"ahnt, ist LINQ ein Layer f"ur die Programmiersprachen von .NET und kann deswegen nicht nur in \CSS verwendet werden wie hier, sondern auch in Microsofts VB.NET.  Ein weiterer nicht zu verachtender Vorteil von LINQ im Gegensatz zu den meisten Implementationen von SQL Statements ist, dass die Statemtents vom \CSS compiler zum Zeitpunkt der Kompilierung auf syntaktische Korrektheit gepr"uft werden und der Benutzer vom IntelliSense System von Visual Studio wertvolle Hinweise w"ahrend der Generierung von LINQ Statements erh"alt.
+		Language Integrated Query, kurz LINQ und zu deutsch Sprachintegrierte Abfrage,funktioniert ab \CSS 3.0 und ist ein Feature von Microsofts .NET Paket. LINQ ist also ein Produkt von Microsoft und erinnert auf den ersten Blick in seinem syntaktischen und semantischem Aufbau stark an das Open Source Projekt MySQL welches aktuell (Stand Juli 2013) von der Oracle Corporation betreut wird. Beide Projekte unterscheiden sich jedoch wesentlich. LINQ ist in erster Linie ein Feature, dass direkt auf Objekten arbeitet wohingegen MySQL auf relationale Daten angewendet wird. Allerdings kann LINQ viel mehr als das. LINQ kann als Layer und Bindeglied zwischen Collections aus Daten und den Programmiersprachen des .NET Frameworks betrachtet werden. Es ist hierbei m"oglich LINQ in verschiedenen Bereichen zu nutzen. Es arbeitet sowohl wie bereits erw"ahnt auf Collections aus Daten wie z.B. Listen aus Objekten die sich bereits im Hauptspeicher befinden oder fungiert als Bindeglied zu SQL um Daten aus einem Persistenten Medium auszulesen. Es kann aber auch dazu verwendet werden mit XML Datens"atzen bzw. Dokumenten zu arbeiten ist aber auch in der Lage mit Filesystemen und anderen Datenquellen zu interagieren. Das bedeutet dass LINQ sich nicht grunds"atzlich auf die vorher genannten M"oglichkeiten beschr"ankt sondern offen ist f"ur viele Arten von Daten. Weitere sind LINQ to DataSet und LINQ to SharePoint auf die hier mangels Relevanz zum Projekt nicht weiter eingegangen wird. Diese Arbeit besch"aftigt sich also haupts"achlich mit dem LINQ Provider (LINQ Anbieter) LINQ to Objects da sich die zu verarbeitenden Daten w"ahrend der Bearbeitungszeit mit LINQ bereits im Speicher des Rechners befinden. Wie erw"ahnt, ist LINQ ein Layer f"ur die Programmiersprachen von .NET und kann deswegen nicht nur in \CSS verwendet werden wie hier, sondern auch in Microsofts VB.NET. Dieses Projekt beschr"ankt sich auf \CSS als Programmiersprache, weswegen auch alle folgenden Codebeispiele in \CSS geschrieben sind. Ein weiterer nicht zu verachtender Vorteil von LINQ im Gegensatz zu den meisten Implementationen von SQL Statements ist, dass die Statemtents vom \CSS compiler zum Zeitpunkt der Kompilierung auf syntaktische Korrektheit gepr"uft werden und der Benutzer vom IntelliSense System von Visual Studio wertvolle Hinweise w"ahrend der Generierung von LINQ Statements erh"alt.
 		%Content
 		\subsection {Was ist LINQ to Objects genau? }
 		%Content
@@ -173,27 +183,44 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 \\
 Eine LINQ to object Abfrage besteht immer aus drei Abfrageoperationen
 \begin{itemize}
-\item Abrufen der Datenquelle
-\item Erstellen der Abfrage
-\item Ausführen der Abfrage
+\item Bereitstellen einer Datenquelle
+\item Erstellen einer LINQ Abfrage
+\item Ausführen der LINQ Abfrage auf der Datenquelle mithilfe einer foreach() Anweisung
 \end{itemize}
-Das besondere an der Formulierung von LINQ Statements ist, dass sie zum Zeitpunkt ihrer Erstellung noch keine Daten der Datenquelle abfragen sondern erst zum Ausf"uhrungszeitpunkt des Statements damit beginnen. Das ist sehr praktisch, denn dadurch k"onnen einmal in einer Abfrage erstellte Statements wiederverwertet werden und dabei k"onnte sogar recht einfach die Collection ausgetauscht werden auf der die Abfrage schlussendlich ausgef"uhrt wird. LINQ Abfragen werden also mit einer semantischen Verz"ogerung  schlussendlich in einer foreach() Anweisung ausgef"uhrt.
+Das besondere an der Formulierung von LINQ Statements ist, dass sie zum Zeitpunkt ihrer Erstellung noch keine Daten der Datenquelle abfragen sondern erst zum Ausf"uhrungszeitpunkt des Statements damit beginnen. Das ist sehr praktisch, denn dadurch k"onnen einmal in einer Abfrage erstellte Statements wiederverwertet werden. Eine LINQ Abfrage Variable speichert nie das Ergebnis einer Abfrage. Durch diesen Umstand ist es möglich, einen Datensatz zu unterschiedlichen Zeitpunkten abzufragen. Eventuell "andert sich auch das Ergebnis der Abfrage wenn man davon ausgeht dass sich die Collection der Daten "uber die Zeit ver"andert. Trotzdem wird immer nch die semantisch gleiche Abfrage verwendet. LINQ Abfragen werden also mit einer Verz"ogerung schlussendlich in einer foreach() Anweisung ausgef"uhrt. Dabei durchl"auft die foreach() Anweisung Syntaktisch die Query oder Statement variable und nicht die Collection der Daten.
 \\
 Hier folgt ein Beispiel welches eine einfache LINQ Abfrage auf einen einfachen Array Datensatz der IEnumerable\GTS implementiert darstellt.
 \lstinputlisting
-			[caption={LINQeasyQuery.cs - Einfaches LINQ Abfrage Beispiel}, label=code:leq]
+			[caption={LINQeasyQuery.cs - Einfaches LINQ Abfrage Beispiel}, label=code:linqeasyquery]
 			{../Codebeispiele/LINQeasyQuery.cs}
 
+Ein Statement kann jedoch auch erzwungen direkt ausgef"uhrt werden. Durch einen direkten Aufruf der Methoden toList\GTS oder toArray\GTS auf dem Statement.
+%\caption[Foo Bar.]{Foo Bar. Redrawn from \protect\cite{Baz}.}
+\lstinputlisting
+			[caption={LINQdirectQueryList.cs - Einfaches direktes LINQ Abfrage Beispiel} \protect\cite{MicrosoftCReferenz.2013}, label=code:linqdirectquery]
+			{../Codebeispiele/LINQdirectQueryList.cs}
 		%Content
-		\subsection {"`Highlevel"' LINQ in \CS}
+		\subsection {"`Abfragesyntax"' in LINQ}
+		Was im vorigen Absatz als LINQ Statement bezeichnet wurde ist ein LINQ Statement geschrieben in der Abfragesyntax. Diese Syntax zeichnet sich durch einfache Lesbarkeit und einfache Zug"anglichkeit aus. Zur Kompilierzeit wird diese Syntax vom Compiler in die so genannte Methodensyntax "ubersetzt. Beide Methoden sind Semantisch identisch auch wenn sie sich auf den ersten Blick Syntaktisch sehr unterscheiden.
 		%Content
-		\subsection {"`Lowlevel"' LINQ in \CS}
+		\subsection {"`Methodensyntax"' in LINQ}
+		Die Methodensyntax in LINQ unterscheidet sich von der Abfragesyntax dadurch, dass anstatt fester keywords wie where, from und select um eine Abfrage zu formen Lambda Ausdr"ucke verwendet werden (Lambda Ausdr"ucke werden im n"achsten Abschnitt n"aher erleutert). In der Referenzdokumentation zu LINQ (Stand Juli 2013) \cite{MicrosoftCReferenz.2013} wird haupts"achlich diese Art der Syntax verwendet. Aus den dort aufgef"uhrten Typen wird in dieser Arbeit sehr h"aufig der Enumerable Typ verwendet.
+\\
+Hier ein Vergleich der beiden Syntaktischen M"oglichkeiten zum erstellen von LINQ Statements.
+\lstinputlisting
+			[caption={LINQzweiSynt.cs - Zwei syntaktische M"oglichkeiten} \protect\cite{MicrosoftCReferenz.2013}, label=code:linqzweisynt]
+			{../Codebeispiele/LINQzweiSynt.cs}
 		%Content
 	\section {Einführung zu Lambda in \CS}
 		%Content
-		\subsection {Was sind Lambda Ausdr"ucke in \CS}
+		Lambda Ausdr"ucke in \CSS sind Anonymen Funktionen sehr "ahnlich. In dieser Arbeit wurden Lambda Ausdr"ucke haupts"achlich in LINQ Statemens verwendet. Syntaktisch ist diese Art Funktionen zu schreiben sehr simpel gestrickt. Das Lambda Zeichen in \CSS wird als \LAM dargestellt. Es folgt immer der Parameterliste und sollte nicht mit den Vergleichsoperatoren \textgreater = und \textless = verwechselt werden. Das Lamba Zeichen bedeutet hier soviel wie "`wechselt zu"' oder "`wird zu"' und steht Links des gew"unschten Ausdrucks.
 		%Content
 		\subsection {Lambda Ausdr"ucke in Verbindung mit LINQ}
+Wie bereits beschrieben werden Lambda Ausdr"ucke  in verbindung mit LINQ in der Methodensyntax von LINQ verwendet. Diese Syntax wird meist benutzt um Standardabfrageoperatoren wie Collection.Select(lambda hier) Collection.Where(lambda hier) und Collection.All(lambda hier) zu verwenden. In dieser Arbeit wird der Standardoperator Select() am h"aufigsten verwendet. Select() wenden den angegebenen Lambda Ausdruck auf jedes Element der Collection an auf die der Select operator angewendet wird und gibt falls vorhanden ein Ergebnis zur"uck. Siehe Listing \ref{code:lambdaeasy}
+\lstinputlisting
+			[caption={LambdaEasy.cs - Einfacher Lambda Ausdruck}, label=code:lambdaeasy]
+			{../Codebeispiele/LambdaEasy.cs}
+
 %%%%%%
 %	Einführung / Einleitung ENDE
 %%%%%%
