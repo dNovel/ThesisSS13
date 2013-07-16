@@ -226,22 +226,22 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 Die Handler Konstrukte "`Structs"' in dieser Arbeit, welcher Art auch immer, können vereinfacht gesagt als Zeiger auf Datens"atze von realen Daten betrachtet werden.
 \lstinputlisting
 			[caption={HandleHalf-Edge.cs - Variablen Deklaration des "`Zeigers"'}, label=code:hhezeiger, firstline=21, lastline=21]
-			{E:/Development/HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
 Sie enthalten nur einen Index als Zeiger und sehr wenige Funktionen. Ein Handler speichert zur Laufzeit pro Instanz einen Index auf den realen Datensatz f"ur den er einen Handle darstellt. Handler Structs gibt es f"ur Edges, Half-Edges, Faces, FaceNormals, Vertices, VertexNormals und VertexUVs. Sie unterscheiden sich hierbei nur durch die Namensgebung der Structs und der Konstrukturen.
 Ein Handler Struct stellt eine implizite Konvertierung des Handlers, siehe Listing \ref{code:hhecast}, in den Datentypen Integer (int) zur Verfügung.
 \lstinputlisting
 			[caption={HandleHalf-Edge.cs - Impliziter cast nach Integer}, label=code:hhecast, firstline=37, lastline=40]
-			{E:/Development/HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
 
 Zus"atzlich kann der Entwickler jederzeit abfragen ob der aktuell verwendete Handler schon als valide betrachtet werden kann. Hierzu Listing \ref{code:isvalid} betrachten. Ein Handler ist dann valide, wenn sein Index nicht kleiner als 0 ist. In dieser Arbeit werden einstweilen Handler initialisiert f"ur die zum Zeitpunkt der Initialisierung noch kein Index zur Speicherung bereit steht. Diese vorerst nicht validen Handler werden dann mit dem Wert -1 initialisiert und sind somit zu diesem Zeitpunkt als nicht valide also nicht verwendbar zu betrachten. Um diese sp"ater im Programm zu benutzen, muss also noch der korrekte Index, meistens der Wert einer Count Funktion auf einer Liste eingef"ugt werden.
 \lstinputlisting
 			[caption={HandleHalf-Edge.cs - Is Valid?}, label=code:isvalid, firstline=45, lastline=48]
-			{E:/Development/HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
 
 Eine Besonderheit der Handler ist die mit "`internal"' gekennzeichnete Deklaration der Indizes. Siehe hierzu Listing \ref{code:hheinternal}. Durch das "`internal"' \CSS Schl"usselwort k"onnen die Handler nur aus der jeweiligen gleichen Assembly angesprochen und ver"andert werden. Dies verhindert einen unbefugten oder unabsichtlichen Fremdzugriff von Au"sen. W"ahrend der Laufzeit wird also die Konsistenz der Datenstruktur in sich gesch"utzt um so das Programm vor Abst"urzen durch Zeiger Fehler zu sch"utzen.
 \lstinputlisting
 			[caption={HandleHalf-Edge.cs - Deklarationen als internal}, label=code:hheinternal, firstline=21, lastline=21]
-			{E:/Development/HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
 
 \begin{quote}{\dq}Der interne Zugriff wird h{\"a}ufig in komponentenbasierter Entwicklung verwendet, da er einer Gruppe von Komponenten erm{\"o}glicht, in einer nicht {\"o}ffentlichen Weise zusammenzuwirken, ohne dem Rest des Anwendungscodes zug{\"a}nglich zu sein.{\dq} \cite{MicrosoftCReferenz.2013}\end{quote}
 
