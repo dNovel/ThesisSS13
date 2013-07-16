@@ -1,4 +1,5 @@
-\documentclass[12pt,a4paper]{scrreprt}
+%\documentclass[12pt, a4paper]{scrreprt}
+\documentclass[pagesize, paper=a4, fontsize=12pt,titlepage=true, headings=small, headnosepline, abstractoff, liststotoc, nochapterprefix, plainheadsepline]{scrreprt}
 \usepackage[a4paper, left=3cm, right=3cm, top=2cm, bottom=2cm]{}
 \usepackage[utf8]{inputenc}
 \usepackage[german]{babel}
@@ -10,6 +11,9 @@
 \usepackage{color}
 \usepackage{cite} % Paket fuer die Zitation
 %\usepackage{sourcesanspro}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
 % Paket fuer das anzeigen von Quellcode
 \usepackage{listings}
 % Setze die Programmiersprache auf CSharp
@@ -26,6 +30,11 @@
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 \definecolor{bggray}{rgb}{0.97,0.97,0.97}
+\definecolor{titlegray}{rgb}{0.3,0.3,0.3}
+
+% Farbe für die Überschriften
+\addtokomafont{sectioning}{\color{titlegray}\rmfamily}
+
 
 \lstset{
 backgroundcolor=\color{bggray},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
@@ -59,7 +68,7 @@ captionpos=t,
 % Settings fuer den Sourcecode ENDE
 
 
-% Authoren
+% Autoren
 \author{
 Dominik Steffen \and
 Erstbetreuer: Prof. Christoph Müller, Fakultät DM \and
@@ -67,15 +76,11 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 }
 
 
-
 % Titel
 \title{LINQ for Geometry}
 \subtitle{Implementierung der Half-Edge Datenstruktur zu Manipulation und Handling Dreidimensionaler Meshes insbesondere durch den Einsatz von LINQ und LAMBA Ausdrücken in Microsofts \CS}
 
-
-
 \parindent 0pt
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -101,7 +106,21 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Unterstrichene Kapitelüberschriften START
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand*{\ORIGchapterheadendvskip}{}%
+\let\ORIGchapterheadendvskip=\chapterheadendvskip
+\renewcommand*{\chapterheadendvskip}{%
+\ORIGchapterheadendvskip
+{%
+\setlength{\parskip}{0pt}%
+\noindent\rule[3\baselineskip]{\linewidth}{1pt}\par
+}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Unterstrichene Kapitelüberschriften ENDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \makeindex
 \onehalfspacing
@@ -109,7 +128,6 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 \begin{document}
 % Titelblatt START
 \maketitle
-\newpage
 % Titelblatt ENDE
 
 % Inhaltsverzeichnis START
@@ -126,7 +144,6 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 \pagestyle{plain}
 \setcounter{page}{1}
 % Passe Seitenzahlen wieder an ENDE
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -244,30 +261,33 @@ Wie bereits beschrieben werden Lambda Ausdr"ucke  in verbindung mit LINQ in der 
 	\section {Das Software Projekt LINQ For Geometry (LFG)}
 		%Content
 		%Content
+		\subsection {Konzept zu \LFG}
+			%Content
+			%Content
 		\subsection {Warum die Programmiersprache \CSS ?}
 			%Content
 			%Content
 		\subsection {Furtwangen University Simulation and Entertainment Engine (FUSEE)}
 			%Content
 			%Content
-		\subsection {Grober Ablauf einer HES Initialisierung}
-			%Content
-			%Content
-			\subsubsection {UML Diagramme zum Initialisierungslauf}
-				%Content
-				%Content
 	\section {Der Import von Geometriedaten im „Wavefront Object“ Format}
 		%Content
 		%Content
 		\subsection {Warum das Wavefront Object Format}
 			%Content
 			%Content
-			\subsubsection {Face basierter Import - Edge basiertes Handling}
-				%Content
-				%Content
+		\subsection {Face basierter Import - Edge basiertes Handling}
+			%Content
+			%Content
 		\subsection {Importer für das Wavefront Format}
 			%Content
 			%Content
+	\section {Initialisierungsablauf}
+			%Content
+			%Content
+		\subsection {UML Diagramme zum Initialisierungslauf}
+				%Content
+				%Content
 	\section {Implementierung und Funktion der Handler für die einzelnen Komponenten der HES}
 		\subsection {Beispiel eines Handler Konstruktes und seiner Implementierung}
 		%Content
@@ -324,7 +344,7 @@ Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann 
 			%Content
 
 			%Content
-	\section {Der Geometry Teil in LINQ For Geometry}
+	\section {Die Geometrie in LINQ For Geometry}
 		%Content
 			Hier Information über das Geometry Objekt und die darin enthaltenen Daten etc.
 		%Content
@@ -392,10 +412,10 @@ Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann 
 \chapter {Schluss}
 	\section {Ergebnis der Arbeit}
 		%Content
-		\subsection {Wie weit ist \LFGS fortgeschritten}
+		\subsection {Der aktuelle Status von \LFG}
 			%Content
-		\subsection {Welche M"oglichkeiten zur Erweiterung durch eigenen Code bietet \LFG}
-			%Content
+			\subsubsection {Welche M"oglichkeiten zur Erweiterung durch eigenen Code bietet \LFG}
+				%Content
 	\section {Zukünftige Entwicklungen und Ausblick auf die Verwendung von \LFG}
 		%Content
 
@@ -404,11 +424,10 @@ Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann 
 %%%%%%
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Inhalt ENDE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\part*{Appendix}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Source Code Verzeichnis START
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
