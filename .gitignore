@@ -178,6 +178,8 @@ pip-log.txt
 *.blg
 *.toc
 *.lol
+*.ilg
+*.ind
 
 # Ignore these files
 commit_msg_helper.txt
