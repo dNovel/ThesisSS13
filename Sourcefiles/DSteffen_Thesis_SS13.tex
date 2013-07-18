@@ -12,6 +12,10 @@
 %\usepackage{sourcesanspro}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+% Bilder Settings
+\usepackage{graphicx}
+\usepackage [singlelinecheck=false] {caption}
+\usepackage{subcaption}
 
 % Paket fuer das anzeigen von Quellcode
 \usepackage{listings}
@@ -29,7 +33,7 @@
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 \definecolor{bggray}{rgb}{0.97,0.97,0.97}
-\definecolor{titlegray}{rgb}{0.3,0.3,0.3}
+\definecolor{titlegray}{rgb}{0.45,0.45,0.45}
 
 % Farbe für die Überschriften
 \addtokomafont{sectioning}{\color{titlegray}\rmfamily}
@@ -62,6 +66,8 @@ stringstyle=\color{mymauve},     % string literal style
 tabsize=2,                       % sets default tabsize to 2 spaces
 title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 captionpos=t,
+aboveskip=0.5\baselineskip,		% Platz über dem quellcode block
+belowskip=2\baselineskip,			% Platz unter dem quellcode block
 %morecomment=[il]{///}
 }
 % Settings fuer den Sourcecode ENDE
@@ -102,6 +108,8 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 \newcommand{\GTS}{\textless T\textgreater\space}
 % Lambda Zeichen in C#
 \newcommand{\LAM}{ =\textgreater\space}
+% HES
+\newcommand{\HES}{Half-Edge Datenstruktur }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	Commands ENDE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -165,32 +173,192 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 
 \chapter {Einleitung}
 	\section {Fragestellung}
-		Ist es möglich die „Half-Edge Data Structure“ (kurz HES) in einer gemanagten Programmiersprache wie \CSS unter der Berücksichtigung von LINQ und Lambda Ausdrücken so zu implementueren, dass damit grundlegende Geometriemanipulation in der Computergrafik erfolgen kann?
+		%Ist es möglich die „Half-Edge Data Structure“ (kurz HES) in einer gemanagten Programmiersprache wie \CSS unter der Berücksichtigung von LINQ und Lambda Ausdrücken so zu implementueren, dass damit grundlegende Geometriemanipulation in der Computergrafik erfolgen kann?
+Ist eine Implementierung der Half-Edge Datenstruktur in \CSS unter Berücksichtigung von\LQ und Lambda Support möglich?
 	\section {Anforderungen und Ziele}
 	%Content
 	
 	%Content
-	\section {Die Half-Edge Data Structure (kurz HES) als Algorithmus}
+	\section {Allgemeines zur \HES}
 		%Content
-		% Mark de Berg, Otfried Cheong, Marc van Kreveld, Mark Overmars: Computational Geometry: Algorithms and Applications. Springer-Verlag Berlin Heidelberg New York, 2000, ISBN 3-540-65620-0, S. 31–32
-		\subsection {Die Basis der HES}
+		% Mark de Berg, Otfried Cheong, Marc van Kreveld, Mark Overmars: Computational Geometry: Algorithms and Applications.
+		%Springer-Verlag Berlin Heidelberg New York, 2000, ISBN 3-540-65620-0, S. 31–32 und 33
+		Die Half-Edge Datenstruktur, oft auch als Doubly-connected edge list bezeichnet, ist eine Datenstruktur welche haupts"achlich in der Computergrafik eingesetzt wird. Sie ist sehr flexibel und kann z.B. benutzt werden um topologische und strukutrelle Informationen in Landkarten zu speichern. Diese Arbeit setzt die \HES dazu ein die wichtigsten Informationen eines dreidimensionalen Computermodells zu repr"asentieren und sie f"ur eine sp"atere Verwendung im Speicher bereit zu halten. Sehr oft werden Informationen eines Computermodells ohne relationale Verbindungen gespeichert. Bei diesen so genannten Face basierten Datenstrukturen handelt es sich um sehr einfache Datenstrukturen zur Speicherung die keinen gro"sen Spielraum f"ur Optimierungen und erweiterungen lassen. Bei Iterationen und geometrischen Manipulationen sind Face basierte Strukturen wesentlich langsamer (dazu sp"ater mehr) und werden meist nicht f"ur geometrische Operationen sondern nur zum speichern der Daten im Prim"ar oder Sekund"arspeicher des Rechners verwendet. Die \HES wird f"ur dieses Projekt sogar ein wenig bez"uglich ihres Umfangs erweitert ohne aber die grunds"atzlichen Gegebenheiten der Datenstruktur zu beeinflussen.
+
+Ein Kernelement der \HES und sicherlich ihre bekannteste und herausragenste Eigenschaft ist, dass jede Kante im gespeicherten Modell (Mesh) als Kombination aus zwei Half-Edges repr"asentiert wird. Zwei Half-Edges zusammen ergeben also eine komplette Kante. In der Implementierung dieses Projektes kommt es nicht vor, dass eine Half-Edge f"ur sich alleine steht.
+		\subsection {Die Basis der Half-Edge Datenstruktur und Unterschiede zur Doubly-connected edge list}
 			%Content
 			%TODO Planare Graphen erkläutern und verstehen
-			\subsubsection {Verbindungen und Beziehungen in der HES}
-			%Content
+			Im vorigen Abschnitt wurde erw"ahnt, dass die \HES oft auch als Doubly-connected edge list bezeichnet wird. Im Hinblick auf die Implementierung dieser Arbeit ist das so nicht ganz richtig. Dieser Text bezieht sich bei Betrachtung der Doubly-connected edge list immer auf die Darstellung von \cite{vanMarkdeBerg.2008}. Es gibt einige wenige feine Unterschiede der beiden Datenstrukturen die sich in der Implementierung dieses Projekts zu einem sp"ateren Zeitpunkt, nicht "uberm"assig, bemerkbar machen.
+
+Die \HES besteht grunds"atzlich aus vier verschiedenen Datens"atzen (data records). Dazu z"ahlen:
+\begin{itemize}
+\item Vertex, Punkt im dreidimensionalen Raum der um zus"atzliche Informationen erweitert wurde. 
+\item Face, zu betrachten als Polygon (Geometrische Figur mit mehr als 3 Eckpunkten) mit zus"atzlichen gespeicherten Informationen
+\item Half-Edge, der wichtigste Datensatz in der Datenstruktur, eine halbe Kante welche in der \HES die meisten Informationen "uber ein dreidimensionales Modell (Mesh) enth"alt.
+\item Edge, eine Kante welche aus zwei Halbkanten besteht.
+\end{itemize}
+
+\begin{quote}Jeder Datensatz (Half-Edge, Vertex und Face) der Datenstruktur kann ebenfalls dazu benutzen werden Informationen zu speichern welche nicht im direkten Zusammenhang mit den Geometrischen Informationen des Meshes stehen. Es ist in etwa m"oglich, Informationen zur Beleuchtungsberechnung (Vertex- und Facenormalen) oder Textur Koordinaten eines Meshes in den Datens{\dq}atzen zu speichern. Diese zus"atzlichen Informationen werden im folgenden als Attributs-Informationen bezeichnet. \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
+
+Zu beachten ist hierbei, dass das wichtigste Element der Datenstruktur, die Half-Edge, als gerichtete Kante betrachtet werden sollte.
+\begin{quote}In der Half-Edge Datenstruktur sind die Half-Edges Kanten mit einer Orientierung. Der Vertex dem sie entspringen ist dabei als ihr Ursprung zu bezeichnen, w{\"a}hrend der Vertex auf den sie zeigen und auf den sie einen Zeiger enthalten, als Ziel betrachtet wird. \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
+
+\begin{quote}{\glqq}Because half-edges are oriented we can speak of the \textit{origin }and the \textit{destination }of a half-edge.{\grqq} \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
+
 			\subsubsection {Doubly Connected Edge List}
-			Die doubly connected edge list (kurz DECL) ist der verwendeten HES nicht unähnlich. Beide Datenstrukturen ähneln sich immens und haben doch ein paar wenige entscheidende Unterschiede. TODO % Eher genau gleich?
-			%Content
-		\subsection {Speicherverbrauch im Gegensatz zu Face basierten Lösungen}
-			%Content
-			% TODO, höherer verbrauch, aber gleichzeit auch wesentlich flexibler. Speicher ist vorhanden, geschwindigkeit wird gesucht als ziel
-		\subsection {Vorteile der HES}
+				Die doubly connected edge list (kurz DECL) wie in \cite{vanMarkdeBerg.2008} erw"ahnt ist der hier verwendeten \HES "ahnlich. Die Strukturen haben nur ein paar wenige Unterschiede. Zuerst einmal ein paar Worte zu den Gemeinsamkeiten. \begin{quote}Die Doubly-connected edge list besteht grunds{\"a}tzlich ebenfalls aus drei verschiedenen Typen von Datens{\"a}tzen. Dazu z{\"a}hlen, wie auch in der \HES, Vertices, Faces und Half-Edge Datens{\dq}atze. \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
+
+Somit ist bereits klar, dass sich die Datenstruktur in der Implementierung durch den in diesem Projekt hinzugekommenen data record "`Edge"' unterscheidet. Die Doubly-connected edge list unterscheidet sich weiterhin im Blick auf die Zeiger welche in einem data record gespeichert werden. W"ahrend die hier implementierte \HES in einem Half-Edge record folgende Informationen speichert,
+\begin{itemize}
+\item Zeiger auf ihre Twin Half-Edge
+\item Zeiger auf die n"achste Half-Edge im Uhrzeigersinn (Ist variabel implementierbar. \LFGS implementiert die Zeiger im Uhrzeigersinn)
+\item Zeiger auf den Vertex auf den die Half-Edge zeigt
+\item Zeiger auf das Face zu welchem die Half-Edge geh"ort
+\end{itemize}
+
+speichert die Doubly-connected edge list ein wenig mehr Informationen.
+\begin{itemize}
+\item Zeiger auf ihre Twin Half-Edge
+\item Zeiger auf die n"achste Half-Edge im Uhrzeigersinn
+\item Zeiger auf die vorige Half-Edge im Uhrzeigersinn
+\item Zeiger auf den Vertex auf den die Half-Edge zeigt
+\item Zeiger auf den Vertex von dem die Half-Edge ausgeht
+\item Zeiger auf das Face zu welchem die Half-Edge geh"ort
+\end{itemize}
+
+Allerdings sind die Quellen hierzu nicht immer Konsistent da beide Datenstrukturen nirgendwo in einer definitiven Form beschrieben werden. So k"onnen sich verschiedene Implementierungen der gleichen Datenstruktur in Feinheiten unterscheiden. Auch die Namensgebung der Doubly-connected edge list und der \HES wird oft synonym benutzt. Das \LFGS Projekt vergleicht hier um einen festen Bezugspunkt zu erhalten also immer die Doubly-connected edge list in der Darstellung von \cite[S.~30 und Folgende]{vanMarkdeBerg.2008} mit der eigenen Implementierung der \HES.
+
+Diese Verbindungen und Beziehungen der data records in der \HES werden im n"achsten Abschnitt genauer erl"autert.
+
+				%Content
+			\subsubsection {Verbindungen und Beziehungen in der \HES}
+				%Content
+				Die \HES bedingt einige Vernetzung unter den einzelnen data records. Es folgt eine Auflistung welche Zeiger jeder der data record enth"alt und eine kurze Skizze zu einem Polygon \ref{pic:polyConnections} und den Beziehungen der darin enthaltenen data records wie sie eine Implementierung der \HES darstellen w"urde.
+
+Hier noch einmal eine Auflistung der einzelnen data records die in der \HES existieren abnehmend sortiert nach ihrem Informationsgehalt.
+\begin{itemize}
+\item Half-Edge
+\item Edge
+\item Face
+\item Vertex
+\end{itemize}
+
+Die Half-Edge ist damit der wichtigste Informationstr"ager in der Datenstruktur. Sie enth"alt als einziges Element Verbindungen zu allen anderen Elementen.
+Die folgenden Informationen sind an einer Half-Edge gespeichert.
+\begin{itemize}
+\item Ein Zeiger auf ihre twin Half-Edge (Der Nachbar der Half-Edge)
+\item Ein Zeiger auf den Vertex auf den sie hinf"uhrt
+\item Ein Zeiger auf das Face zu dem sie geh"ort
+\item Ein Zeiger auf die n"achste Half-Edge im Uhrzeigersinn
+\end{itemize}
+
+Eine Edge enth"alt gerade noch zwei Informationen
+\begin{itemize}
+\item Ein Zeiger auf die erste Half-Edge der Edge
+\item Ein Zeiger auf die zweite Half-Edge der Edge
+\end{itemize}
+
+Ein Face speichert nur noch eine Information
+\begin{itemize}
+\item Ein Zeiger auf eine Half-Edge die es begrenzt
+\end{itemize}
+
+Der Vertex ebenso eine Information
+\begin{itemize}
+\item Irgendeine Half-Edge die von ihm ausgeht, dabei wird meist die erste Half-Edge benutzt die an den Vertex angelegt wird
+\end{itemize}
+
+\includegraphics[width=\linewidth]{../Bilder/hesBeziehungen}
+\captionof{figure}{Diese Illustration zeigt die Verbindung der data records an einem beliebigen Polygon durch Pfeilverbindungen.}\label{pic:polyConnections} 
+
+An dieser Stelle sei bereits vorweg genommen, dass \LFGS in seiner Implementierung diese data records um ein paar Beziehungen, welche durch die Verbindung zur Echtzeit 3D Engine FUSEE n"otig werden, erweitert.
+
+%Content
+		\subsection {Vorteile der \HES}
 			%Content
 			%TODO rasche geschwindigkeit in iterationen. Beispiel für einen Algorithmus anführen der Kanten eines Polygons sucht oder sonstwie über ein Polygon iteriert.
+			% Exemplarisch herausfinden wie das Polygon neben einem Würfel heisst das zwischen zwei vertices liegt.
+		\subsection {Nachteile der \HES}
+			%Content
+Es gibt selbst in einer so flexiblen Datenstruktur wie der \HES Nachteile die w"ahrend der Planungsphase oder Implementierung auftreten k"onnen.
+			Durch ihren Aufbau und die verschiedenen Verbindung welche w"ahrend einer Initialisierung aufgebaut werden m"ussen ist die Datenstruktur sehr komplex. Es erfordert einiges an Zeit und "Uberlegungen das System f"ur eine Implementierung so zu konstrurieren dass es alle Anforderungen an eine 3D Echtzeitdatenstruktur erf"ullt. Vor einer Implementierung der \HES sollte also gut "uberlegt sein ob sie f"ur das aufkommende Probleme eine vern"unftige L"osung darstellt. In \LFGS ist die Datenstruktur eine sehr eleganze L"osung. Sie ist hinreichend flexibel und gerade noch maximal komplex um eine m"ogliche L"osung f"ur die Problemstellung "`(Editierbare) Echtzeit 3D Datenstruktur"' darzustellen. Es sollte also darauf geachtet werden die \HES nicht als Universall"osung zu betrachten. Wenn ich nur einige wenige Algorithmen oder Operationen auf einem Mesh ausf"uhren m"ochte, so gibt es m"oglicherweise eine effizientere und schnellere Datenstruktur um dies zu bewerkstelligen.
+
+Ein auff"alliger Unterschied zu einfacheren Face basierten Datenstrukturen ist der massiv erh"ohte Overhead der bei der Erstellung der Datenstruktur entsteht. Im n"achsten Abschnitt m"ochte diese Arbeit ein kleines Beispiel vorweisen und exemplarisch den Speicherverbrauch der \HES bestimmen.
+
+\subsubsection {Speicherverbrauch im Gegensatz zu Face basierten Lösungen}
+			%Content
+			% TODO, höherer verbrauch, aber gleichzeit auch wesentlich flexibler. Speicher ist vorhanden, geschwindigkeit wird gesucht als ziel
+			% Vorrechnen eines Beispiels mit beispielhaften Zahlen für ein Mesh und dessen Repräsentierung als HES und als Face based.
+			% Zugrund legen eines Würfels mit 6 Seiten, 8 Verts und 12 bzw 24 Kanten.
+			Der Overhead der bei der Repr"asentation eines Meshes f"ur eine \HES entsteht ist um einiges h"oher als der Overhead einer Face basierten L"osung. Sollte man also nur einfache Aufgaben auf einem Mesh erledigen wollen oder einige wenige Operationen nur einmal ausf"uhren wollen so w"are es wohl ratsam eine andere Datenstruktur daf"ur zu suchen. Allerdings ist es heute in der Computergrafik meistens so, dass wir gen"ugend Speicherplatz im Prim"arspeicher unserer Rechner und Grafikkarten zur verf"ugung haben um diesen Umstanz zu verschmerzen.
+Hier eine Beispielhafte Berechung des Datenverbrauchs.
+
+Man gehe davon aus jedes gespeicherte Element (Daten in Form von Vertices, Faces, Edges, Half-Edges) wird mit 32bit repr"asentiert und jeder Zeiger (Pointer) wird mit 8bit repr"asentiert dann k"onnte man den Speicherverbrauch eines einfachen sechs Seitigen W"urfels wie folgt beschreiben.
+
+So stellt die\HES einen W"urfel dar:
+\begin{itemize}
+\item 24 Half-Edges jede beansprucht 32 bit
+	\begin{enumerate}
+    	\item Ein Vertex Pointer mit 8bit
+    	\item Ein Twin Pointer mit 8bit
+    	\item Ein Next Pointer mit 8bit
+    	\item Ein Face Pointer mit 8bit
+	\end{enumerate}
+\item 12 Edges jede beansprucht 32 bit
+	\begin{enumerate}
+    	\item Zwei Half-Edge Pointer mit je 8bit
+	\end{enumerate}
+\item 6 Faces jedes beansprucht 32 bit
+	\begin{enumerate}
+    	\item Half-Edge Pointer eins mit 8bit
+	\end{enumerate}
+\item 8 Vertices jeder beansprucht 32 bit
+	\begin{enumerate}
+    	\item Half-Edge Pointer eins mit 8bit
+	\end{enumerate}
+\end{itemize}
+
+Daraus w"urden sich nun folgende Berechnungen ergeben:
+
+	Half-Edge Datenmenge: \begin{math}24 * (32bit+ 8bit + 8bit + 8bit + 8bit) = 1536bit\end{math}
+	\\
+	Edge Datenmenge: \begin{math}12 * (32bit + 8bit + 8bit) = 576bit\end{math}
+	\\
+	Face Datenmenge: \begin{math}6 * (32bit + 8bit) = 240bit\end{math}
+	\\
+	Vertex Datenmenge: \begin{math}8 * (32bit + 8bit) = 320bit\end{math}
+
+	In Summe sind das 2672bit = 334 Byte.
+\newline
+
+Eine Face basierte L"osung w"urde den W"urfel so darstellen:
+\begin{itemize}
+\item 6 Faces jedes beansprucht 32 bit
+	\begin{enumerate}
+    	\item Vier Vertex Pointer mit 8bit pro Face
+	\end{enumerate}
+\item 8 Vertices jeder beansprucht 32 bit
+\end{itemize}
+
+Der Datenverbrauch w"urde wie folgt berechnet:
+
+	Face Datenmenge: \begin{math}6 * (32bit + 8bit + 8bit + 8bit + 8bit) = 384bit\end{math}
+	\\
+	Vertex Datenmenge: \begin{math}8 * 32bit = 256bit\end{math}
+
+	In Summe sind das 640bit = 80Byte.
+\newline
+
+Das Beispiel zeigt also, dass bei einem einfachen Mesh der Speicherverbrauch der \HES um das ca. 4 fache h"oher liegt als der Verbrauch einer Face basierten L"osung. Wie die \HES das aber wieder ausgleicht ist dem Abschnitt "`Vorteile der HES"' zu entnehmen.
 	\section {Aktueller Forschungsstatus}
 		%Content
+		% TODO
+		% Erwähnen und einordnen von OpenMesh, zusätzlich noch mal eben recherchieren ob es neue implementierungen der dcel oder der hes gibt welche sich in einer 3d engine oder dergleichen bewegen.
 		\subsection {Probleme der aktuellen Forschung}
 			%Content
+			% TODO
+			% Hängt stark vom oberen Abschnitt ab.
 	\section {Einführung zu LINQ in \CS}
 		%Content
 		Language Integrated Query, kurz LINQ und zu deutsch Sprachintegrierte Abfrage, funktioniert ab \CSS 3.0 und ist ein Feature von Microsofts .NET Paket. LINQ ist also ein Produkt von Microsoft und erinnert auf den ersten Blick in seinem syntaktischen und semantischem Aufbau stark an das Open Source Projekt MySQL welches aktuell (Stand Juli 2013) von der Oracle Corporation betreut wird. Beide Projekte unterscheiden sich jedoch wesentlich. LINQ ist in erster Linie ein Feature, dass direkt auf Objekten arbeitet wohingegen MySQL auf relationale Daten angewendet wird. Allerdings kann LINQ viel mehr als das.
@@ -242,7 +410,6 @@ Wie bereits beschrieben werden Lambda Ausdr"ucke  in verbindung mit LINQ in der 
 \lstinputlisting
 			[caption={LambdaEasy.cs - Einfacher Lambda Ausdruck}, label=code:lambdaeasy]
 			{../Codebeispiele/LambdaEasy.cs}
-
 %%%%%%
 %	Einführung / Einleitung ENDE
 %%%%%%
@@ -265,10 +432,14 @@ Wie bereits beschrieben werden Lambda Ausdr"ucke  in verbindung mit LINQ in der 
 		%Content
 	\section {Das Software Projekt LINQ For Geometry (LFG)}
 		%Content
+		% Erweitert die Funktionen der HES zb durch normalen und vertex speichern in Face und Half-Edge
 		%Content
 		\subsection {Konzept zu \LFG}
 			%Content
 			%Content
+			\subsubsection {Der Link von LINQ zur \HES}
+				%Content
+				%Content
 		\subsection {Warum die Programmiersprache \CSS ?}
 			%Content
 			%Content
@@ -324,30 +495,65 @@ Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann 
 
 \section {Pointer Container und ihre Rolle in \LFG}
 		%Content
+		Pointer Container in \LFGS sind \CSS Structures und existieren f"ur jeden in der Datenstruktur essentiellen Datentypen und geh"oren zum Kern Projekt (LinqForGeometry.Core) des \LFGS Projekts. Zu den Containern z"ahlen Half-Edges Container, Edge container, Face Container und Vertex Container. Ein Pointer Container wird f"ur jeden Datensatz der in die Datenstruktur eingef"ugt wird initialisiert und in einer Liste gespeichert. Jeder Container enth"alt, den Spezifikationen der \HES folgend Handles auf andere eingepflegte oder in kurzer Zeit einzupflegende Datens"atze z.B. durch eine mathematische Operation (welche den voraussichtlichen Index eines einzuf"ugenden Datensatzes berechnet). Pointer Container sind sozusagen die Gebilde welche die Half-Edge Datenstruktur aufspannen und ihre Eigenschaften im Speicher vorhalten. M"ochte man ein gespeichertes Mesh transformieren so sind alle Operationen die vorgenommen werden "Anderungen an den Pointer Containern bzw. den in ihnen enthaltenen Daten. Pointer Container sind also die Basis des ganzen Programms. Durch die Gegebenheiten der Implementierung von List<T> (Generic Lists) in \CSS ist es leider nicht m"oglich die Container bei "Anderungen direkt in einer Liste zu manipulieren. Jeder Container muss erst aus der Liste kopiert werden um ihn dann zu "andern und anschliessen an der gleichen Stelle wieder einzuf"ugen. N"otig hierzu ist, dass der Index des Containers in der jeweiligen Liste bekannt ist. Hierzu ein kleines Beispiel welches die Erkl"arung etwas erl"autern soll.
+\lstinputlisting
+			[caption={PtrContExample1.cs - Manipulation eines Pointer Containers}, label=code:ptrcontmanip]
+			{../Codebeispiele/PtrContExample1.cs}
 		%Content
-		\subsection {Half-Edges Pointer-Container}
-			%Content
+\subsection {Half-Edges Pointer-Container}
+%Content
+			Der Half-Edge Pointer Container, in \LFGS class HEdgePtrCont, speichert alle Informationen die laut \HES an einer Half-Edge anliegen m"ussen. Die zugeh"orige Datei im \LFGS Projekt ist "`HEdgePtrCont.cs"'.
+\begin{itemize}
+\item Ein HandleHalfEdge \_he; (auf die Twin Half-Edge)
+\item Ein HandleHalfEdge \_nhe; (auf die n"achste Half-Edge im Uhrzeigersinn)
+\item Ein HandleVertex \_v; (auf den Vertex auf den die Half-Edge zeigt)
+\item Ein HandleFace \_f; (auf das zugeh"orige Face)
+\end{itemize}
 
-			%Content
-			\subsubsection {Vertex Normal Handler}
-				%Content
-			
-				%Content
-			\subsubsection {Vertex UV Handler}
-				%Content
+In der Implementierung von \LFGS werden an einer Half-Edge noch zus"atzliche Handler Informationen f"ur die Verwendung und Konvertierung des Meshes in und nach FUSEE gespeichert.
 
-				%Content
+\begin{itemize}
+\item HandleVertexNormal \_vn; (auf die Vertex Normale eines Vertex)
+\item HandleVertexUV \_vuv; (auf die UV Texture Koordinaten eines Vertex)
+\end{itemize}
+
+Da jede Half-Edge auch eine Verbindung zum Vertex hat auf den sie zeigt ist es sehr praktisch an ihr auch die zus"atzlichen Informationen zu speichern die der Vertex in FUSEE ben"otigt. Es wird also ein Index auf die Vertex Normale im Speicher zum angesprochenen Vertex gespeichert. Zus"atzlich noch ein Index auf die UV Texture Koordinaten die f"ur den Vertex gelten. So kann die Iteration bei einer sp"ateren Konvertierung der Datenstruktur in ein f"ur FUSEE verst"andliches Mesh Objekt "uberhaupt erst m"oglich gemacht werden. Es w"are mit erheblichem Mehraufwand und wachsendem Speicherverbrauch auch m"oglich gewesen die Informationen an den einzelnen Vertices durch Verkn"upfungen mit Listen welche jeweils die die Daten f"ur einen Vertex speichernzu realisieren, allerdings h"atte das eine regelrechte Aufweichung der Idee der Datenstruktur bedeutet (alle wichtigen Informationen werden an den Half-Edges gespeichert). Zus"atzlich w"are es so wesentlich aufwendiger geworden eine korrekte Kanten und Winkel basierte Vertex Normalen Berechnung pro Vertex pro Face f"ur die in FUSEE vorhandene Beleuchtungsshader zu implementieren wie sie durch diese kleine erweiterung der \HES jetzt bereits in \LFGS vorhanden ist.
 		\subsection {Edges Pointer-Container}
 			%Content
-
+			Ein Edge Pointer Container, in \LFG zu finden im Struct "`EdgePtrcont.cs"', ist ein Repr"asentation von Kanten in der \HES. Jeder Edge Pointer Container beinhaltet zwei Handles auf Half-Edges.
+\begin{itemize}
+\item HandleHalfEdge \_he1; (Handle auf die Erste Half-Edge eines Half-Edge Paares)
+\item HandleHalfEdge \_he2; (Handle auf die Erste Half-Edge eines Half-Edge Paares)
+\end{itemize}
+Diese beiden Handles sind ein jeweils zusammengeh"origes Half-Edge Paar. Durch die bereitstellung dieser Edge Pointer Container ist zum Beispiel eine Selektierung von echten Kanten in einem 3D Editor denkbar. Sie dienen ebenfalls als Einstiegspunkt um manipulations Algorithmen auf das gespeicherte Mesh anzuwenden.
 			%Content	
 		\subsection {Vertices Pointer-Container}
 			%Content
+			Dadurch, dass in der Half-Edge Datenstruktur alle wichtigen Informationen bereits an jeder Half-Edge gespeichert werden, speichern Vertex Pointer Container lediglich einen Handle auf eine von ihm ausgehende Half-Edge. Da ein Vertex aber meistens mehrere ausgehende Half-Edges besitzt wird der Platz nach dem "first come first serve" Prinzip verteilt. Das bedeutet, dass nur die erste Half-Edge die w"ahrend des Initialisierungslauf an den Vertex angelegt wird an dieser Stelle auch referenziert wird. Durch diesen Handle k"onnen Iteratoren sehr einfach realisiert werden die in anderen Datenstrukturen wie der Face basierten Datenstruktur einiges an Mehraufwand bedeuten w"urden. Als Beispiel soll hier der Sternumlauf Iterator genannt werden. Dieser kann alle eingehenden oder ausgehenden Half-Edges zu einem gegebenen Vertex bestimmen. Hier dargestellt kurz der Ablauf des Iterators f"ur eingehende Half-Edges:
+\begin{enumerate}
+\item Es wird ein Vertex als Startpunkt erwartet
+\item Es wird die ausgehende Half-Edge des Vertex angesprochen (und den Index merkt sich der Algorithmus als Determinante)
+\item Es wird die Twin Half-Edge der eben geholten Half-Edge angesprochen
+\item Die Twin Half-Edge wird als erste eingehende Half-Edge im Ergebnis Set zwischengespeichert
+\item Zu dieser Half-Edge wird jetzt die "`Next"' Half-Edge angesprochen.
+\item Ihre Twin Half-Edge ist nun wieder eine eingehende Half-Edge.
+\item Ab jetzt wird der Algorithmus ab Schritt 3 wiederholt bis man als Index einer n"achsten Half-Edge die zuvor gespeicherte Determinante erreicht.
+\end{enumerate}
 
+So ist es mit ein paar Pointer Spr"ungen m"oglich diesen Algorithmus schnell und effizient durchzuf"uhren. In einer Face basierten Datenstruktur w"are eine solche Operation wegen der fehlenden Beziehungen und Vernetzungen ohne massive "Anderungen der Strukur kaum m"oglich.
 			%Content
 		\subsection {Faces Pointer-Container}
 			%Content
+			Laut Definition der \HES speichert ein Face jeweils einen Zeiger auf eine ihm angeh"orige Half-Edge. In \LFG wurde genau das in der Implementierung umgesetzt. Das erleichtert den Einstieg in manipulations Algorithmen wenn der Startpunkt f"ur diese als Face gegeben ist. So ist es einfach die Grenzen (Boundaries) eines Faces und z.B. die das Face umspannenenden Half-Edges, Edges, Vertices oder sogar die benachbarten Faces herauszufinden. \LFGS stellt in seiner Implementierung all diese Iteratoren zur Verf"ugung um damit weitere Algorithmen zu entwerfen.
 
+\begin{itemize}
+\item HandleHalfEdge \_h;
+\end{itemize}
+
+Zus"atzlich zu den Standards der \HES bietet \LFGS die M"oglichkeit an jedem Face ein Handle auf eine dem Face zugeh"orige Face Normale zu speichern. Diese Face Normale gibt die Richtung des Faces an sollte die Datenstruktur in eine 3D Engine implementiert werden in welcher Backface Culling unterst"utzt und dabei Normalen als Ausrichtungsmerkmal beachtet werden. In \LFG und seiner Implementierung in der FUSEE Engine wird die Face Normale aktuell nur zur Berechnung der Vertex Normalen herangezogen. FUSEE ben"otigt f"ur das Backface Culling lediglich eine Traversierung der Polygone entgegen des Uhrzeigersinns. Diese Besonderheit tritt in Engines auf welche OpenGL als Grafikschnittstelle verwenden.
+\begin{itemize}
+\item HandleFaceNormal \_fn;
+\end{itemize}
 			%Content
 	\section {Die Geometrie in LINQ For Geometry}
 		%Content
@@ -391,16 +597,16 @@ Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann 
 		\subsection {Manipulation von Faces}
 			%Content
 			%Content
-		\subsection {Beispielhafte Implementierung von Standard Algorithmen zur Geometriemanipulation als Modul}
+	\section {Beispielhafte Implementierung von Standard Algorithmen zur Geometriemanipulation als Modul}
 			%Content
 			%Content
-		\subsection {Implementierung von Catmull Clark als Modul f"ur \LFG}
+	\section {Implementierung von Catmull Clark als Modul f"ur \LFG}
 			%Content
 			%Content
-			\subsubsection {Was ist der Catmull Clark Algorithmus?}
+		\subsection {Was ist der Catmull Clark Algorithmus?}
 				%Content
 				%Content
-			\subsubsection {Vorteile der Implementierung in der HES}
+		\subsection {Vorteile der Implementierung in der HES}
 				%Content
 				%Content
 
@@ -419,8 +625,10 @@ Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann 
 		%Content
 		\subsection {Der aktuelle Status von \LFG}
 			%Content
+			% Spielraum für Verbesserungen, Beleuchtung, Konvertierung in FUSEE Mesh, Kanten mit mehr als 2 Faces möglich aber nicht schön, etc.
 			\subsubsection {Welche M"oglichkeiten zur Erweiterung durch eigenen Code bietet \LFG}
 				%Content
+				% Module, zb das Transformationsmodul. Zusätzlich schauen ob man sagen kann das Catmull Clark als Modul läuft etc.
 	\section {Zukünftige Entwicklungen und Ausblick auf die Verwendung von \LFG}
 		%Content
 
