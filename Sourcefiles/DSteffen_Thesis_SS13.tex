@@ -175,6 +175,8 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 	\section {Fragestellung}
 		%Ist es möglich die „Half-Edge Data Structure“ (kurz HES) in einer gemanagten Programmiersprache wie \CSS unter der Berücksichtigung von LINQ und Lambda Ausdrücken so zu implementueren, dass damit grundlegende Geometriemanipulation in der Computergrafik erfolgen kann?
 Ist eine Implementierung der Half-Edge Datenstruktur in \CSS unter Berücksichtigung von\LQ und Lambda Support möglich?
+	% Verweis darauf, dass es in Echtzeit Engines bis jetzt nicht verwendet wird. Keine bekannte Editor Engine. Jedenfalls nicht offiziell.
+	% Verweis auf die Demo Szene mit kkrieger und debris.
 	\section {Anforderungen und Ziele}
 	%Content
 	
@@ -183,7 +185,8 @@ Ist eine Implementierung der Half-Edge Datenstruktur in \CSS unter Berücksichti
 		%Content
 		% Mark de Berg, Otfried Cheong, Marc van Kreveld, Mark Overmars: Computational Geometry: Algorithms and Applications.
 		%Springer-Verlag Berlin Heidelberg New York, 2000, ISBN 3-540-65620-0, S. 31–32 und 33
-		Die Half-Edge Datenstruktur, oft auch als Doubly-connected edge list bezeichnet, ist eine Datenstruktur welche haupts"achlich in der Computergrafik eingesetzt wird. Sie ist sehr flexibel und kann z.B. benutzt werden um topologische und strukutrelle Informationen in Landkarten zu speichern. Diese Arbeit setzt die \HES dazu ein die wichtigsten Informationen eines dreidimensionalen Computermodells zu repr"asentieren und sie f"ur eine sp"atere Verwendung im Speicher bereit zu halten. Sehr oft werden Informationen eines Computermodells ohne relationale Verbindungen gespeichert. Bei diesen so genannten Face basierten Datenstrukturen handelt es sich um sehr einfache Datenstrukturen zur Speicherung die keinen gro"sen Spielraum f"ur Optimierungen und erweiterungen lassen. Bei Iterationen und geometrischen Manipulationen sind Face basierte Strukturen wesentlich langsamer (dazu sp"ater mehr) und werden meist nicht f"ur geometrische Operationen sondern nur zum speichern der Daten im Prim"ar oder Sekund"arspeicher des Rechners verwendet. Die \HES wird f"ur dieses Projekt sogar ein wenig bez"uglich ihres Umfangs erweitert ohne aber die grunds"atzlichen Gegebenheiten der Datenstruktur zu beeinflussen.
+		% TODO Planare Graphen
+		Die Half-Edge Datenstruktur, oft auch als Doubly-connected edge list bezeichnet, ist eine Datenstruktur f"ur planare Graphen welche haupts"achlich in der Computergrafik eingesetzt wird. Sie ist sehr flexibel und kann z.B. benutzt werden um topologische und strukutrelle Informationen in Landkarten zu speichern. Diese Arbeit setzt die \HES dazu ein die wichtigsten Informationen eines dreidimensionalen Computermodells zu repr"asentieren und sie f"ur eine sp"atere Verwendung im Speicher bereit zu halten. Sehr oft werden Informationen eines Computermodells ohne relationale Verbindungen gespeichert. Bei diesen so genannten Face basierten Datenstrukturen handelt es sich um sehr einfache Datenstrukturen zur Speicherung die keinen gro"sen Spielraum f"ur Optimierungen und erweiterungen lassen. Bei Iterationen und geometrischen Manipulationen sind Face basierte Strukturen wesentlich langsamer (dazu sp"ater mehr) und werden meist nicht f"ur geometrische Operationen sondern nur zum speichern der Daten im Prim"ar oder Sekund"arspeicher des Rechners verwendet. Die \HES wird f"ur dieses Projekt sogar ein wenig bez"uglich ihres Umfangs erweitert ohne aber die grunds"atzlichen Gegebenheiten der Datenstruktur zu beeinflussen.
 
 Ein Kernelement der \HES und sicherlich ihre bekannteste und herausragenste Eigenschaft ist, dass jede Kante im gespeicherten Modell (Mesh) als Kombination aus zwei Half-Edges repr"asentiert wird. Zwei Half-Edges zusammen ergeben also eine komplette Kante. In der Implementierung dieses Projektes kommt es nicht vor, dass eine Half-Edge f"ur sich alleine steht.
 		\subsection {Die Basis der Half-Edge Datenstruktur und Unterschiede zur Doubly-connected edge list}
@@ -279,6 +282,11 @@ An dieser Stelle sei bereits vorweg genommen, dass \LFGS in seiner Implementieru
 			%Content
 			%TODO rasche geschwindigkeit in iterationen. Beispiel für einen Algorithmus anführen der Kanten eines Polygons sucht oder sonstwie über ein Polygon iteriert.
 			% Exemplarisch herausfinden wie das Polygon neben einem Würfel heisst das zwischen zwei vertices liegt.
+			Die vielen Verbindungen unter der einzelnen Komponenten in der \HES machen es m"oglich sehr schnelle Iterations Algorithmen zu implementieren. Die Normale eines Faces kann sehr effizient berechnet werden. Es k"onnen auch die Normalen f"ur beliebige Faces unabh"angig vom Rest des Meshes berechnet werden. Dazu ben"otigt man f"ur den Algorithmus nur ein Face als Start Punkt. Der Algorithmus selbst kann f"ur jedes Face der gleiche bleiben.
+
+Subdivision Surface Algorithmen wie Catmull-Clark oder Loop k"onnen mit der Datenstruktur besonders gut realisiert werden. Catmull-Clar ben"otigt dazu ein Mesh aus Quads w"ahrend man mit Loop ein Mesh aus Triangles verarbeiten k"onnte. Beide Mesh Typen, Quads und Triangles, werden vom \LFGS Projekt unterst"utzt. Die FUSEE Engine, in welche das \LFGS Projekt integriert ist, kann im Moment allerdings nur mit Meshes bestehend aus Triangles arbeiten. Aber auch das ist durch die M"oglichkeit der schnellen Iterationen auf der \HES kein Problem.
+
+Die \HES ist also grunds"atzlich sehr flexibel. Es bedingt praktisch nicht, dass jedes Face eines Meshes gleich gro"s ist. \LFG allerdings, in seiner jetzigen Form, erwartet entweder Triangulated Meshes oder Meshes aus Quadlaterals (Quads). Dies ist dem Umstand geschuldet, dass ein Mesh zur weiteren Verwendung in FUSEE konvertiert und verarbeitet werden muss.
 		\subsection {Nachteile der \HES}
 			%Content
 Es gibt selbst in einer so flexiblen Datenstruktur wie der \HES Nachteile die w"ahrend der Planungsphase oder Implementierung auftreten k"onnen.
@@ -391,7 +399,7 @@ Ein Statement kann jedoch auch erzwungen direkt ausgef"uhrt werden. Durch einen 
 			{../Codebeispiele/LINQdirectQueryList.cs}
 		%Content
 		\subsection {Abfragesyntax in LINQ}
-		Was im vorigen Absatz als LINQ Statement bezeichnet wurde ist ein LINQ Statement geschrieben in der Abfragesyntax. Diese Syntax zeichnet sich durch einfache Lesbarkeit und einfache Zug"anglichkeit aus. Zur Kompilierzeit wird diese Syntax vom Compiler in die so genannte Methodensyntax "ubersetzt. Beide Methoden sind Semantisch identisch auch wenn sie sich auf den ersten Blick Syntaktisch sehr unterscheiden.
+		Was im vorigen Absatz als LINQ Statement bezeichnet wurde ist ein LINQ Statement geschrieben in der Abfragesyntax. Diese Syntax zeichnet sich durch einfache Lesbarkeit und einfache Zug"anglichkeit aus. Zur Kompilierzeit wird diese Syntax vom Compiler in die so genannte Methodensyntax "ubersetzt. Die beiden syntaktischen Varianten sind Semantisch identisch auch wenn sie sich auf den ersten Blick sehr unterscheiden.
 		%Content
 		\subsection {Methodensyntax in LINQ}
 		Die Methodensyntax in LINQ unterscheidet sich von der Abfragesyntax dadurch, dass anstatt fester keywords wie where, from und select um eine Abfrage zu formen Lambda Ausdr"ucke verwendet werden (Lambda Ausdr"ucke werden im n"achsten Abschnitt n"aher erleutert). In der Referenzdokumentation zu LINQ (Stand Juli 2013) \cite{MicrosoftCReferenz.2013} wird haupts"achlich diese Art der Syntax verwendet. Aus den dort aufgef"uhrten Typen wird in dieser Arbeit sehr h"aufig der Enumerable Typ verwendet.
@@ -427,8 +435,15 @@ Wie bereits beschrieben werden Lambda Ausdr"ucke  in verbindung mit LINQ in der 
 	\section {Geschwindigkeitsunterschiede von nativem und \CSS Code}
 		%Content
 		%Content
-	\section {Die Vorteile in der Entwicklung von managed Code}
+	\section {Die Vorteile in der Entwicklung mit managed Programmiersprachen}\label{sec:VorteileManaged}
 		%Content
+Durch die enge Verkn"upfung von \LFGS mit der FUSEE Engine war es nat"urlich n"otig das Projekt in der gleichen Programmiersprache wie FUSEE zu implementieren um eine Kommunikation der beiden Projekte zu erlauben. Obwohl die .NET basis hier nat"urlich Spielraum f"ur Entscheidungen zugunsten VB.NET gelassen h"atte. Sinnvoll w"are das nat"urlich nicht gewesen. Hier soll jetzt kurz gekl"art werden was "`Managed Code"' genau bietet und warum \LFGS in einer solchen Sprache wie \CSS implementiert wurde. Nat"urlich einmal davon abgesehen, dass \LFGS mithilfe von LINQ implementiert wurde und LINQ eine der S"aulen des Projekts darstellt.
+
+		Managed Code bietet einem Entwickler viele verschiedene Vorteile im Gegensatz zur Entwicklung in einer Nativen Programmiersprache. Im Hinblick auf die \HES sollte besonders das Speichermanagement und die Pointer Verwaltung betrachtet werden. Durch die in \CSS implementierte Garbage Collection ist der Programmierer von der Aufgabe befreit das Speichermanagement selbst zu verwalten. Das bietet einen gro"sen Vorteil in der schnellen Entwicklung von Programmiersprachen. Managed Code ist f"ur viele Entwickler einfacher zu schreiben als native Code in Sprachen wie z.B. C++.
+
+Im Hinblick auf \LFGS f"allt durch die Nutzung von \CSS einiges an Arbeit weg. Nicht mehr gebrauchte tempor"are Listen, von denen es einige im Projekt gibt und Objekte werden automatisch durch die Garbage Collection aufger"aumt und es kommt sehr selten bis kaum zu Memory Leaks durch Programmier- oder Laufzeitfehler. Es ist so wesentlich einfacher externen Nutzern einen Zugang auf den Code des Projekts zu erm"oglichen ohne dass sie Gefahr laufen die Integrit"at der Datenstruktur durch Pointer Manipulationen zu gef"ahrden. \CSS bietet hier also ein gewisses Ma"s an Sicherheit f"ur das System.
+
+Ein weiterer Pluspunkt ist nat"urlich, dass sich bereits viele Entwickler und Studenten der Hochschule Furtwangen die sp"ater m"oglicherweise die FUSEE Engine verwenden m"ochten bereits mit \CSS oder Java, welches \CSS zumindest Syntaktisch sehr "ahnelt, auskennen.
 		%Content
 	\section {Das Software Projekt LINQ For Geometry (LFG)}
 		%Content
@@ -440,11 +455,40 @@ Wie bereits beschrieben werden Lambda Ausdr"ucke  in verbindung mit LINQ in der 
 			\subsubsection {Der Link von LINQ zur \HES}
 				%Content
 				%Content
-		\subsection {Warum die Programmiersprache \CSS ?}
+		\subsection {Warum die Programmiersprache \CSS f"ur \LFG?}
 			%Content
+			Wie bereits  im oberen Abschnitt \ref{sec:VorteileManaged} angeschnitten, wurde \LFGS daf"ur konzipiert mit der FUSEE Engine zusammen zu arbeiten. \LFGS bietet hierbei eine neue Geometry Objekt Klasse f"ur die FUSEE Engine an, ohne die tats"achliche zu "uberschreiben. Laut aktuellem Stand kann der Benutzer beider Projekte sich also entscheiden welche Meshes er gerne in der \HES laden m"ochte und f"ur welche es gen"ugt sie als Face basiertes Mesh im Speicher zu halten.
+
+Damit \LFGS auf diese Art mit der FUSEE Engine kommunizieren kann musste eine gemeinsame Schnittstelle evaluiert werden. Weil beide Projekte die .NET Plattform benutzen und FUSEE in \CSS geschrieben wurde war es naheliegend f"ur \LFGS auch \CSS zu benutzen und da der LINQ Layer ein Produkt von .NET ist, war \CSS die wohl beste Wahl um beide Projekte zusammen zu bringen.
 			%Content
 		\subsection {Furtwangen University Simulation and Entertainment Engine (FUSEE)}
 			%Content
+			Die Furtwangen University Simulation and Entertainment Engine (kurz FUSEE) ist eine Open Source 3D Echtzeit Engine mit einem Schwerpunkt auf Multiplattform Unterstützung. Entwickelt wurde sie von einer Projektgruppe an der Hochschule Furtwangen unter der Leitung von Herrn Prof. M"uller an der Fakult"at Digitale Medien.Von der aktuellen Version 0.5 werden folgende Plattformen unterst"utzt.
+\begin{itemize}
+\item Windows OS
+\item Linux OS
+\item Android OS
+\item Die Android Konsole OUYA
+\item Der Chrome Browser
+\item Der Firefox Browser
+\end{itemize}
+
+Um eine Linux und Android Unterst"utzung zu erreichen ist das Projekt mit Mono, einer .NET Open Source Implementierung, kompatibel. Sogar einen export nach JavaScript durch den JSIL Compiler von Kevin Gadd ist m"oglich. Somit ist FUSEE ohne weitere Plugins im Browser lauff"ahig.
+
+Hier eine Liste der bereits umgesetzten Features in der Version 0.5:
+\begin{itemize}
+\item Multitexturing
+\item Ein standard Set an Shadern ist verf"ugbar
+\item Benutzerdefinierte Shader sind m"oglich
+\item Ein Scene Management wird unterst"utzt
+\item Sound in Browsern und Betriebssystemen vorhanden
+\end{itemize}
+
+\LFGS ist als Sideproject in einen FUSEE Branch integiert. Nach aktuellem Stand (Juli 2013) kann man sich als Benutzer entscheiden ob man dann ein Modell mit dem in FUSEE integrierten Mesh System oder mit dem \HES Geometry System von \LFGS laden m"ochte.
+
+Weitere Informationen "uber die FUSEE Engine sind auf der offiziellen Homepage (http://fusee3d.org/) oder "uber GitHub (https://github.com/FUSEEProjectTeam/Fusee) erh"ltlich.
+Quelle http://fusee3d.org/about/) (Stand 19.07.2013)
+
 			%Content
 	\section {Der Import von Geometriedaten im „Wavefront Object“ Format}
 		%Content
@@ -493,7 +537,7 @@ Eine Besonderheit der Handler ist die mit "`internal"' gekennzeichnete Deklarati
 Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann im Visual Studio 2010 Projekt auf dem diese Arbeit aufbaut unter folgender Verzeichnisstruktur betrachtet werden. "`LinqForGeometry/LinqForGeometry.Core/src/Handles"'
 		%Content
 
-\section {Pointer Container und ihre Rolle in \LFG}
+\section {Pointer Container und ihre Aufgabe in \LFG}
 		%Content
 		Pointer Container in \LFGS sind \CSS Structures und existieren f"ur jeden in der Datenstruktur essentiellen Datentypen und geh"oren zum Kern Projekt (LinqForGeometry.Core) des \LFGS Projekts. Zu den Containern z"ahlen Half-Edges Container, Edge container, Face Container und Vertex Container. Ein Pointer Container wird f"ur jeden Datensatz der in die Datenstruktur eingef"ugt wird initialisiert und in einer Liste gespeichert. Jeder Container enth"alt, den Spezifikationen der \HES folgend Handles auf andere eingepflegte oder in kurzer Zeit einzupflegende Datens"atze z.B. durch eine mathematische Operation (welche den voraussichtlichen Index eines einzuf"ugenden Datensatzes berechnet). Pointer Container sind sozusagen die Gebilde welche die Half-Edge Datenstruktur aufspannen und ihre Eigenschaften im Speicher vorhalten. M"ochte man ein gespeichertes Mesh transformieren so sind alle Operationen die vorgenommen werden "Anderungen an den Pointer Containern bzw. den in ihnen enthaltenen Daten. Pointer Container sind also die Basis des ganzen Programms. Durch die Gegebenheiten der Implementierung von List<T> (Generic Lists) in \CSS ist es leider nicht m"oglich die Container bei "Anderungen direkt in einer Liste zu manipulieren. Jeder Container muss erst aus der Liste kopiert werden um ihn dann zu "andern und anschliessen an der gleichen Stelle wieder einzuf"ugen. N"otig hierzu ist, dass der Index des Containers in der jeweiligen Liste bekannt ist. Hierzu ein kleines Beispiel welches die Erkl"arung etwas erl"autern soll.
 \lstinputlisting
@@ -555,14 +599,48 @@ Zus"atzlich zu den Standards der \HES bietet \LFGS die M"oglichkeit an jedem Fac
 \item HandleFaceNormal \_fn;
 \end{itemize}
 			%Content
-	\section {Die Geometrie in LINQ For Geometry}
+	\section {Die Geometrie in \LFG}
 		%Content
-			Hier Information über das Geometry Objekt und die darin enthaltenen Daten etc.
+			Das Geometry Objekt ist der Kern des ganzen \LFGS Projekts. Von der Umwandlung eines mit dem Importer eingelesenen Meshes bis zur Speicherung w"ahrend der Laufzeit managed das Geometry Objekt ein komplettes Mesh. Die gespeicherten Daten im Objekt werden in Collections vorgehalten um einen schnellen Zugriff durch Iteratoren zu gew"ahrleisten. Es werden Listen anstelle von Arrays oder "ahnlichem verwendet um die Handhabung von Zugriffen auf die Daten zu erleichtern.
+
+Eine "Ubersicht "uber die gespeicherten und zur Verf"ugung stehenden Collections inklusiver ihrer Zugriffsmodifizierer und Datentypen.
+\begin{itemize}
+\item Handles auf Pointer Container
+	\begin{itemize}
+    \item public List<HandleVertex> \_LverticeHndl;
+    \item public List<HandleEdge> \_LedgeHndl;
+	\item public List<HandleFace> \_LfaceHndl;
+	\end{itemize}
+\item Pointer Container
+	\begin{itemize}
+	\item private List<VertexPtrCont> \_LvertexPtrCont;
+	\item private List<HEdgePtrCont> \_LhedgePtrCont;
+	\item private List<EdgePtrCont> \_LedgePtrCont;
+	\item private List<FacePtrCont> \_LfacePtrCont;
+	\end{itemize}
+\item Reale Daten
+	\begin{itemize}
+	\item public List<float3> \_LvertexVal;
+	\item public List<float3> \_LfaceNormals;
+	\item public List<float3> \_LVertexNormals;
+	\item private List<float2> \_LuvCoordinates;
+	\item private List<float3> \_LvertexValDefault;
+	\end{itemize}
+\end{itemize}
+Diese Listen enthalten alle wichtigen Informationen "uber das in der \HES vorhandene Mesh. Durch manipulation der darin gespeicherten Daten kann das Mesh ver"andert werden. Alle von \LFGS implementierten Iteratoren und Geometrie Manipulatoren benutzen diese Listen.
+
+Das Geometrie Objekt kann aus dem \LFG.ExternalModul Projekt heraus angesprochen werden um weitere Manipulationsalgorithmen zu erstellen.
+\lstinputlisting
+			[caption={ExternalModule.cs - Wie wird ein Geometry Objekt im externen Modul verwendet}, label=code:externalModule]
+			{../Codebeispiele/ExternalModule.cs}
+
+Das Geometry Object wird hier Call by Reference (dargestellt durch das Keyword "`ref"' in \CS) "ubergeben. Diese Methode spart aufgrund der Gr"o"se eines Geometry Objekts und der vielen darin enthaltenen Daten einiges an Zeit und Speicherplatz im Arbeitsspeicher (RAM).
+
 		%Content
 		\subsection {Benchmarks zu Laufzeiten des Programms}
 			%Content
 			%Content
-	\section {Anwendungsfälle von LINQ For Geometry}
+	\section {Anwendungsszenarien von \LFG}
 		%Content
 		%Content
 		\subsection {\LFGS als Editor Datenstruktur in FUSEE}
