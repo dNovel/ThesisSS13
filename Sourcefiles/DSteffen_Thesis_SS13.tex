@@ -1,3 +1,5 @@
+% !!!SUCHE NACH IMPORTANT ZUM CHECKEN!!!
+
 \documentclass[pagesize, paper=a4, fontsize=12pt,titlepage=true, headings=small, headnosepline, abstractoff, liststotoc, nochapterprefix, plainheadsepline]{scrreprt}
 \usepackage[a4paper, left=40mm, right=30mm, top=20mm, bottom=20mm]{geometry}
 \usepackage[utf8]{inputenc}
@@ -16,6 +18,7 @@
 \usepackage{graphicx}
 \usepackage [singlelinecheck=false] {caption}
 \usepackage{subcaption}
+\usepackage{url}
 
 % Paket fuer das anzeigen von Quellcode
 \usepackage{listings}
@@ -23,7 +26,8 @@
 \lstset{language=[Sharp]C} 
 
 % Festlegung Art der Zitierung - Havardmethode: Abkuerzung Autor + Jahr
-\bibliographystyle{plain}
+\bibliographystyle{apalike}
+%plain
 
 % Festlegen der Sprache
 \selectlanguage{german}
@@ -189,7 +193,9 @@ Ist eine Implementierung der Half-Edge Datenstruktur in \CSS unter Berücksichti
 		Die Half-Edge Datenstruktur, oft auch als Doubly-connected edge list bezeichnet, ist eine Datenstruktur f"ur planare Graphen welche haupts"achlich in der Computergrafik eingesetzt wird. Sie ist sehr flexibel und kann z.B. benutzt werden um topologische und strukutrelle Informationen in Landkarten zu speichern. Diese Arbeit setzt die \HES dazu ein die wichtigsten Informationen eines dreidimensionalen Computermodells zu repr"asentieren und sie f"ur eine sp"atere Verwendung im Speicher bereit zu halten. Sehr oft werden Informationen eines Computermodells ohne relationale Verbindungen gespeichert. Bei diesen so genannten Face basierten Datenstrukturen handelt es sich um sehr einfache Datenstrukturen zur Speicherung die keinen gro"sen Spielraum f"ur Optimierungen und erweiterungen lassen. Bei Iterationen und geometrischen Manipulationen sind Face basierte Strukturen wesentlich langsamer (dazu sp"ater mehr) und werden meist nicht f"ur geometrische Operationen sondern nur zum speichern der Daten im Prim"ar oder Sekund"arspeicher des Rechners verwendet. Die \HES wird f"ur dieses Projekt sogar ein wenig bez"uglich ihres Umfangs erweitert ohne aber die grunds"atzlichen Gegebenheiten der Datenstruktur zu beeinflussen.
 
 Ein Kernelement der \HES und sicherlich ihre bekannteste und herausragenste Eigenschaft ist, dass jede Kante im gespeicherten Modell (Mesh) als Kombination aus zwei Half-Edges repr"asentiert wird. Zwei Half-Edges zusammen ergeben also eine komplette Kante. In der Implementierung dieses Projektes kommt es nicht vor, dass eine Half-Edge f"ur sich alleine steht.
-		\subsection {Die Basis der Half-Edge Datenstruktur und Unterschiede zur Doubly-connected edge list}
+
+Die Einsatzgebiete der \HES sind vielf"altig. Sie wird wie von Mark de Berg, Otfried Cheong, Marc van Kreveld und Mark Overmars in Computational Geometry \cite{vanMarkdeBerg.2008} (Auflage 3) beschrieben  \begin{quote}dazu eingesetzt Geografische Gegebenheiten etc. auf digitalen Landkarten  als Thematische Karten Overlays dazustellen. \cite[S.~29]{vanMarkdeBerg.2008}\end{quote} Ebenso h"aufig findet man sie in der 3D Computergrafik, wenn auch selten in gr"o"seren Projekten. Meist wird sie als Datenstruktur f"ur kleinere Softwarel"osungen herangezogen. Ein Beispiel ist hier die Demo Szene \footnote[1]{Eine Demo ist in der Demo Szene als Digitale Kunst zu verstehen. Meist ist eine Demo eine Form der Computergrafik Echtzeit-Animationen inklusive Musikuntermalung.} der Computergrafik. Das Entwickler Team "`farbrausch"' das verantwortlich ist f"ur Projekte wie das Preis gekrönte "`kkrieger"' (ein minimalistischer Ego Shooter mit einer Gesamtgr"o"se von 96kb) hat die \HES f"ur ihr Demo Projekt "`debris"' genutzt. \footnote[2]{Viele farbrausch Projekte sind zu finden unter http://www.farb-rausch.de/ (Stand: Juli 2013)}
+		\subsection {Die Half-Edge Datenstruktur in \LFGS}
 			%Content
 			%TODO Planare Graphen erkläutern und verstehen
 			Im vorigen Abschnitt wurde erw"ahnt, dass die \HES oft auch als Doubly-connected edge list bezeichnet wird. Im Hinblick auf die Implementierung dieser Arbeit ist das so nicht ganz richtig. Dieser Text bezieht sich bei Betrachtung der Doubly-connected edge list immer auf die Darstellung von \cite{vanMarkdeBerg.2008}. Es gibt einige wenige feine Unterschiede der beiden Datenstrukturen die sich in der Implementierung dieses Projekts zu einem sp"ateren Zeitpunkt, nicht "uberm"assig, bemerkbar machen.
@@ -204,10 +210,14 @@ Die \HES besteht grunds"atzlich aus vier verschiedenen Datens"atzen (data record
 
 \begin{quote}Jeder Datensatz (Half-Edge, Vertex und Face) der Datenstruktur kann ebenfalls dazu benutzen werden Informationen zu speichern welche nicht im direkten Zusammenhang mit den Geometrischen Informationen des Meshes stehen. Es ist in etwa m"oglich, Informationen zur Beleuchtungsberechnung (Vertex- und Facenormalen) oder Textur Koordinaten eines Meshes in den Datens{\dq}atzen zu speichern. Diese zus"atzlichen Informationen werden im folgenden als Attributs-Informationen bezeichnet. \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
 
-Zu beachten ist hierbei, dass das wichtigste Element der Datenstruktur, die Half-Edge, als gerichtete Kante betrachtet werden sollte.
-\begin{quote}In der Half-Edge Datenstruktur sind die Half-Edges Kanten mit einer Orientierung. Der Vertex dem sie entspringen ist dabei als ihr Ursprung zu bezeichnen, w{\"a}hrend der Vertex auf den sie zeigen und auf den sie einen Zeiger enthalten, als Ziel betrachtet wird. \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
+Zu beachten ist hierbei, dass die \HES durch ihr wichtigstes Element auch als gerichteter Graph betrachtet werden kann. Jeder Half-Edge, in der Graphentheorie als Bogen bezeichnet, ist genau einen Vertex, in der Graphentheorie als Knoten bezeichnet, zugeordnet. Dieser Zustand ergibt sich durch die Speicherung des Pointers an jeder Half-Edge der auf den Vertex verweist auf den die Half-Edge zeigt.
+\begin{quote}Ein gerichteter Graph \(G = (V,E)\) besteht aus einer Knotenmenge \(V\) und einer Bogenmenge \(E\), sodass jedem Bogen (jeder Kante) \(e = (u,v)\) eindeutig ein geordnetes Paar \((u,v)\) von Knoten aus \(V\) zugeordnet ist. \cite[S.~127]{Tittmann.2011}\end{quote}
+
+\begin{quote}In der Half-Edge Datenstruktur sind die Half-Edges also Kanten mit einer Orientierung. Der Vertex dem sie entspringen ist dabei als der Ursprung zu bezeichnen, w{\"a}hrend der Vertex auf den sie zeigen und auf den sie einen Zeiger enthalten, als Ziel (Destination) betrachtet wird. \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
 
 \begin{quote}{\glqq}Because half-edges are oriented we can speak of the \textit{origin }and the \textit{destination }of a half-edge.{\grqq} \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
+
+Die \HES ist also mathematisch betrachtet ein planarer Graph. Laut Eulerscher Polyederformel beschrieben von Peter Tittmann \cite[S.~47--50]{Tittmann.2011} ergibt sich folgender Sachverhalt. \(v + f = k + 2\) \(v\) entspricht der Anzahl der Punkte oder Vertices in einem Graphen, \(f\) die Anzahl der Fl"achen oder Faces und \(k\) entspricht der Anzahl der Kanten. Wendet man diesen Ausdruck auf einen W"urfel an so ensteht die folgende Gleichung \(8 + 6 = 12 + 2\). Es ist also hier tats"achlich so, dass ein W"urfel als planarer Graph betrachtet werden kann. Der gleiche Sachverhalt ergibt sich nun in der Repr"asentation eines W"urfels in der \HES.
 
 			\subsubsection {Doubly Connected Edge List}
 				Die doubly connected edge list (kurz DECL) wie in \cite{vanMarkdeBerg.2008} erw"ahnt ist der hier verwendeten \HES "ahnlich. Die Strukturen haben nur ein paar wenige Unterschiede. Zuerst einmal ein paar Worte zu den Gemeinsamkeiten. \begin{quote}Die Doubly-connected edge list besteht grunds{\"a}tzlich ebenfalls aus drei verschiedenen Typen von Datens{\"a}tzen. Dazu z{\"a}hlen, wie auch in der \HES, Vertices, Faces und Half-Edge Datens{\dq}atze. \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
@@ -216,6 +226,9 @@ Somit ist bereits klar, dass sich die Datenstruktur in der Implementierung durch
 \begin{itemize}
 \item Zeiger auf ihre Twin Half-Edge
 \item Zeiger auf die n"achste Half-Edge im Uhrzeigersinn (Ist variabel implementierbar. \LFGS implementiert die Zeiger im Uhrzeigersinn)
+\begin{itemize}
+\item Sowohl in OpenGL als auch in Direct3D kann eingestellt werden ob die Ausrichtung von Faces anhand des Urhzeigersinns (CW) oder gegen den Uhrzeigersinn (CCW) bestimmt wird. Direct3D benutzt hier die CW Richtung als Standard\footnote[1]{\url{http://msdn.microsoft.com/en-us/library/windows/desktop/bb204882(v=vs.85).aspx} (Stand: 23. Juli 2013)}, OpenGL benutzt als Standard die CCW order. \footnote[2]{\url{http://www.opengl.org/wiki/Face_Culling} (Stand: 23. Juli 2013)}
+\end{itemize}
 \item Zeiger auf den Vertex auf den die Half-Edge zeigt
 \item Zeiger auf das Face zu welchem die Half-Edge geh"ort
 \end{itemize}
@@ -290,15 +303,12 @@ Die \HES ist also grunds"atzlich sehr flexibel. Es bedingt praktisch nicht, dass
 		\subsection {Nachteile der \HES}
 			%Content
 Es gibt selbst in einer so flexiblen Datenstruktur wie der \HES Nachteile die w"ahrend der Planungsphase oder Implementierung auftreten k"onnen.
-			Durch ihren Aufbau und die verschiedenen Verbindung welche w"ahrend einer Initialisierung aufgebaut werden m"ussen ist die Datenstruktur sehr komplex. Es erfordert einiges an Zeit und "Uberlegungen das System f"ur eine Implementierung so zu konstrurieren dass es alle Anforderungen an eine 3D Echtzeitdatenstruktur erf"ullt. Vor einer Implementierung der \HES sollte also gut "uberlegt sein ob sie f"ur das aufkommende Probleme eine vern"unftige L"osung darstellt. In \LFGS ist die Datenstruktur eine sehr eleganze L"osung. Sie ist hinreichend flexibel und gerade noch maximal komplex um eine m"ogliche L"osung f"ur die Problemstellung "`(Editierbare) Echtzeit 3D Datenstruktur"' darzustellen. Es sollte also darauf geachtet werden die \HES nicht als Universall"osung zu betrachten. Wenn ich nur einige wenige Algorithmen oder Operationen auf einem Mesh ausf"uhren m"ochte, so gibt es m"oglicherweise eine effizientere und schnellere Datenstruktur um dies zu bewerkstelligen.
+			Durch ihren Aufbau und die verschiedenen Verbindung welche w"ahrend einer Initialisierung aufgebaut werden m"ussen ist die Datenstruktur sehr komplex. Es erfordert einiges an Zeit und "Uberlegungen das System f"ur eine Implementierung so zu konstrurieren dass es alle Anforderungen an eine 3D Echtzeitdatenstruktur erf"ullt. Vor einer Implementierung der \HES sollte also gut "uberlegt sein ob sie f"ur das aufkommende Probleme eine vern"unftige L"osung darstellt. In \LFGS ist die Datenstruktur eine sehr elegante L"osung. Sie ist hinreichend flexibel und gerade noch maximal komplex um eine m"ogliche L"osung f"ur die Problemstellung "`(Editierbare) Echtzeit 3D Datenstruktur"' darzustellen. Es sollte also darauf geachtet werden die \HES nicht als Universall"osung zu betrachten. Wenn ich nur einige wenige Algorithmen oder Operationen auf einem Mesh ausf"uhren m"ochte, so gibt es m"oglicherweise eine effizientere und schnellere Datenstruktur um dies zu bewerkstelligen.
 
 Ein auff"alliger Unterschied zu einfacheren Face basierten Datenstrukturen ist der massiv erh"ohte Overhead der bei der Erstellung der Datenstruktur entsteht. Im n"achsten Abschnitt m"ochte diese Arbeit ein kleines Beispiel vorweisen und exemplarisch den Speicherverbrauch der \HES bestimmen.
 
-\subsubsection {Speicherverbrauch im Gegensatz zu Face basierten Lösungen}
+\subsubsection {Speicherverbrauch im Gegensatz zu Face basierten Datenstrukturen}
 			%Content
-			% TODO, höherer verbrauch, aber gleichzeit auch wesentlich flexibler. Speicher ist vorhanden, geschwindigkeit wird gesucht als ziel
-			% Vorrechnen eines Beispiels mit beispielhaften Zahlen für ein Mesh und dessen Repräsentierung als HES und als Face based.
-			% Zugrund legen eines Würfels mit 6 Seiten, 8 Verts und 12 bzw 24 Kanten.
 			Der Overhead der bei der Repr"asentation eines Meshes f"ur eine \HES entsteht ist um einiges h"oher als der Overhead einer Face basierten L"osung. Sollte man also nur einfache Aufgaben auf einem Mesh erledigen wollen oder einige wenige Operationen nur einmal ausf"uhren wollen so w"are es wohl ratsam eine andere Datenstruktur daf"ur zu suchen. Allerdings ist es heute in der Computergrafik meistens so, dass wir gen"ugend Speicherplatz im Prim"arspeicher unserer Rechner und Grafikkarten zur verf"ugung haben um diesen Umstanz zu verschmerzen.
 Hier eine Beispielhafte Berechung des Datenverbrauchs.
 
@@ -445,9 +455,16 @@ Im Hinblick auf \LFGS f"allt durch die Nutzung von \CSS einiges an Arbeit weg. N
 
 Ein weiterer Pluspunkt ist nat"urlich, dass sich bereits viele Entwickler und Studenten der Hochschule Furtwangen die sp"ater m"oglicherweise die FUSEE Engine verwenden m"ochten bereits mit \CSS oder Java, welches \CSS zumindest Syntaktisch sehr "ahnelt, auskennen.
 		%Content
-	\section {Das Software Projekt LINQ For Geometry (LFG)}
+\section {Das Software Projekt LINQ For Geometry}
 		%Content
-		% Erweitert die Funktionen der HES zb durch normalen und vertex speichern in Face und Half-Edge
+Das Softwareprojekt \LFGS (kurz LFG) welches im Rahmen dieser Thesis Arbeit entworfen und implementiert wurde, stellt eine Umsetzung der \HES zum Handling dreidimensionaler Meshes dar. \LFGS hat darüber hinaus den Anspruch die Datenstruktur durch eine anprogrammierung mit LINQ Ausdr"ucken bearbeitbar zu machen. Es bietet einen Converter in das von der FUSEE Engine benutze Mesh Format und kann in Echtzeit Geometrische Operationen auf einem in der Datenstruktur gespeichertem Mesh ausf"uhren. \LFG wurde Anfangs als eigenst"andiges Projekt begonnen. Im sp"ateren Verlauf wurde es in die FUSEE Engine integriert um dort wahlweise Meshes in der \HES im Speicher bereit zu halten. Das \LFGS Projekt ist von FUSEE nicht abh"angig. Es benutzt ledigleich ein Paar der Datentypen aus der Mathematik Bibliothek von FUSEE und den Mesh Datentypen welchen \LFGS aufgrund der converter Funktion nach FUSEE Mesh kennen muss. \LFGS w"are also nach Wunsch auf andere Engines oder Programme mit wenigen Anpassungen portabel.
+
+\LFGS erweitert die \HES um ein paar Funktionen um die korrekte Darstellung von Meshes in FUSEE zu gew"ahrleisten. Dazu z"ahlen Erweiterungen der an den Kanten und Faces gespeicherten Informationen um UV Textur Koordinaten und Face- und Vertex Normalen im Mesh zu speichern.
+Zus"atzlich ist es in der Lage Kanten zu verarbeiten die an mehr als 2 Polygone grenzen. Diese L"osing ist allerdings zum Zeitpunkt Juni 2013 nur als Notl"osung zu betrachten und das massive Edge Sharing (Teilen von Kanten mit vielen Faces) sollte wenn m"oglich bereits beim modellieren eines Meshes vermieden werden.
+\newline
+
+In den n"achsten Abschnitten steht die Implementierung von \LFG im Vordergrund und versucht ein Umfassendes Bild zu vermitteln wie genau die \HES mit Hilfe von LINQ und Lambda Support in \CSS aufgebaut werden kann.
+\newline
 		%Content
 		\subsection {Konzept zu \LFG}
 			%Content
@@ -627,14 +644,14 @@ Eine "Ubersicht "uber die gespeicherten und zur Verf"ugung stehenden Collections
 	\item private List<float3> \_LvertexValDefault;
 	\end{itemize}
 \end{itemize}
-Diese Listen enthalten alle wichtigen Informationen "uber das in der \HES vorhandene Mesh. Durch manipulation der darin gespeicherten Daten kann das Mesh ver"andert werden. Alle von \LFGS implementierten Iteratoren und Geometrie Manipulatoren benutzen diese Listen.
+Diese Listen enthalten alle wichtigen Informationen "uber das in der \HES vorhandene Mesh. Durch Manipulation der darin gespeicherten Daten kann das Mesh ver"andert werden. Alle von \LFGS implementierten Iteratoren und Geometrie Manipulatoren benutzen diese Listen.
 
 Das Geometrie Objekt kann aus dem \LFG.ExternalModul Projekt heraus angesprochen werden um weitere Manipulationsalgorithmen zu erstellen.
 \lstinputlisting
 			[caption={ExternalModule.cs - Wie wird ein Geometry Objekt im externen Modul verwendet}, label=code:externalModule]
 			{../Codebeispiele/ExternalModule.cs}
 
-Das Geometry Object wird hier Call by Reference (dargestellt durch das Keyword "`ref"' in \CS) "ubergeben. Diese Methode spart aufgrund der Gr"o"se eines Geometry Objekts und der vielen darin enthaltenen Daten einiges an Zeit und Speicherplatz im Arbeitsspeicher (RAM).
+Das Geometry Object wird hier durch Call by Reference (dargestellt durch das Keyword "`ref"' in \CS) "ubergeben. Diese Methode spart aufgrund der Gr"o"se eines Geometry Objekts und der vielen darin enthaltenen Daten einiges an Zeit und Speicherplatz im Arbeitsspeicher (RAM).
 
 		%Content
 		\subsection {Benchmarks zu Laufzeiten des Programms}
@@ -642,14 +659,81 @@ Das Geometry Object wird hier Call by Reference (dargestellt durch das Keyword "
 			%Content
 	\section {Anwendungsszenarien von \LFG}
 		%Content
-		%Content
-		\subsection {\LFGS als Editor Datenstruktur in FUSEE}
-			%Content
+	\LFGS kann mit der \HES als Basis f"ur viele Anwendungesgebiete interessant sein. Aktuell ist das System als Ersatz f"ur das in FUSEE integrierte Mesh Konzept eingebettet. Hier l"adt es Meshes aus Wavefront Object Dateien w"ahrend der Laufzeit eines FUSEE Programms in den Speicher und h"alt die Daten bereit. Das Mesh kann dann w"ahrend der Laufzeit durch verschiedene Methoden manipuliert werden. Allerdings sind weitere Einsatzgebiete denkbar und teilweise sogar angedacht.
+Das System k"onnte es zum Beispiel m"oglich machen Meshes zur Laufzeit eines Spiels zu ver"andern. Dabei w"are es denkbar Konstruktion oder Destruktion in einer Echtzeit Spielwelt mit LFG zu realisieren. LFG ist ein sehr gut geeignetes System f"ur alle Algorithmen welche eine Kantenbasierte Pr"asentation der Daten erwarten. Dazu z"ahlen z.B. verschiedene Subdivision Surfacing Algorithmen wie der "`Loop"' und der "`Catmull-Clark"' Algorithmus. Diese Algorithmen beschreiben eine M"oglichkeit Meshes in immer feinere Strukturen zu unterteilen um ihnen so eine gleichm"assigere Oberfl"ache zu verleihen oder Details herauszuarbeiten oder aber diese zu verringern.
+Der interessanteste Fall f"ur \LFG ist sicherlich die m"oglicherweise zuk"unftige Verwendung des Projekts f"ur einen 3D Editor auf Basis der FUSEE Engine. Dabei w"are es dann m"oglich Meshes in Echtzeit zu bearbeiten und sie in der FUSEE Engine anzuzeigen und zu benutzen ganz wie es bereits in 3D Modellierungssoftware wie Cinema 4D M"oglich ist. Die erstellten Meshes k"onnten dann abgespeichert oder direkt als Assets in neuen FUSEE Projekten verwendet werden. Ein Editor mit dieser Funktion k"onnte durch das LinqForGeometry.ExternalModules Projekt recht einfach um neue Funktionen erweitert werden und kann so an die W"unsche und Anforderungen der verschiedenen Nutzer angepasst werden.
 			%Content
 	\section {LINQ und Lambda Ausdrücke und ihre Stärken und Schwächen bei der Selektierung großer Datenmengen}
 		%Content
-	\section {Stern- und Umlaufenumeratoren (Iteratoren)}
+	\section {Stern- und Umlaufenumeratoren (Iteratoren/Enumeratoren)}
 		%Content
+		Iteratoren sind die wichtigste Basis an Funktionen die \LFGS einem Nutzer des Projekts bereit stellt. Iteratoren sind hier als "`Zeiger"' auf Elemente aus den Collections der Datenstruktur zu bezeichnen. Ein Iterator hat ein festgelegtes "`Bewegungsmuster"' und bewegt sich so schnell es geht "uber bestimmte Abschnitte der Collections der Datenstruktur. Die Iteratoren in \LFGS sind jeweils auf einen Start Datentyp und auf einen Return type festgelegt. Durch LINQ Ausdr"ucke in der Methodensyntax oder durch die Realisierung von kleinen Traversierungsalgorithmen liefern diese Iteratoren ein Ergebnisset, meistens eine Liste, eines bereits vorher bekannten Datentyps an den Aufrufer zu"uck. Durch die geschickte Kombination dieser basis Iteratoren ist es m"oglich viele Problemszenarien zu bew"altigen.
+
+In \LFGS ist der R"uckgabetyp jedes Iterators im Code des Projekts auch "`Enumerator"' genannt immer vom Typ IEnumerable<T>. Dieser macht die Iteration "uber eine Collection erst m"oglich. Enumeratoren k"onnen in \CSS dann in einer "`foreach"' Anweisung verarbeitet werden. Methoden welche einen IEnumerator zur"uckliefern k"onnen auch direkt als Argument in einer "`foreach"' Anweisung eingesetzt werden.
+Im ersten Beispiel, wird der einfache Aufruf eines \LFG basis Enumerators gezeigt. Das Ergebnisset kann in der foreach Anweisung weiterverarbeitet werden.
+
+\lstinputlisting
+			[caption={EnumeratorForeach1.cs - Aufrufen von Enumeratoren Teil 1}, label=code:enumforeach1, firstline=1, lastline=5]
+			{../Codebeispiele/EnumeratorForeach.cs}
+
+Hier im zweiten Beispiel wird das Ergebnisset erneut durch eine LINQ Abfrage gefiltert. Dieses Beispiel zeigt wie einfach man einen bestehenden Iterator/Enumerator erweitern oder ver"andern kann ohne dass man dessen Implementierung direkt manipuliert. Die LINQ Abfrage "`ver"andert"' durch nur wenig zus"atzlichen Code sogar den Datentypen des Ergebnissets f"ur die "`foreach"' Anweisung.
+\lstinputlisting
+			[caption={EnumeratorForeach1.cs - Aufrufen von Enumeratoren Teil 2}, label=code:enumforeach2, firstline=7, lastline=13]
+			{../Codebeispiele/EnumeratorForeach.cs}
+Hier sind nat"urlich noch wesentlich komplexere LINQ Statements m"oglich um das Ergebnis an die eigenen W"unsche anzupassen. Es w"are zum Beispiel m"oglich aus den herausgesuchten Half-Edges die Vertices zu extrahieren auf die sie zeigen. Somit h"atte man durch einfache Erweiterung einen Enumerator geschaffen welcher die Vertices sucht und findet die ein Face begrenzen. Diese Methode setzt auch \LFGS ein um die Vertices eines Faces zu finden.
+\newline
+
+Aktuell existieren zehn verschiedene Enumeratoren in \LFG. Es folgt eine Auflistung der Namen und der Funktionen der Iteratoren. Ebenfalls wird kurz darauf hingewiesen ob ein Iterator LINQ Ausdr"ucke einsetzt oder direkt auf der Datenstruktur operiert.
+\begin{itemize}
+\item EnAllVertices()
+	\begin{itemize}
+	\item Dieser Iterator bietet lediglich die Handler Vertex Collection als IEnumerable an.
+	\end{itemize}
+\item EnAllEdges()
+	\begin{itemize}
+	\item Dieser Iterator bietet lediglich die Handler Edge Collection als IEnumerable an.
+	\end{itemize}
+\item EnAllFaces()
+	\begin{itemize}
+	\item Dieser Iterator bietet lediglich die Handler Face Collection als IEnumerable an.
+	\end{itemize}
+\item EnStarVertexVertex()
+	\begin{itemize}
+	\item Der EnStarVertexVertex() Enumerator ist in der Lage alle Vertices zu suchen welche direkt mit einem vom Benutzer spezifizierten Vertex durch eine Kante verbunden sind.
+	\item Er wird durch eine LINQ Anweisung realisiert welche wiederum aus anderen von LFG bereitgestellten Enumeratoren besteht. Genauer beschrieben ist dieser Enumerator eine Kombination aus LINQ Abfragen und aus einem Algorithmus zur Kantenfindung welcher direkt auf der Datenstruktur arbeitet, dem EnVertexIncomingHalfEdge() Enumerator.
+	\end{itemize}
+\item EnVertexIncomingHalfEdge()
+	\begin{itemize}
+	\item Dieser Enumerator ist einer der wichtigsten Bestandteile der Vertex Normalen Berechnung. Er liefert durch geschickte Nutzung der Datenstruktur alle Half-Edges des Geometry Objektes zur"uck welche auf einen bestimmten Vertex zeigen. Er findet Kanten durch die Zirkulation auf Half-Edges um den Vertex herum.
+\item Dieser Enumerator wird zus"atzlich in anderen Enumeratoren benutzt.
+	\end{itemize}
+\item EnStarVertexOutgoingHalfEdge()
+	\begin{itemize}
+	\item Im Gegensatz zum EnVertexIncomingHalfEdge() wird dieser Enumerator alle Half-Edges die von einem bestimmten Vertex ausgehen finden. Dazu setzt er ein LINQ Statement ein, das auf dem Ergebnisset von EnVertexIncomingHalfEdge() arbeitet.
+	%\item Dieser Enumerator setzt eine LINQ Abfrage ein um das Ergebnis eines anderen Enumerators noch einmal zu verwenden.
+	\end{itemize}
+\item EnVertexAdjacentFaces()
+	\begin{itemize}
+	\item Mit Hilfe dieses Enumerators ist es m"oglich alle Faces zu finden welche an einen gegebenen Vertex angrenzen.
+	\item Dieser setzt ebenfalls den EnVertexIncomingHalfEdge() Enumerator ein um dann mit einem LINQ Statement dessn Ergebnis weiter zu verarbeiten.
+	\end{itemize}
+\item EnFaceAdjacentHalfEdges()
+	\begin{itemize}
+	\item Es handelt sich hierbei um einen Enumerator der durch Ausnutzung der Topologie der Datenstruktur alle Half-Edges zu einem bestimmten Face ausfindig macht. Dazu iteriert die Methode so lange "uber die Next Pointer der Half-Edges bis wieder die Half-Edge erreicht wird bei welcher der Algorithmus gestartet ist. Im Normalfall handelt es sich hierbei dann bei einem Mesh aus Quads um 4 Pointer Spr"unge.
+	\end{itemize}
+\item EnFaceAdjacentVertices()
+	\begin{itemize}
+	\item Mit diesem Enumerator k"onnen alle Vertices welche zu einem speziellen Face geh"oren gefunden werden.
+	\item Auch dieser setzt den EnFaceAdjacentHalfEdges() Enumerator ein und verwendet dessen Ergebnis Set um durch eine LINQ Abfrage die gew"unschten Informationen zu erhalten.
+	\end{itemize}
+\item EnFaceAdjacentFaces()
+	\begin{itemize}
+	\item Hiermit kann der Benutzer alle direkt an die Kanten eines gegebenen Faces angrenzenden Faces ausfindig machen.
+	\item Der Enumerator setzt dazu eine LINQ Abfrage auf das Ergebnis Set des EnFaceAdjacentHalfEdges() Enumerators ein. 
+	\end{itemize}
+\end{itemize}
+
+Wie also in der "Ubersicht aufgezeigt wurde gibt es einige Iteratoren die f"ur die Traversierung der \HES sehr wichtig sind. Diese Iteratoren wurden dann so implementiert, dass ihre Operationen direkt auf der Datenstruktur ausgef"uhrt werden. Um weitere Iteratoren zu schaffen k"onnen dann die direkt implementierten Enumeratoren wieder verwendet werden. Der Enumerator EnFaceAdjacentHalfEdges() ist durch seine massive Wiederverwendung in XX anderen Enumeratoren einer der wichtigsten Enumeratoren im Projekt. Es war daher wichtig ihn auf Geschwindigkeit zu optimieren. Die hier als basis Enumeratoren bezeichneten Methoden k"onnen also zuk"unftig in jeder Erweiterung der Funktionalit"at von \LFGS verwendet werden und bieten somit einen einfachen Einstiegspunkt in die Gestaltung komplexerer Traversierungs-Algorithmen.
 		%Content
 		\subsection {Die Geschwindigkeit der Half-Edge Datenstruktur in den Enumeratoren}
 			%Content
@@ -657,26 +741,86 @@ Das Geometry Object wird hier Call by Reference (dargestellt durch das Keyword "
 		\subsection {Verwendete „Design-Patterns“ und Softwarelösungen}
 			%Content
 			%Content
-		\subsection {LINQ und Lambda Ausdrücke in den Enumeratoren}
+		\subsection {Die Verwendung von LINQ und Lambda in den Enumeratoren}
 			%Content
+			LINQ Ausdr"ucke werden in den Enumeratoren recht h"aufig verwendet. In allen F"allen handelt es sich bisher um Select() Operationen auf einer Collection aus Daten. Nat"urlich kann sich dies in Zukunft durch die Erweiterungen und W"unsche der Benutzer "andern. Lambda ist auch in den Enumeratoren ein wichtiger Bestandteil der LINQ Methodensyntax. Allerdings werden bis jetzt nur sehr einfache Lambda Ausdr"ucke eingesetzt. Der folgende Ausdruck beschreibt ein LINQ Select Statement auf einer Collection aus Half-Edge Handles.
+\begin{lstlisting}
+EnFaceAdjacentHalfEdges(faceHandle).Select(handleHalfEdge => _LhedgePtrCont[handleHalfEdge]._v)
+\end{lstlisting}
+
+Hier wird das Statement noch einmal in seine Bestandteile aufgeschl"usselt um das interessante Zusammenspiel des Lambda Ausdrucks auf der Collection des ersten Enumerators aufzuzeigen.
+
+\begin{lstlisting}
+// Erster Enumerator Aufruf. Hierbei handelt es sich bei dem return Datensatz um eine Collection aus Half-Edge Handles.
+EnFaceAdjacentHalfEdges(faceHandle);
+
+// Die Collection des ersten Enumerators wird durch ein Select Statement weiter spezifiziert.
+EnFaceAdjacentHalfEdges(faceHandle).Select(...);
+
+//Der Lambda Ausdruck (oben durch "`..."' ersetzt) im Select Bereich der LINQ Abfrage sucht zu jeder Half-Edge Handle das zu ihr passende Vertex Handle.
+handleHalfEdge => _LhedgePtrCont[handleHalfEdge]._v
+\end{lstlisting}
+
 			%Content
-		\subsection {Unterschiedliche Iteratoren kurz dargestellt}
+		\subsection {Unterschiedliche Implementierungen von Iteratoren kurz dargestellt}
 			%Content
+			Um das ganze System ein wenig zu verdeutlichen m"ochte diese Arbeit hier kurz die zwei wichtigsten Enumerator Typen vorstellen. Zum einen gibt es in \LFG Enumeratoren die ein Ergebnis Set durch einige Operationen direkt auf den Verbindungen der Datenstruktur zusammen stellen. Enumeratoren welche diese L"osung des Problems implementieren sind die Technisch wichtigsten. Sie werden in vielen anderen Enumeratoren wiederverwendet und sind zur Laufzeit sehr h"aufig aktiv. \LFGS implementiert diese Iteratoren deswegen nicht als reine LINQ Statements. Es w"are schlichtweg unn"otig die tausenden von Half-Edges eines Meshes zu durchlaufen um herauszufinden welche Half-Edges zu einem bestimmten Face geh"oren. Bei dem ersten Beispiel handelt es sich um den EnFaceAdjacentHalfEdges() Enumerator. Er stellt eine wichtige Methode f"ur fast alle Berechnungen auf der Datenstruktur, von den Face Normalen bis zur Triangulation, dar. Wie zu sehen, iteriert diese Methode mit Hilfe einer do{}While() Schleife "uber die begrenzenden Half-Edges eines Faces. Dieser Enumerator ist durch die wenigen Pointer Spr"unge die er durchf"uhren muss sehr schnell. Genau das macht ihn zu einer guten Basis f"ur weitere Iteratoren.
+
+% IMPORTANT
+\lstinputlisting
+			[caption={Geometry.cs - EnFaceAdjacentHalfEdges()}, label=code:efahe, firstline=951, lastline=965]
+			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Geometry.cs}
+
+Weiterhin gibt es aber auch Iteratoren welche tats"achlich aus einem einzeiligen LINQ Statement bestehen. Fast immer verarbeiten diese Iteratoren die Ergebnisse eines der "`nativ"' auf der Datenstruktur ausgef"uhrten Enumeratoren. Sie erweitern oder ver"andern dessen Ergebnisse. Diese in LINQ formulierten Methoden m"ussen grunds"atzlich wesentlich kleinere Collections an Daten verarbeiten. Aus diesem Grund eignen sich LINQ Abfragen hierf"ur wunderbar. Sie sind somit zug"anglich und gerade noch hinreichend komplex zu gestaltet um auch in Zukunft eine Basis f"ur neue Traversierungsmethoden zu bieten.
+Der EnFaceAdjacentVertices() Enumerator w"urde es hier noch erlauben sein Ergebnis Set noch weiter zu modifizieren. Es w"are denkbar einen neuen Enumerator zu schreiben der zu jedem Vertex der das urspr"ungliche Face begrenzt alle angrenzenden Faces bestimmt. Der Nutzen einer solchen Operation sei hier ausser Acht gelassen. Diese Idee zeigt aber, dass es praktisch m"oglich ist fast alle neuen Ideen durch die Wiederverwendung der LINQ basierten Enumeratoren oder die Erweiterung der "`nativen"' Enumeratoren zu realisieren.
+% IMPORTANT
+\lstinputlisting
+			[caption={Geometry.cs - EnFaceAdjacentVertices()}, label=code:efav, firstline=973, lastline=976]
+			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Geometry.cs}
+
 			%Content
 	\section {Manipulation von Mesh Daten in der Datenstruktur}
 		%Content
+		Um die Mesh Daten eines Geometry Objektes zu manipulieren gibt es verschiedene M"oglichkeiten. Durch Manipulationen kann das Mesh geringf"ugig oder gar komplett ver"andert werden. Es ist allerdings wichtig keine Verbindungen der Datenstruktur im Geometry Objekt zu besch"adigen. Ein Geometry Objekt h"alt zwei verschiedene Arten von Daten vor. Zum einen sind dies "`reale Daten"'. Dabei handelt es sich um tats"achliche Werte also in etwa Vertex Koordinaten, Vertex Normalen, Face Normalen und UV Koordinaten. Zum anderen existieren virtuelle Beziehungen der einzelnen Elemente der Datenstruktur untereinander welche hier als Half-Edges, Edges, Vertices und Faces bezeichnet werden. Um also die Form eines Meshes zu ver"andern m"ussen also in aller Regel die Beziehungen der Elemente ver"andert werden. Ein einfaches Beispiel dazu w"are die Triangulation eines Meshs. Es werden hierbei keine neuen realen Daten erzeugt sondern lediglich Half-Edges, Edges und Faces manipuliert.
+\newline
+
+Beide Arten der Mesh Manipulation k"onnen aber auch kombiniert werden. Ein Klassischer Fall w"are ein Subdivision Surfacing Algorithmus welcher durch Erweiterung des Geometry Objektes das Mesh in seiner Form ver"andern w"urde. Hierbei ver"andern sich alle Teile eines Geometry Objektes. Es entstehen neue Kanten und Faces und es werden neue Vertices aus bereits vorhandenen berechnet und eingef"ugt. 
 		%Content
-		\subsection {Manipulation von Vertices}
-			%Content
-			%Content
 		\subsection {Manipulation von Edges und Half-Edges}
 			%Content
+			Half-Edges sind, da sie das wichtigste Konstrukt in der Datenstruktur sind auch das interessanteste Konstrukt zur Manipulation von Meshes. Die Triangulation eines Quadrilateral Meshes in \LFGS ist ein gutes Beispiel f"ur eine einschl"agige Ver"anderung des Mesh Objekts durch Manipulation und einf"ugen neuer Half-Edges. Durch wenige "Anderungen an den Pointern der vorhandenen Half-Edges und das einf"ugen von zwei neuen kann ein Quad trianguliert werden.
+
+			%Content
+		\subsection {Manipulation von Vertices}
+			%Content
+			Vertices k"onnen in \LFGS durch ver"anderung ihrer Half-Edge Pointer oder durch direkte "anderung ihrer tats"achlichen Werte manipuliert werden. Diese Tatsache wird von \LFGS im Algorithmus f"ur die Mesh Skalierung eingesetzt. Durch Matrixmultiplikation jedes Vertex mit der gleichen Skalierungsmatrix kann das Objekt entlang aller drei Achsen (X, Y, Z) gleichzeitig oder getrennt skaliert werden. Um z.B. eine Translation zu erreichen werden alle Vertices mit einer anderen Matrix multipliziert. Das gleiche gilt f"ur eine Rotation. Vertex manipulation ist also unersetzlich f"ur die Ver"anderung der Daten im dreidimensionalen Raum.
 			%Content
 		\subsection {Manipulation von Faces}
 			%Content
+			Faces bieten am wenigsten Manipulationsm"oglichkeiten in \LFG. Lediglich die Face Normale kann welche am Face gespeichert wird und die eine Half-Edge auf die das Face zeigt k"onnen ver"andert werden. Faces besitzen keine physischen Daten (bis auf die Face Normale). Sie sind darum aber nicht weniger wichtig. Denn viele Manipulationsalgorithmen wie die Triangulation eines Meshes oder die Vertex Normalen Berechnung befassen sich mit den Faces als Einstiegspunkt in den Algorithmus.
 			%Content
 	\section {Beispielhafte Implementierung von Standard Algorithmen zur Geometriemanipulation als Modul}
 			%Content
+	\LFGS bietet zur beispielhaften Manipulation eines Geometry Objekts verschiedene Methoden an. Alle diese Methoden sind im Modul Projekt LinqForGeometry.ExternalModules in der Static Klasse Transformations zu finden.
+
+Zu ihnen z"ahlen:
+\begin{itemize}
+\item Die Transformation des Objekts durch die "Ubergabe von Faktoren pro Achse.
+\item Die Skalierung durch die Angabe von Faktoren pro Achse.
+\item Eine Translation durch Übergabe von Faktoren pro Achse.
+\item Eine Rotation um die Globale X, Y oder Z Achse.
+\end{itemize}
+
+\subsection {Transformation mithilfe einer Transformationsmatrix}
+%Content
+Um die Vertices eines Meshes zu transformieren wird eine zuvor in der Methode zusammengestellte Transformationsmatrix auf jeden Vertex des Meshes angewendet. Ohne LINQ w"urde man in einer Schleife "uber jeden Vertex laufen und das Ergebnis wieder in eine neue Liste schreiben "mussen. Diese Liste m"usste dann die aktuelle Vertex Liste im Mesh "uberschreiben um die neuen Werte zu "ubernehmen.
+
+Durch die Nutzung von LINQ entwickelt sich der oben genannte Algorithmus zu einem Einzeiler und zeigt hier sehr gut warum LINQ die Entwicklung solcher Algorithmen sehr viel lesbarer und einfacher gestaltet. Die hier gezeigte LINQ Abfrage ist in der Methodensyntax geschrieben.
+\lstinputlisting
+			[caption={Transformation.cs - Manipulation der Vertices}, label=code:transform, firstline=95, lastline=108]
+			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.ExternalModules/Transformations/Transformations.cs}
+
+Das Geometry Objekt wird dieser Methode lediglich Call by Reference "ubergeben um die ben"otigte Rechenleistung zu minimieren und die Bearbeitung mit der einzeiligen LINQ Funktion m"oglich zu machen. So werden die Daten direkt ohne zwischenspeichern ressourcenschonend auf der Quelle ver"andert ohne dass das Ergebnis Set dann nochmal explizit gespeichert oder "ubergeben werden muss.
 			%Content
 	\section {Implementierung von Catmull Clark als Modul f"ur \LFG}
 			%Content
