@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.5.1">
+  <zoom_level>8</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>632</x>
+      <y>256</y>
+      <w>168</w>
+      <h>344</h>
+    </coordinates>
+    <panel_attributes>Geometry
+--
++ LVertexHandles:HandleVertex
++ LedgeHandles:HandleEdge
++ LfaceHandles:HandleFace
+
++ LhalfEdgePointerContainer:HEdgePtrCont
++ LedgePointerContainer:EdgePtrCont
++ LfacePointerContainer:FacePtrCont
++ LVertexPointerContainer:VertexPtrCont
+
++ LfaceNormals:float3
++ LVertexNormals:float3
++ LVertexValues:float3
++ LVertexUVCoordinates:float2
+
+- WavefrontObjImporter:WavefrontImporter
++ VertexNormalActive:boolean
++ Changes:boolean = false
+- ConstSmoothingAngle:double = 89.9
+
+--
+- AddFace()
+- AddVertex()
++ CalcFaceNormal()
++ CalcVertexNormal()
++ CreateConnection(): HandleHalfEdge
+- CreateAllNewConnection(): HandleHalfEdge
+- ReuseExistingConnection(): HandleHalfEdge
+- DoesConnectionExist(): HandleEdge
+- DoesVertexExist(): int
++ LoadAsset()
++ ToMesh(): Fusee.Mesh
+- TriangulateGeometry()
+- UpdateCWHedges()
+--
+-Iterators-
+EnFaceAdjacentFaces()
+EnFaceAdjacentHalfEdges()
+EnFaceAdjacentVertices()
+EnStarVertexVertex()
+EnVertexAdjacentFaces()
+EnVertexIncomingHalfEdge()
+EnVertexOutgoingHalfEdge()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>352</x>
+      <y>624</y>
+      <w>80</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>HandleHalfEdge
+--
+- Dataindex:int
+--
++ int()
++ isValid(): bool
+
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>352</x>
+      <y>544</y>
+      <w>80</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>HandleEdge
+--
+- Dataindex:int
+--
++ int()
++ isValid(): bool
+
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>352</x>
+      <y>400</y>
+      <w>80</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>HandleFace
+--
+- Dataindex:int
+--
++ int()
++ isValid(): bool
+
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>352</x>
+      <y>464</y>
+      <w>80</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>HandleFaceNormal
+--
+- Dataindex:int
+--
++ int()
++ isValid(): bool
+
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>352</x>
+      <y>192</y>
+      <w>80</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>HandleVertex
+--
+- Dataindex:int
+--
++ int()
++ isValid(): bool
+
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>352</x>
+      <y>256</y>
+      <w>80</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>HandleVertexNormal
+--
+- Dataindex:int
+--
++ int()
++ isValid(): bool
+
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>352</x>
+      <y>320</y>
+      <w>80</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>HandleVertexUV
+--
+- Dataindex:int
+--
++ int()
++ isValid(): bool
+
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>408</x>
+      <y>192</y>
+      <w>240</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= *
+m2= 1</panel_attributes>
+    <additional_attributes>24;24;160;24;160;80;224;80</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>408</x>
+      <y>264</y>
+      <w>240</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= *
+m2= 1</panel_attributes>
+    <additional_attributes>24;160;160;160;160;24;224;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>408</x>
+      <y>280</y>
+      <w>240</w>
+      <h>304</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1= *
+m2= 1</panel_attributes>
+    <additional_attributes>24;288;184;288;184;24;224;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>984</x>
+      <y>344</y>
+      <w>104</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>EdgePointerContainer
+--
+he1: HandleHalfEdge
+he2: HandleHalfEdge
+
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>984</x>
+      <y>400</y>
+      <w>104</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>HalfEdgePointerContainer
+--
+f: HandleFace
+he: HandleHalfEdge
+nhe: HandleHalfEdge
+v: HandleVertex
+vn: HandleVertexNormal
+vuv: HandleVertexUV
+
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>984</x>
+      <y>280</y>
+      <w>104</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>FacePointerContainer
+--
+he: HandleHalfEdge
+
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>984</x>
+      <y>216</y>
+      <w>104</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>VertexPointerContainer
+--
+he: HandleHalfEdge
+
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>632</x>
+      <y>96</y>
+      <w>112</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>WaveFrontImporter
+--
+- LgeoFaces: GeoFace
+- LuvCoordinates: float2
+--
++ LoadAsset(): List(GeoFace)
+- LoadFile(): List(String)
+
+bg=gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>816</x>
+      <y>96</y>
+      <w>80</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>GeoFace
+--
+Lvertices:float3
+Luv: float2
+
+bg=gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>256</x>
+      <y>328</y>
+      <w>744</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1=2
+m2=1</panel_attributes>
+    <additional_attributes>96;328;24;328;24;424;664;424;664;24;728;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>240</x>
+      <y>384</y>
+      <w>760</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1=2
+m2=2</panel_attributes>
+    <additional_attributes>112;256;24;256;24;384;688;384;688;24;744;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>224</x>
+      <y>400</y>
+      <w>776</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1=1
+m2=*</panel_attributes>
+    <additional_attributes>128;24;24;24;24;384;712;384;712;24;760;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>176</x>
+      <y>192</y>
+      <w>824</w>
+      <h>656</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>176;24;24;24;24;640;784;640;784;280;808;280</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>192</x>
+      <y>248</y>
+      <w>808</w>
+      <h>584</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>160;24;24;24;24;568;760;568;760;208;792;208</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>208</x>
+      <y>312</y>
+      <w>792</w>
+      <h>504</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1=*
+m2=*</panel_attributes>
+    <additional_attributes>144;24;24;24;24;488;736;488;736;128;776;128</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>616</x>
+      <y>128</y>
+      <w>40</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes>
+    <additional_attributes>24;128;24;56;24;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>720</x>
+      <y>80</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+m1=1
+m2=*</panel_attributes>
+    <additional_attributes>24;24;96;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>408</x>
+      <y>272</y>
+      <w>592</w>
+      <h>408</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1=1
+m2=0..1</panel_attributes>
+    <additional_attributes>24;392;496;392;496;24;576;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>408</x>
+      <y>208</y>
+      <w>592</w>
+      <h>456</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;
+m1=1
+m2=0..1</panel_attributes>
+    <additional_attributes>24;440;480;440;480;24;576;24</additional_attributes>
+  </element>
+</diagram>
