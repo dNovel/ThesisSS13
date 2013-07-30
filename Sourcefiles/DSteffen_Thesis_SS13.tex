@@ -11,6 +11,7 @@
 \usepackage{setspace}
 \usepackage{color}
 \usepackage{cite} % Paket fuer die Zitation
+\usepackage{natbib}
 %\usepackage{sourcesanspro}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -27,7 +28,7 @@
 \lstset{language=[Sharp]C} 
 
 % Festlegung Art der Zitierung - Havardmethode: Abkuerzung Autor + Jahr
-\bibliographystyle{apalike}
+\bibliographystyle{plainnat}
 %plain
 
 % Festlegen der Sprache
@@ -215,12 +216,20 @@ Versicherung hier.
 %%%%%%
 
 \chapter {Einleitung}
-	\section {Fragestellung}
+	\section {Motivation}
 		%Ist es möglich die „Half-Edge Data Structure“ (kurz HES) in einer gemanagten Programmiersprache wie \CSS unter der Berücksichtigung von LINQ und Lambda Ausdrücken so zu implementueren, dass damit grundlegende Geometriemanipulation in der Computergrafik erfolgen kann?
 Ist eine Implementierung der Half-Edge Datenstruktur in \CSS unter Berücksichtigung von\LQ und Lambda Support möglich?
 	% Verweis darauf, dass es in Echtzeit Engines bis jetzt nicht verwendet wird. Keine bekannte Editor Engine. Jedenfalls nicht offiziell.
 	% Verweis auf die Demo Szene mit kkrieger und debris.
-	\section {Anforderungen und Ziele}
+	\section {Anforderungen an \LFG}
+	%Content
+	
+	%Content
+	\section {Ziele von \LFG}
+	%Content
+	
+	%Content
+	\section{Aufbau dieses Textes}
 	%Content
 	
 	%Content
@@ -419,17 +428,19 @@ Das Beispiel zeigt also, dass bei einem einfachen Mesh der Speicherverbrauch der
 		%Content
 		% TODO
 		% Erwähnen und einordnen von OpenMesh, zusätzlich noch mal eben recherchieren ob es neue Implementierungen der dcel oder der hes gibt welche sich in einer 3d engine oder dergleichen bewegen.
-		
+		Die \HES oder auch die Doubly-connected edge list (DCEL) werden heute zwar relativ h"aufig f"ur 3D Mesh Datenstrukturen eingesetzt, allerdings ist zum Zeitpunkt dieser Arbeit nicht bekannt ob und welche gro"sen Programme diese Datenstruktur zum Handling ihrer 3D Daten einsetzt. Weder f"ur 3DS Max von Autodesk noch f"ur Cinema 4D von Maxon konnten verl"assliche Quellen gefunden werden. Die Open Source Software "`Blender"' verwendet in der Version 2.6 die BMesh Structure. Hierbei handelt es sich um eine vom Blender Team entwickelte Datenstruktur welche dazu gedacht ist Limitierungen einer "alteren von Blender genutzen Datenstruktur zu beheben. BMesh\footnote{\url{http://wiki.blender.org/index.php/Dev:2.6/Source/Modeling/BMesh/Design} (gepr"uft 30.07.2013)}  ist eine an die Radial Edge Structure \footnote{Weiler, K.J. : The Radial Edge Structure: A Topological Representation for Non-Manifold Geometric Modeling. in Geometric Modeling for CAD Applications, Springer Verlag, May 1986.} angelehnte Struktur. Sie ist der \HES "ahnlich, beide weichen allerdings im Aufbau doch so stark voneinander ab um sie sicher zu unterscheiden (Hier sei nur kurz angemerkt dass BMesh auf Kanten setzt und nicht auf Halbkanten). Wo wird die \HES also eingesetzt? Bei den Recherchen zu dieser Arbeit wurde festgestellt, dass viele Studenten und und Privatpersonen diese Datenstruktur f"ur Kleinstprojekte in der Computergrafik nutzen. Es existieren einige exemplarische Implementierungen, meistens jedoch in C++ und dementsprechend ohne die Nutzung von LINQ. Keines der gefundenen Projekte war in eine Echtzeit 3D Engine integriert. Es wurden auch keine geometrischen Transformationen auf den Datenstrukturen pr"asentiert. Es soll hier aber auf Ryan Holmes Arbeit \cite{Holmes.2012} verwiesen werden. Er hat eine interessantes Projekt Namens "`The DCEL Data Structure for 3D Graphics"'\footnote{Zu finden unter \url{http://www.holmes3d.net/graphics/dcel/}(gepr"uft 30.07.2013)} auf Basis der Doubly-connected edge list erstellt. Es vereinfacht den Einstieg in die Thematik und erkl"art interaktiv die Topologie der \HES und der DCEL.
+\newline
+
+Sicherlich kann diese Arbeit auch nicht fortfahren ohne die Erw"ahnung des OpenMesh\footnote{Zu finden unter \url{http://www.openmesh.org/} (gepr"uft 29.07.2013)} Projektes, betreut von Prof. Dr. Leif Kobbelt in der Computer Graphics Group der RWTH Aachen. OpenMesh ist eine generische Datenstruktur f"ur die repr"asentation und manipulation von polygonalen Mesh Daten \cite{Kobbelt.2013}. OpenMesh war in den Anf"angen dieser Arbeit an Vorbild f"ur das LFG Projekt ohne jedoch den Anspruch die Funktionen von OpenMesh nachzubilden. Open Mesh ist zudem Open Source, generisch und in C++ implementiert was einen Vergleich mit LFG zu einem sp"ateren Zeitpunkt erst einmal schwierig macht. LFG orientiert sich allerdings auch teilweise an der Auslegung der \HES wie sie durch M.Botsch, S.Steinberg, S.Bischoff und L.Kobbelt im Paper "`OpenMesh - a generic and efficient polygon mesh data structure"' \cite{Botsch.2002} erl"autert wird.
 		%Content
 		\subsection {Probleme der aktuellen Forschung}
 			%Content
-			% TODO
-			% Hängt stark vom oberen Abschnitt ab.
+			Das Problem der aktuellen Forschung ist also, dass die \HES nur sehr selten in \CSS, wenn "uberhaupt nur testweise (meist sehr minimal oder sogar nur in Pseudocode), implementiert wurde und keine der L"osungen einen Support f"ur LINQ Abfragen und Lambda Ausdr"ucke bietet. Somit ist LFG in Verbindung mit der FUSEE Engine und dem LINQ Support eine neu Entwicklung auf Basis bew"ahrter Strukturen.
 	\section {Einführung zu LINQ in \CS}
 		%Content
 		Language Integrated Query, kurz LINQ und zu deutsch Sprachintegrierte Abfrage, funktioniert ab \CSS 3.0 und ist ein Feature von Microsofts .NET Paket. LINQ ist also ein Produkt von Microsoft und erinnert auf den ersten Blick in seinem syntaktischen und semantischem Aufbau stark an das Open Source Projekt MySQL welches aktuell (Stand Juli 2013) von der Oracle Corporation betreut wird. Beide Projekte unterscheiden sich jedoch wesentlich. LINQ ist in erster Linie ein Feature, dass direkt auf Objekten arbeitet wohingegen MySQL auf relationale Daten angewendet wird. Allerdings kann LINQ viel mehr als das.
 
-LINQ kann als Layer und Bindeglied zwischen Collections aus Daten und den Programmiersprachen des .NET Frameworks betrachtet werden. Es ist hierbei m"oglich LINQ in verschiedenen Bereichen zu nutzen. Es arbeitet sowohl wie bereits erw"ahnt auf Collections aus Daten wie z.B. Listen aus Objekten die sich bereits im Hauptspeicher befinden oder fungiert als Bindeglied zu SQL um Daten aus einem Persistenten Medium auszulesen. Es kann aber auch dazu verwendet werden mit XML Datens"atzen bzw. Dokumenten zu arbeiten ist aber auch in der Lage mit Filesystemen und anderen Datenquellen zu interagieren. Das bedeutet dass LINQ sich nicht grunds"atzlich auf die vorher genannten M"oglichkeiten beschr"ankt sondern offen ist f"ur viele Arten von Daten. Weitere sind LINQ to DataSet und LINQ to SharePoint auf die hier mangels Relevanz zum Projekt nicht weiter eingegangen wird.
+LINQ kann als Layer und Bindeglied zwischen Collections aus Daten und den Programmiersprachen des .NET Frameworks betrachtet werden. Es ist hierbei m"oglich LINQ in verschiedenen Bereichen zu nutzen. Es arbeitet sowohl wie bereits erw"ahnt auf Collections aus Daten wie z.B. Listen aus Objekten die sich bereits im Hauptspeicher befinden oder fungiert als Bindeglied zu SQL um Daten aus einem Persistenten Medium auszulesen. Es kann aber auch dazu verwendet werden mit XML Datens"atzen bzw. Dokumenten zu arbeiten ist aber auch in der Lage mit Filesystemen und anderen Datenquellen zu interagieren. Das bedeutet dass LINQ sich nicht grunds"atzlich auf die vorher genannten M"oglichkeiten beschr"ankt sondern offen ist f"ur viele Arten von Daten. Weitere Provider sind LINQ to DataSet und LINQ to SharePoint auf die hier mangels Relevanz zum Projekt auch nicht weiter eingegangen wird.
 
 Diese Arbeit besch"aftigt sich also haupts"achlich mit dem LINQ Provider (LINQ Anbieter) LINQ to Objects da sich die zu verarbeitenden Daten w"ahrend der Bearbeitungszeit mit LINQ bereits im Speicher des Rechners befinden. Wie erw"ahnt, ist LINQ ein Layer f"ur die Programmiersprachen von .NET und kann deswegen nicht nur in \CSS verwendet werden wie hier, sondern auch in Microsofts VB.NET. Dieses Projekt beschr"ankt sich auf \CSS als Programmiersprache, weswegen auch alle folgenden Codebeispiele in \CSS geschrieben sind. Ein weiterer nicht zu verachtender Vorteil von LINQ im Gegensatz zu den meisten Implementationen von SQL Statements ist, dass die Statemtents vom \CSS compiler zum Zeitpunkt der Kompilierung auf syntaktische Korrektheit gepr"uft werden und der Benutzer vom IntelliSense System von Visual Studio wertvolle Hinweise w"ahrend der Generierung von LINQ Statements erh"alt.
 		%Content
@@ -493,21 +504,11 @@ Lambda ist also eine einfache M"oglichkeit Standard LINQ Abfragen aufzuwerten. E
 %%%%%%
 
 \chapter {Hauptteil}
-	\section {Gegenüberstellung nativer (OpenMesh.org) und gemanagter Implementierungen der Half-Edge Data Structure}
+	\section {Gegenüberstellung nativer (OpenMesh.org) und gemanagter Implementierungen der \HES}
 		%Content	
 		%Content
 	\section {Geschwindigkeitsunterschiede von nativem und \CSS Code}
 		%Content
-		%Content
-	\section {Die Vorteile in der Entwicklung mit managed Programmiersprachen}\label{sec:VorteileManaged}
-		%Content
-Durch die enge Verkn"upfung von \LFGS mit der FUSEE Engine war es nat"urlich n"otig das Projekt in der gleichen Programmiersprache wie FUSEE zu implementieren um eine Kommunikation der beiden Projekte zu erlauben. Obwohl die .NET basis hier nat"urlich Spielraum f"ur Entscheidungen zugunsten VB.NET gelassen h"atte. Sinnvoll w"are das nat"urlich nicht gewesen. Hier soll jetzt kurz gekl"art werden was "`Managed Code"' genau bietet und warum \LFGS in einer solchen Sprache wie \CSS implementiert wurde. Nat"urlich einmal davon abgesehen, dass \LFGS mithilfe von LINQ implementiert wurde und LINQ eine der S"aulen des Projekts darstellt.
-
-		Managed Code bietet einem Entwickler viele verschiedene Vorteile im Gegensatz zur Entwicklung in einer Nativen Programmiersprache. Im Hinblick auf die \HES sollte besonders das Speichermanagement und die Pointer Verwaltung betrachtet werden. Durch die in \CSS implementierte Garbage Collection ist der Programmierer von der Aufgabe befreit das Speichermanagement selbst zu verwalten. Das bietet einen gro"sen Vorteil in der schnellen Entwicklung von Programmiersprachen. Managed Code ist f"ur viele Entwickler einfacher zu schreiben als native Code in Sprachen wie z.B. C++.
-
-Im Hinblick auf \LFGS f"allt durch die Nutzung von \CSS einiges an Arbeit weg. Nicht mehr gebrauchte tempor"are Listen, von denen es einige im Projekt gibt und Objekte werden automatisch durch die Garbage Collection aufger"aumt und es kommt sehr selten bis kaum zu Memory Leaks durch Programmier- oder Laufzeitfehler. Es ist so wesentlich einfacher externen Nutzern einen Zugang auf den Code des Projekts zu erm"oglichen ohne dass sie Gefahr laufen die Integrit"at der Datenstruktur durch Pointer Manipulationen zu gef"ahrden. \CSS bietet hier also ein gewisses Ma"s an Sicherheit f"ur das System.
-
-Ein weiterer Pluspunkt ist nat"urlich, dass sich bereits viele Entwickler und Studenten der Hochschule Furtwangen die sp"ater m"oglicherweise die FUSEE Engine verwenden m"ochten bereits mit \CSS oder Java, welches \CSS zumindest Syntaktisch sehr "ahnelt, auskennen.
 		%Content
 \section {Das Software Projekt LINQ For Geometry}
 		%Content
@@ -568,10 +569,22 @@ Hier eine Liste der bereits umgesetzten Features in der Version 0.5:
 \item Sound in Browsern und Betriebssystemen vorhanden
 \end{itemize}
 
-\LFGS ist als Sideproject in einen FUSEE Branch integiert. Nach aktuellem Stand (Juli 2013) kann man sich als Benutzer entscheiden ob man dann ein Modell mit dem in FUSEE integrierten Mesh System oder mit dem \HES Geometry System von \LFGS laden m"ochte.
+\LFGS ist als Projekt in einen eigenen FUSEE Branch integiert. Nach aktuellem Stand (Juli 2013) kann man sich als Benutzer entscheiden ob man dann ein Modell mit dem in FUSEE integrierten Mesh System oder mit dem \HES Geometry System von \LFGS laden m"ochte.
+
+Als Schnittstelle zur GPU (Graphics processing unit) verwendet FUSEE die Low level Bibliothek OpenTK\footnote{\url{http://www.opentk.com/ (gepr"uft 30.07.2013)}} welche in \CSS geschrieben ist und einen wrapper f"ur die OpenGL Multi platform application programming interface (API) darstellt.
 
 Weitere Informationen "uber die FUSEE Engine sind auf der offiziellen Homepage \footnote[1]{\url{http://fusee3d.org/}} oder "uber GitHub \footnote[2]{\url{https://github.com/FUSEEProjectTeam/Fusee}} erh"ltlich \footnote[3]{Quelle \url{http://fusee3d.org/about/} (Stand 19.07.2013)}
 			%Content
+\section {Die Vorteile in der Entwicklung mit managed Programmiersprachen}\label{sec:VorteileManaged}
+		%Content
+Durch die enge Verkn"upfung von \LFGS mit der FUSEE Engine war es nat"urlich n"otig das Projekt in der gleichen Programmiersprache wie FUSEE zu implementieren um eine Kommunikation der beiden Projekte zu erlauben. Obwohl die .NET basis hier nat"urlich Spielraum f"ur Entscheidungen zugunsten VB.NET gelassen h"atte. Sinnvoll w"are das nat"urlich nicht gewesen. Hier soll jetzt kurz gekl"art werden was "`Managed Code"' genau bietet und warum \LFGS in einer solchen Sprache wie \CSS implementiert wurde. Nat"urlich einmal davon abgesehen, dass \LFGS mithilfe von LINQ implementiert wurde und LINQ eine der S"aulen des Projekts darstellt.
+
+		Managed Code bietet einem Entwickler viele verschiedene Vorteile im Gegensatz zur Entwicklung in einer Nativen Programmiersprache. Im Hinblick auf die \HES sollte besonders das Speichermanagement und die Pointer Verwaltung betrachtet werden. Durch die in \CSS implementierte Garbage Collection ist der Programmierer von der Aufgabe befreit das Speichermanagement selbst zu verwalten. Das bietet einen gro"sen Vorteil in der schnellen Entwicklung von Programmiersprachen. Managed Code ist f"ur viele Entwickler einfacher zu schreiben als native Code in Sprachen wie z.B. C++.
+
+Im Hinblick auf \LFGS f"allt durch die Nutzung von \CSS einiges an Arbeit weg. Nicht mehr gebrauchte tempor"are Listen, von denen es einige im Projekt gibt und Objekte werden automatisch durch die Garbage Collection aufger"aumt und es kommt sehr selten bis kaum zu Memory Leaks durch Programmier- oder Laufzeitfehler. Es ist so wesentlich einfacher externen Nutzern einen Zugang auf den Code des Projekts zu erm"oglichen ohne dass sie Gefahr laufen die Integrit"at der Datenstruktur durch Pointer Manipulationen zu gef"ahrden. \CSS bietet hier also ein gewisses Ma"s an Sicherheit f"ur das System.
+
+Ein weiterer Pluspunkt ist nat"urlich, dass sich bereits viele Entwickler und Studenten der Hochschule Furtwangen die sp"ater m"oglicherweise die FUSEE Engine verwenden m"ochten bereits mit \CSS oder Java, welches \CSS zumindest Syntaktisch sehr "ahnelt, auskennen.
+		%Content
 \subsection {Der Link von LINQ zur \HES}
 				%Content
 				% Wie spielt linq in lfg mit, was stützt es, wo wird es nicht verwendet, warum eigtl linq und wie arbeitet es auf den collections von lfg
@@ -802,6 +815,13 @@ Der interessanteste Fall f"ur \LFG ist sicherlich die m"oglicherweise zuk"unftig
 	\section {LINQ Abfragen und ihr Verhalten bei der Selektierung großer Datenmengen in \LFG}
 		%Content
 		%TODO Noch machen. Anmerken, dass LINQ nicht immer die beste Lösung ist. Es sollte vermieden werden riesige Collections zu durchsuchen um wenige Daten zu finden. Je größer die Collection aus der gesucht werden muss, desto langsamer der Algorithmus. Um die 4 Kanten eines Faces zu finden müsste für 4 Werte die komplette Liste an Halbkanten durchsucht werden. Womit wir für 4 Werte n*4 Werte prüfen müssten.
+Trotz dass LINQ einen einfachen Einstieg in die Formulierung der Algorithmen gibt es einige wichtige Gegebenheuten zu beachten. Die Sinnhaftigkeit von LINQ Abfragen skaliert sehr stark mit der gr"o"se der Collection aus welcher eine Abfrage ein Ergebnis filtern soll. LINQ hat bei sehr gro"sen Collections wie der Half-Edge Collection eines hochpolygonalen Meshes im LFG Projekt eine Schw"ache im Performance Sektor gezeigt. Um z.B. die Half-Edges eines Faces heraus zu finden m"usste der Algorithmus mit LINQ "uber das komplette Set der vorhandenen Half-Edges laufen, was bei einem n polygonalen Mesh bestehend aus triangles n * 3 Elemente w"aren. Der aktuell implementierte Algorithmus welcher die Topologie der Datenstruktur ausnutzt ben"otigt nur 4 Pointer Spr"unge um alle Kanten eines Faces zu finden und ist damit um ein Vielfaches schneller.
+\newline
+
+LINQ funktioniert allerdings sehr gut f"ur Operationen auf kleinen Collections an Daten oder aber wenn sich die Gr"o"se des Ergebnis Sets nicht zu stark von der Gr"o"se der Quellen Collection unterscheidet. So werden LINQ Abfragen aktuell in den meisten Enumeratoren verwendet welche durch einen anderen Enumerator bereits ein gefiltertes Daten Set als Parameter empfangen. Eingehende Half-Edges eines Vertices werden aufgrund der gro"sen Collection an Quell Daten durch einen Algorithmus auf der Datenstruktur bestimmt, aber ausgehende Half-Edges werden durch eine LINQ/Lambda Abfrage auf das Ergebnis des ersten Algorithmus abgefragt. Dieses Vorgehen hat sich w"ahrend der Entwicklung des Projektes bew"ahrt. So k"onnen "teure" Algorithmen mit "nativer" Implementierung wiederverwendet werden um g"unstigerem schnellem neue LINQ Abfragen aus Kombinationen zu realisieren. Aktuell sind zwei der zehn Enumeratoren nativ realisiert w"ahrend sich alle weiteren aus Kombinationen mit LINQ Abfragen zusammen setzen.
+\newline
+
+LINQ eignet sich also trotz der Limitierung auf kleinere Daten Sets sehr gut um Traversierungs und Manipulations Algorithmen auf der \HES zu formulieren solange immer betrachtet wird wie sinnvoll eine Abfrage in der Relation des Quell Sets zur gr"o"sse des zu erwartenden Ergebnis Sets ist. F"ur diese Arbeit enstand hierdurch kein Nachteil. Diese Limitierung hat sogar daf"ur gesorgt, dass LINQ Statements k"urzer formuliert werden konnten und Enumeratoren durch Kombination frei von redundantem Code geblieben sind.
 		%Content
 	\section {Stern- und Umlaufenumeratoren (Iteratoren/Enumeratoren)}
 		%Content
@@ -876,7 +896,7 @@ Wie also in der "Ubersicht aufgezeigt wurde gibt es einige Iteratoren die f"ur d
 		\subsection {Die Geschwindigkeit der Half-Edge Datenstruktur in den Enumeratoren}
 			%Content
 			%Content
-		\subsection {Verwendete „Design-Patterns“ und Softwarelösungen}
+		%\subsection {Verwendete „Design-Patterns“ und Softwarelösungen}
 			%Content
 			%Content
 		\subsection {Die Verwendung von LINQ und Lambda in den Enumeratoren}
@@ -990,7 +1010,15 @@ Diese Berechnung der Vertex Normalen kann durch das setzen der Boolean Variable 
 
 Sind jetzt alle Normalen berechnet so iteriert ToMesh() noch einmal "uber alle Faces und Half-Edges und sammelt die relevanten Informationen in Collections welche f"ur FUSEE sp"ater in Arrays konvertiert werden. Hierbei werden, da FUSEE aktuell nur mit Triangles arbeitet (Stand Juli 2013), auch die Triangles neu berechnet. Dazu "lauft ein Iterator "uber die Half-Edges des Meshes und speichert die Indizes der Vertices in der richtigen Reihenfolge in einer Liste ab.
 
-Die ToMesh() Methode muss jetzt ein Objekt von dem FUSEE bekannten Typen "Mesh" erzeugen und es an den aufrufer zur"uckgeben. Das so erhaltene Objekt kann in einem FUSEE Projekt mit  RC.Render(Mesh meshObjekt) gerendert werden.
+Die meisten OpenGL Echtzeit 3D Engines benutzen aktuell nur noch Triangles f"ur die repr"asentation der Meshes. OpenGL hat die Funktion GL\_QUADS in OpenGL 3.1 und dar"uber entfernt und in 3.0 gilt diese Funktion als "deprecated".
+\begin{quote}GL\_QUADS [...] have been removed from core OpenGL 3.1 and above (they are only deprecated in OpenGL 3.0).\footnote{\url{http://www.opengl.org/wiki/Primitive} (gepr"uft 30.07.2013 Abschnitt "`Quads"')}
+\end{quote}
+
+Man hat sich f"ur Triangles entschieden da sie zur Repr"asentation von Meshes sehr gut geeignet sind. Ein Quad besteht genauer gesagt nur aus zwei Trianlges und deswegen sollte die OpenGL API nicht mit zus"atzlichen Konvertierungen belastet werden. Die Khronos Group, welche f"ur die Entwicklung und Wartung von OpenGL zust"andig ist beschrieb im M"arz 2009 in der Spezifikation zu OpenGL 3.1, dass die OpenGL API in Zukunft "`ausged"unnt"' oder "`schlanker"' gemacht werden soll.\footnote{\url{https://www.khronos.org/news/press/khronos-releases-streamlined-opengl-3.1-specification}}
+
+\begin{quote}Many algorithms use triangle meshes for representing geometric surfaces. The simple triangle can serve as a basic surface primitive to adaptively approximate smooth freeform geometry. A triangle mesh naturally allows to adapt the required number of primitives to the geometric shape instead of the basic topology of an arbitrary object. Triangle meshes are efficient, since the triangle is currently the only surface patch that is directly supported by computer graphics hardware and even software rendering methods like ray tracing or radiosity prefer to use piecewise linear primitives to represent geometric objects due to gains in performance. \cite[S.~1]{Campagna.1998}\end{quote}
+
+Zu letzt muss die ToMesh() Methode ein Objekt von dem FUSEE bekannten Datentypen "Mesh" erzeugen und es an den aufrufer zur"uckgeben. Das so erhaltene Objekt kann in einem FUSEE Projekt mit  RC.Render(Mesh meshObjekt) gerendert werden.
 
 	%Content
 	\section {Implementierung von Catmull Clark als Modul f"ur \LFG}
