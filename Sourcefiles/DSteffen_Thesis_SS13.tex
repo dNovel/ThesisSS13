@@ -11,7 +11,7 @@
 \usepackage{setspace}
 \usepackage{color}
 \usepackage{cite} % Paket fuer die Zitation
-\usepackage{natbib}
+% \usepackage{natbib} % Erweitertes paket für Zitate.
 %\usepackage{sourcesanspro}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -21,6 +21,7 @@
 \usepackage{subcaption}
 \usepackage{url}
 \usepackage{scrpage2}
+\usepackage [singlelinecheck=false] {caption}
 
 % Paket fuer das anzeigen von Quellcode
 \usepackage{listings}
@@ -28,7 +29,7 @@
 \lstset{language=[Sharp]C} 
 
 % Festlegung Art der Zitierung - Havardmethode: Abkuerzung Autor + Jahr
-\bibliographystyle{plainnat}
+\bibliographystyle{alphadin}
 %plain
 
 % Festlegen der Sprache
@@ -218,20 +219,30 @@ Versicherung hier.
 \chapter {Einleitung}
 	\section {Motivation}
 		%Ist es möglich die „Half-Edge Data Structure“ (kurz HES) in einer gemanagten Programmiersprache wie \CSS unter der Berücksichtigung von LINQ und Lambda Ausdrücken so zu implementueren, dass damit grundlegende Geometriemanipulation in der Computergrafik erfolgen kann?
-Ist eine Implementierung der Half-Edge Datenstruktur in \CSS unter Berücksichtigung von\LQ und Lambda Support möglich?
+Um 3D Modelle in Echtzeit Engines darzustellen werden diese meistens in einer Face basierten Datenstruktur gespeichert. Durch diese Art der speicherung ist es aber nur schwer m"oglich performante Algorithmen zur Manipulation der Daten in Echtzeit zu formulieren. Sollte dies gelingen sind die gew"ahlten Algorithmen meist kompliziert und der Einstieg f"ur neue Entwickler f"allt meist schwer. Eine Face basierte Datenstruktur bietet kaum Vernetzungen der enthaltenen Elemente und erschwert das Formulieren von L"osungen durch die Notwendigkeit vieler Schleifen. Die Laufzeiten werden lang und Kanten basierte Operationen lassen sich durch eine solche Struktur garnicht oder nur sehr schwer realisieren. Die \HES ist eine Datenstruktur welche diese Probleme umgehen k"ann. Elemente eines Meshes sind untereinander vernetzt und Iterationen k"onnen schnell ausgef"uhrt werden.
+\newline
+
+Um diese Datenstruktur in \CSS zu implementieren und den Zugriff darauf zu verbessern besch"aftigt sich diese Arbeit mit der Frage in wie fern die \HES in \CSS mit LINQ und Lambda Support implementiert werden kann und wo die Vorteile und Nachteile eines solchen Projektes liegen. \LFGS ist ein Projekt welches sich w"ahrend seiner Entwicklung stetig weiter entwickelt hat. Zuerst wurde nur eine Datenstruktur entwickelt. Um sie allerdings zu testen und den Nutzen zu erforschen wurde die Datenstruktur in eine Echtzeit 3D Engine Namens FUSEE integriert. So haben sich neue M"oglichkeiten und Probleme zur L"osung er"offnet.
+\newline
+
+Dieser Text beschreibt, wie es m"oglich ist die \HES in \CSS zu implementieren und zeigt einige der n"otigen Iteratoren f"ur die Manipulation einzelner geometrischer Daten oder ganzer Models/Meshes. Es wird gepr"uft ob LINQ Abfragen in jeder Situation verwendet werden k"onnen oder ob mit Blick auf die Performance des Systems mit Problemen zu rechnen ist. Es werden einige standard Geometrie Manipulationen vorgestellt und ihre Implementierung im Projekt wird beschrieben. Schliesslich m"ochte diese Arbeit einen Ausblick darauf geben was mit solch einem System in einer Engine wie FUSEE getan werden kann und was die m"oglichen Einsatzgebiete von \LFGS in Zukunft sein k"onnten.
+\newline
+
+Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur 3D Echtzeit Engines und Interaktive Software und der Funktionsweise der einzelnen Bereiche hinter einer solchen Engine. Im laufe des Studiums wurden einige kleine Softwareprojekte und Spiele entwickelt und so war es der n"achste logische Schritt in einmal tiefer in die Computergrafik einzusteigen. Menschen wie John Carmack (idSoftware), John Romero, Markus "`Notch"' Persson und viele andere, waren eine Inspiration w"ahrend des Studiums und haben den Schreiber dieser Arbeit stetig weiter motiviert.
+	%Ist eine Implementierung der Half-Edge Datenstruktur in \CSS unter Berücksichtigung von\LQ und Lambda Support möglich?
 	% Verweis darauf, dass es in Echtzeit Engines bis jetzt nicht verwendet wird. Keine bekannte Editor Engine. Jedenfalls nicht offiziell.
 	% Verweis auf die Demo Szene mit kkrieger und debris.
-	\section {Anforderungen an \LFG}
+%	\section {Anforderungen an \LFG}
 	%Content
 	
 	%Content
 	\section {Ziele von \LFG}
 	%Content
-	
+	\LFGS hat es sich als Ziel gesetzt die \HES in einem \CSS Projekt einmal grundlegend zu implementieren und herauszufinden wie sehr \CSS's LINQ Abfragen in einem solchen System von Nutzen sind. Die Entwicklung des Softwareprojekts stand hierbei im Vorderung und entwickelte sicher stetig weiter. \LFGS wurde mit der Zeit in die Echtzeit 3D Engine FUSEE integriert und besitzt aktuell einen eigenen Branch im FUSEE Projekt. Das Projekt ist vorerst dazu gedacht Daten von 3D Meshes im Speicher zu halten und ihre Werte "uber bereitgestellte Iteratoren und Transformationen zu manipulieren. Das Projekt zielte nicht darauf ab ein zu einhunder Prozent abgeschlossenes Projekt zu schaffen. Die von \LFGS angebotenen Iteratoren sollen wiederverwendet werden um in Zukunft durch Kombination des bestehenden neue M"oglichkeiten der Geometriemanipulation zu schaffen oder bew"ahrte Algorithmen zu implementieren.
 	%Content
 	\section{Aufbau dieses Textes}
 	%Content
-	
+	Diese Arbeit m"ochte zun"achst einen Ausblick dar"uber geben was eine \HES eigentlich ist und wo ihre Vor- und ihre Nachteile liegen. Weiterhin gibt es eine Einf"uhrung in LINQ to objects und den nutzen dieses \CSS Sprachkonstruktes f"ur das \LFGS Projekt. Nat"urlich soll auch die Implementierung des Projekts und die Probleme w"ahrend der selben nicht ausser Acht gelassen werden. Sp"ater m"ochte ger Text noch auf die Vor und Nachteile der \HES in Verbindung mit LINQ und der Verwendung der beiden im Projekt eingehen. Ein Abschnitt "uber die wichtigen Iteratoren beendet den Hauptteil dieser Arbeit und der Schluss fasst nochmal die wichtigsten Einzelheiten und Erkenntnisse zusammen und gibt einen Ausblick auf die m"oglichen zuk"unftigen Verwendungszwecke von \LFG.
 	%Content
 	\section {Verwendete Software}
 \begin{itemize}
@@ -433,7 +444,7 @@ Das Beispiel zeigt also, dass bei einem einfachen Mesh der Speicherverbrauch der
 
 Sicherlich kann diese Arbeit auch nicht fortfahren ohne die Erw"ahnung des OpenMesh\footnote{Zu finden unter \url{http://www.openmesh.org/} (gepr"uft 29.07.2013)} Projektes, betreut von Prof. Dr. Leif Kobbelt in der Computer Graphics Group der RWTH Aachen. OpenMesh ist eine generische Datenstruktur f"ur die repr"asentation und manipulation von polygonalen Mesh Daten \cite{Kobbelt.2013}. OpenMesh war in den Anf"angen dieser Arbeit an Vorbild f"ur das LFG Projekt ohne jedoch den Anspruch die Funktionen von OpenMesh nachzubilden. Open Mesh ist zudem Open Source, generisch und in C++ implementiert was einen Vergleich mit LFG zu einem sp"ateren Zeitpunkt erst einmal schwierig macht. LFG orientiert sich allerdings auch teilweise an der Auslegung der \HES wie sie durch M.Botsch, S.Steinberg, S.Bischoff und L.Kobbelt im Paper "`OpenMesh - a generic and efficient polygon mesh data structure"' \cite{Botsch.2002} erl"autert wird.
 		%Content
-		\subsection {Probleme der aktuellen Forschung}
+		\subsection {Probleme in der aktuellen Forschung}
 			%Content
 			Das Problem der aktuellen Forschung ist also, dass die \HES nur sehr selten in \CSS, wenn "uberhaupt nur testweise (meist sehr minimal oder sogar nur in Pseudocode), implementiert wurde und keine der L"osungen einen Support f"ur LINQ Abfragen und Lambda Ausdr"ucke bietet. Somit ist LFG in Verbindung mit der FUSEE Engine und dem LINQ Support eine neu Entwicklung auf Basis bew"ahrter Strukturen.
 	\section {Einführung zu LINQ in \CS}
@@ -504,10 +515,10 @@ Lambda ist also eine einfache M"oglichkeit Standard LINQ Abfragen aufzuwerten. E
 %%%%%%
 
 \chapter {Hauptteil}
-	\section {Gegenüberstellung nativer (OpenMesh.org) und gemanagter Implementierungen der \HES}
+	%\section {Gegenüberstellung nativer (OpenMesh.org) und gemanagter Implementierungen der \HES}
 		%Content	
 		%Content
-	\section {Geschwindigkeitsunterschiede von nativem und \CSS Code}
+	%\section {Geschwindigkeitsunterschiede von nativem und \CSS Code}
 		%Content
 		%Content
 \section {Das Software Projekt LINQ For Geometry}
@@ -823,7 +834,7 @@ LINQ funktioniert allerdings sehr gut f"ur Operationen auf kleinen Collections a
 
 LINQ eignet sich also trotz der Limitierung auf kleinere Daten Sets sehr gut um Traversierungs und Manipulations Algorithmen auf der \HES zu formulieren solange immer betrachtet wird wie sinnvoll eine Abfrage in der Relation des Quell Sets zur gr"o"sse des zu erwartenden Ergebnis Sets ist. F"ur diese Arbeit enstand hierdurch kein Nachteil. Diese Limitierung hat sogar daf"ur gesorgt, dass LINQ Statements k"urzer formuliert werden konnten und Enumeratoren durch Kombination frei von redundantem Code geblieben sind.
 		%Content
-	\section {Stern- und Umlaufenumeratoren (Iteratoren/Enumeratoren)}
+	\section {Stern- und Umlaufenumeratoren (Iteratoren/Enumeratoren) \label{part:iteratoren}}
 		%Content
 		Iteratoren sind die wichtigste Basis an Funktionen die \LFGS einem Nutzer des Projekts bereit stellt. Iteratoren sind hier als "`Zeiger"' auf Elemente aus den Collections der Datenstruktur zu bezeichnen. Ein Iterator hat ein festgelegtes "`Bewegungsmuster"' und bewegt sich so schnell es geht "uber bestimmte Abschnitte der Collections der Datenstruktur. Die Iteratoren in \LFGS sind jeweils auf einen Start Datentyp und auf einen Return type festgelegt. Durch LINQ Ausdr"ucke in der Methodensyntax oder durch die Realisierung von kleinen Traversierungsalgorithmen liefern diese Iteratoren ein Ergebnisset, meistens eine Liste, eines bereits vorher bekannten Datentyps an den Aufrufer zu"uck. Durch die geschickte Kombination dieser basis Iteratoren ist es m"oglich viele Problemszenarien zu bew"altigen.
 
@@ -891,14 +902,8 @@ Aktuell existieren zehn verschiedene Enumeratoren in \LFG. Es folgt eine Auflist
 	\end{itemize}
 \end{itemize}
 
-Wie also in der "Ubersicht aufgezeigt wurde gibt es einige Iteratoren die f"ur die Traversierung der \HES sehr wichtig sind. Diese Iteratoren wurden dann so implementiert, dass ihre Operationen direkt auf der Datenstruktur ausgef"uhrt werden. Um weitere Iteratoren zu schaffen k"onnen dann die direkt implementierten Enumeratoren wieder verwendet werden. Der Enumerator EnFaceAdjacentHalfEdges() ist durch seine massive Wiederverwendung in XX anderen Enumeratoren einer der wichtigsten Enumeratoren im Projekt. Es war daher wichtig ihn auf Geschwindigkeit zu optimieren. Die hier als basis Enumeratoren bezeichneten Methoden k"onnen also zuk"unftig in jeder Erweiterung der Funktionalit"at von \LFGS verwendet werden und bieten somit einen einfachen Einstiegspunkt in die Gestaltung komplexerer Traversierungs-Algorithmen.
 		%Content
-		\subsection {Die Geschwindigkeit der Half-Edge Datenstruktur in den Enumeratoren}
-			%Content
-			%Content
-		%\subsection {Verwendete „Design-Patterns“ und Softwarelösungen}
-			%Content
-			%Content
+		
 		\subsection {Die Verwendung von LINQ und Lambda in den Enumeratoren}
 			%Content
 			LINQ Ausdr"ucke werden in den Enumeratoren recht h"aufig verwendet. In allen F"allen handelt es sich bisher um Select() Operationen auf einer Collection aus Daten. Nat"urlich kann sich dies in Zukunft durch die Erweiterungen und W"unsche der Benutzer "andern. Lambda ist auch in den Enumeratoren ein wichtiger Bestandteil der LINQ Methodensyntax. Allerdings werden bis jetzt nur sehr einfache Lambda Ausdr"ucke eingesetzt. Der folgende Ausdruck beschreibt ein LINQ Select Statement auf einer Collection aus Half-Edge Handles.
@@ -937,12 +942,90 @@ Der EnFaceAdjacentVertices() Enumerator w"urde es hier noch erlauben sein Ergebn
 			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Geometry.cs}
 
 			%Content
+\subsection {Die Geschwindigkeit der Half-Edge Datenstruktur in den Enumeratoren}
+			%Content
+Wie in der oberen "Ubersicht "uber die Iteratoren \ref{part:iteratoren} gezeigt wurde gibt es einige Iteratoren die f"ur die Traversierung der \HES sehr wichtig sind. Diese Iteratoren wurden dann so implementiert, dass ihre Operationen direkt auf der Datenstruktur ausgef"uhrt werden. Um weitere Iteratoren zu schaffen k"onnen dann die direkt implementierten Enumeratoren wieder verwendet werden. Der Enumerator EnFaceAdjacentHalfEdges() ist durch seine massive Wiederverwendung in XX anderen Enumeratoren einer der wichtigsten Enumeratoren im Projekt. Es war daher wichtig ihn auf Geschwindigkeit zu optimieren. Die hier als basis Enumeratoren bezeichneten Methoden k"onnen also zuk"unftig in jeder Erweiterung der Funktionalit"at von \LFGS verwendet werden und bieten somit einen einfachen Einstiegspunkt in die Gestaltung komplexerer Traversierungs-Algorithmen.
+
+Die Gr"o"se der Quelldaten Collection hat eine erhebliche Auswirkung auf die Geschwindigkeit eines Iterators. So ist es also essentiell, dass Enumeratoren wie EnFaceAdjacentHalfEdges() im Hinblick auf Geschwindigkeit entworfen werden. Ein Beispiel kann am Iterator EnVertexIncomingHalfEdge(HandleVertex vertexHandle) festgemacht werden. So ist seine Implementierung in Form des folgendes Codes die schnellste im Moment denkbare Version dieses Iterators im Projekt. Der Iterator k"onnte auf zwei Arten im Projekt eingesetzt werden. Die erste denkbare M"oglichkeit w"are den Iterator als Algorithmus zu entwerfen welcher direkt auf der \HES arbeitet.
+\lstinputlisting
+			[caption={Geometry.cs - EnVertexIncomingHalfEdge()}, label=code:alg1, firstline=904, lastline=922]
+			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Geometry.cs}
+
+W"ahrend er als LINQ Abfrage in Methodensyntax
+\begin{lstlisting}[label={code:alg3}]
+return _LhedgePtrCont.Where(e => e._v == vertexHandle).AsParallel().Select(e => _LhedgePtrCont[e._he._DataIndex]._he).AsParallel().ToList();
+\end{lstlisting}
+
+oder als Abfragesyntax
+\begin{lstlisting}[label={code:alg2}]
+return (from e in _LhedgePtrCont where e._v == vertexHandle select _LhedgePtrCont[e._he]._he).AsParallel().ToList();
+\end{lstlisting}
+ formuliert werden k"onnte. Er war w"ahrend dieser Arbeit in LINQ schneller und einfacher zu formulieren, hat aber leider eine h"ohere Laufzeit pro Vertex. Betrachtet man die Methode CalcVertexNormal() welche den EnFaceAdjacentHalfEdges() Enumerator einsetzt zeigt sich folgender Sachverhalt. Aktuell (Stand Juli 2013) fallen die FPS von durchschnittlich 8-12FPS laut FRAPS\footnote{ Demo unter http://www.fraps.com/} , mit Vertex Normalen Berechnung und nativem Algorithmus auf der Datenstruktur (alg1\label{code:alg1}), auf durchschnittliche 3-7 FPS mit den LINQ Abfragen in Abfragesyntax (alg2\label{code:alg2}) und Methodensyntax (alg3\label{code:alg3}). Dieses Beispiel ist auf das Utah Teapot Model mit aktivierter Beleuchtungsberechnung bezogen. Dieser Performance Verlust ist allerdings nicht alleine auf die LINQ Abfrage zur"uckzuf"uhren. Es ist in der Tat so, dass die Laufzeiten der \CSS eigenen Delete und Insert Methoden auf Listen hier ein weiteres Problem darstellt. Gemessen wurden diese Werte mit dem Visual Studio 2010 Leistungsanalyse Tool. Alle Messungen erfolgten wieder auf Basis des Utah Teapots.
+\newline
+
+Um die Messungen\footnote{\label{fn-messungenPC} Messungen durchgef"uhrt auf folgender PC Konfiguration: Intel Core i5 2500k, 16GB 1333er Ram, HDD Festplatte 7200RPM, ATI Radeon HD 7950 3GB VRam, Windows 7 64Bit auf Samsung 840 SSD. Messwerte berechnet durch den Visual Studio 2010 Profiler und FPS Kennzahlen zur Laufzeit durch FRAPS entnommen} zu vergleichen wurde der Teapot jeweils 15 Sekunden mit aktivierter Beleuchtung in der Testszene rotiert. Zuerst wurde eine Rotation um die Z Achse im Uhrzeigersinn f"ur f"unf Sekunden durchgef"uhrt. Darauf folgen 10 Sekunden Rotation um die X Achse im Uhrzeigersinn.
+
+Die Kennzahlen der Messung sind in der Einheit Inklusive Samples angegeben. Inklusive Samples beschreiben die Zeit welche eine Funktion inklusive ihrer Kinder Methoden f"ur eine Berechnung ben"otigt. Exklusive Samples beschreiben die Zeit welche im Body der Methode selbst ohne Kinder Methoden verbracht wird.
+
+\begin{quote}Die Inklusiv-Werte werden anhand der Gesamtzahl der f{\"u}r eine Funktion in der Aufrufliste erfassten Samplings berechnet. Dies gilt auch f{\"u}r die beim Ausf{\"u}hren untergeordneter Funktionen erfassten Samplings. Wenn eine erfasste Aufrufliste analysiert wird, werden die Werte f{\"u}r die inklusiven Samplings aller Funktionen der Aufrufliste erh{\"o}ht. \cite[Analyse von Leistungsdaten]{MicrosoftCReferenz.2013}\end{quote}
+
+\begin{quote}Die Exklusiv-Werte werden anhand der Gesamtzahl an der f{\"u}r eine Funktion erfassten Samplings berechnet, wenn diese ihren eigenen Code ausf{\"u}hrt. Exklusive Werte enthalten kein Samplings, die beim Ausf{\"u}hren untergeordneter Funktionen erfasst werden. Wenn eine erfasste Aufrufliste analysiert wird, wird die exklusive Samplinganzahl nur f{\"u}r die Funktion erh{\"o}ht, die Code ihres Funktionstexts ausf{\"u}hrt. \cite[Analyse von Leistungsdaten]{MicrosoftCReferenz.2013}\end{quote}
+
+\subsubsection{Messeergebnis f"ur den nativen Algorithmus auf der Datenstruktur (alg1) aus \ref{code:alg1}}
+\begin{minipage}[c][7cm]{\linewidth}
+\includegraphics[width=\linewidth]{../Messung/linq-alg1-0}
+\captionof{figure}{Messung der CalcVertexNormal() Methode}\label{messung:alg10}
+\end{minipage}
+Die Insert Operation mit 41.7\% und Remove Operationen  41.0\% haben hier den gr"o"ssten Anteil der Funktion. Der Enumerator folgt dann wie in der unteren Grafik zu sehen ist mit einem Anteil unter 1\%. Somit ist diese Variante die effektivste zur Berechnung der Vertex Normalen.
+\begin{minipage}[c][7cm]{\linewidth}
+\includegraphics[width=\linewidth]{../Messung/linq-alg1-1}
+\captionof{figure}{Messung des Enumerators EnVertexIncomingHalfEdge() ohne LINQ. Die relevante Zeile ist rot markiert.}\label{messung:alg11}
+\end{minipage}
+
+Hier taucht der Enumerator aufgrund der "`nativen"' Implementierung nur als Wert < 1\% auf. Der gr"o"ste Teil an Inklusiv Samples wird wieder von den internen \CSS Funktionen produziert.
+
+\subsubsection{Messeergebnis f"ur die Methodensyntax (alg2) aus \ref{code:alg2}}
+\begin{minipage}[c][8cm]{\linewidth}
+\includegraphics[width=\linewidth]{../Messung/linq-alg2-0}
+\captionof{figure}{Messung der CalcVertexNormal() Methode.}\label{messung:alg20}
+\end{minipage}
+Bei dieser Variante sind die Inklusiv Samples f"ur den Enumerator mit 34.4\% als auch die Kombination aus Insert Methode mit 14.9\% und Remove Methode mit 15.0\% fast gleich gro"s. Wie erkennbar ist, ist der Wert f"ur den Enumerator einiges h"oher als in \ref{messung:alg10} und \ref{messung:alg11}.
+\begin{minipage}[c][8cm]{\linewidth}
+\includegraphics[width=\linewidth]{../Messung/linq-alg2-1}
+\captionof{figure}{Messung des Enumerators EnVertexIncomingHalfEdge() in Methodensyntax.}\label{messung:alg21}
+\end{minipage}
+
+Das hohe Ergebnis des Enumerators resuliert aus der riesigen Collection an Half-Edges "uber welche die LINQ Abfrage iterieren muss um alle eingehenden Half-Edges eines Vertex zu finden. Der Native Algorithmus ben"otigt hier nur ein paar Pointer spr"ungen "uber nachbar Half-Edges wie in \ref{code:alg1} dargestellt. \label{ref:linqNativeSampling1}
+
+\subsubsection{Messeergebnis f"ur die Abfragesyntax (alg3) aus \ref{code:alg3}}
+\begin{minipage}[c][9.5cm]{\linewidth}
+\includegraphics[width=\linewidth]{../Messung/linq-alg3-0}
+\captionof{figure}{Messung der CalcVertexNormal() Methode.}\label{messung:alg30}
+\end{minipage}
+
+Der Wert des Enumerators steigt hier noch einmal deutlich auf 57.8\%. Die Insert (16.2\%) und Remove (16.6\%) Methoden bleiben im Bereich um die 16\%. Hier sei angemerkt, dass ein Schritt der Parallelisierung des Statements durch die Abfragesyntax fehlt.
+\begin{minipage}[c][10cm]{\linewidth}
+\includegraphics[width=\linewidth]{../Messung/linq-alg3-1}
+\captionof{figure}{Messung des Enumerators EnVertexIncomingHalfEdge() in Abfragesyntax.}\label{messung:alg31}
+\end{minipage}
+
+Es ist hier also anzunehmen, dass der Wert der Inklusiv Samples des Enumerators auf Grund der einmal weniger angewandten Parallelisierung in der Abfragesyntax um etwa 24\% h"oher liegt als der Wert von \ref{messung:alg20}.
+\newline
+
+\subsection{Zusammenfassung der Erkenntnisse aus den Messwerten}
+Aus den genannten Werten ist also ersichtlich, dass LINQ Abfragen auf gro"sen Datenmengen nach M"oglichkeit vermieden werden sollten. Im Falle der Messwerte handelt es sich bei dem Utah Teapot um eine Liste aus 1400+ Elementen welche f"ur jeden Vertice einmal durchsucht wird f"ur den die Normale berechnet werden muss. Wann immer es m"oglich ist, sollten die Vorteile der Datenstruktur im Entwurf von Enumeratoren/Iteratoren auch benutzt werden.
+
+			%Content
+		%\subsection {Verwendete „Design-Patterns“ und Softwarelösungen}
+			%Content
+			%Content
+
 	\section {Manipulation von Mesh Daten in der Datenstruktur}
 		%Content
 		Um die Mesh Daten eines Geometry Objektes zu manipulieren gibt es verschiedene M"oglichkeiten. Durch Manipulationen kann das Mesh geringf"ugig oder gar komplett ver"andert werden. Es ist allerdings wichtig keine Verbindungen der Datenstruktur im Geometry Objekt zu besch"adigen. Ein Geometry Objekt h"alt zwei verschiedene Arten von Daten vor. Zum einen sind dies "`reale Daten"'. Dabei handelt es sich um tats"achliche Werte also in etwa Vertex Koordinaten, Vertex Normalen, Face Normalen und UV Koordinaten. Zum anderen existieren virtuelle Beziehungen der einzelnen Elemente der Datenstruktur untereinander welche hier als Half-Edges, Edges, Vertices und Faces bezeichnet werden. Um also die Form eines Meshes zu ver"andern m"ussen also in aller Regel die Beziehungen der Elemente ver"andert werden. Ein einfaches Beispiel dazu w"are die Triangulation eines Meshs. Es werden hierbei keine neuen realen Daten erzeugt sondern lediglich Half-Edges, Edges und Faces manipuliert.
 \newline
 
-Beide Arten der Mesh Manipulation k"onnen aber auch kombiniert werden. Ein Klassischer Fall w"are ein Subdivision Surfacing Algorithmus welcher durch Erweiterung des Geometry Objektes das Mesh in seiner Form ver"andern w"urde. Hierbei ver"andern sich alle Teile eines Geometry Objektes. Es entstehen neue Kanten und Faces und es werden neue Vertices aus bereits vorhandenen berechnet und eingef"ugt. 
+Beide Manipulationsarten k"onnen aber auch kombiniert werden. Ein klassischer Fall w"are ein Subdivision Surfacing Algorithmus welcher durch Erweiterung des Geometry Objektes das Mesh in seiner Form ver"andern w"urde. Hierbei ver"andern sich alle Teile eines Geometry Objektes. Es entstehen neue Kanten und Faces und es werden neue Vertices aus bereits vorhandenen berechnet und eingef"ugt. 
 		%Content
 		\subsection {Manipulation von Edges und Half-Edges}
 			%Content
@@ -969,7 +1052,7 @@ Zu ihnen z"ahlen:
 \item Eine Rotation um die Globale X, Y oder Z Achse.
 \end{itemize}
 
-\subsection {Transformation mithilfe einer Transformationsmatrix}
+\subsection {Transformation mit einer Transformationsmatrix}
 %Content
 Um die Vertices eines Meshes zu transformieren wird eine zuvor in der Methode zusammengestellte Transformationsmatrix auf jeden Vertex des Meshes angewendet. Ohne LINQ w"urde man in einer Schleife "uber jeden Vertex laufen und das Ergebnis wieder in eine neue Liste schreiben "mussen. Diese Liste m"usste dann die aktuelle Vertex Liste im Mesh "uberschreiben um die neuen Werte zu "ubernehmen.
 
@@ -1021,13 +1104,13 @@ Man hat sich f"ur Triangles entschieden da sie zur Repr"asentation von Meshes se
 Zu letzt muss die ToMesh() Methode ein Objekt von dem FUSEE bekannten Datentypen "Mesh" erzeugen und es an den aufrufer zur"uckgeben. Das so erhaltene Objekt kann in einem FUSEE Projekt mit  RC.Render(Mesh meshObjekt) gerendert werden.
 
 	%Content
-	\section {Implementierung von Catmull Clark als Modul f"ur \LFG}
+	%\section {Implementierung von Catmull Clark als Modul f"ur \LFG}
 			%Content
 			%Content
-		\subsection {Was ist der Catmull Clark Algorithmus?}
+	%	\subsection {Was ist der Catmull Clark Algorithmus?}
 				%Content
 				%Content
-		\subsection {Vorteile der Implementierung in der HES}
+	%	\subsection {Vorteile der Implementierung in der HES}
 				%Content
 				%Content
 
