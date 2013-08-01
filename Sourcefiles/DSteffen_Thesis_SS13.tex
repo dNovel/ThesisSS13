@@ -159,7 +159,7 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 \renewcommand*{\chapterpagestyle}{empty}
 \chapter*{Abstract}%
 \addcontentsline{toc}{chapter}{Abstract}%
-Diese Arbeit zeigt wie eine Implementierung der Half-Edge Datenstruktur f"ur das Handling von Mesh Daten umgesetzt werden kann. Die Implementierung des vorgestellten Konzeptes erfolgte in \CSS und ist in die Echtzeit 3D Engine FUSEE der Hochschule Furtwangen integriert. Geometrie Daten k"onnen mit der Datenstruktur im Speicher gehalten und manipuliert werden. Im Kern dieser Thesis wird "uberp"uft wie sich LINQ Abfragen in der Datenstruktur realisieren lassen, ob sie  zur Laufzeit Auswirkungen auf die Performance des Systems haben. Ein Ausblick zeigt wie LINQ die zuk"unftige Formulierung von Geometrie manipulierenden Algorithmen im FUSEE Projekt beeinflussen k"onnte. Die Implementierung von \LFGS bietet Iteratoren als Schnittstelle f"ur Benutzer des Systems mit welchen sich neue komplexe Transformations Algorithmen realisieren lassen. Es ist angedacht das Projekt zuk"unftig eventuell als Datenstruktur f"ur einen Mesh Editor auf Basis der FUSEE Engine einzusetzen. Das Ergebnis, der Code der Arbeit, ist auf GitHub frei zug"anglich und befindet sich in einem seperaten Branch des FUSEE Projektes.
+Diese Arbeit zeigt wie eine Implementierung der Half-Edge Datenstruktur f"ur das Handling von Mesh Daten umgesetzt werden kann. Die Implementierung des vorgestellten Konzeptes erfolgte in \CSS und ist in die Echtzeit 3D Engine Fusee der Hochschule Furtwangen integriert. Geometrie Daten k"onnen mit der Datenstruktur im Speicher gehalten und manipuliert werden. Im Kern dieser Thesis wird "uberp"uft wie sich LINQ Abfragen in der Datenstruktur realisieren lassen, ob sie  zur Laufzeit Auswirkungen auf die Performance des Systems haben. Ein Ausblick zeigt wie LINQ die zuk"unftige Formulierung von Geometrie manipulierenden Algorithmen im Fusee Projekt beeinflussen k"onnte. Die Implementierung von \LFGS bietet Iteratoren als Schnittstelle f"ur Benutzer des Systems mit welchen sich neue komplexe Transformations Algorithmen realisieren lassen. Es ist angedacht das Projekt zuk"unftig eventuell als Datenstruktur f"ur einen Mesh Editor auf Basis der Fusee Engine einzusetzen. Das Ergebnis, der Code der Arbeit, ist auf GitHub frei zug"anglich und befindet sich in einem seperaten Branch des Fusee Projektes.
 \clearpage
 \endgroup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -219,13 +219,13 @@ Versicherung hier.
 \chapter {Einleitung}
 	\section {Motivation}
 		%Ist es möglich die „Half-Edge Data Structure“ (kurz HES) in einer gemanagten Programmiersprache wie \CSS unter der Berücksichtigung von LINQ und Lambda Ausdrücken so zu implementueren, dass damit grundlegende Geometriemanipulation in der Computergrafik erfolgen kann?
-Um 3D Modelle in Echtzeit Engines darzustellen werden diese meistens in einer Face basierten Datenstruktur gespeichert. Durch diese Art der speicherung ist es aber nur schwer m"oglich performante Algorithmen zur Manipulation der Daten in Echtzeit zu formulieren. Sollte dies gelingen sind die gew"ahlten Algorithmen meist kompliziert und der Einstieg f"ur neue Entwickler f"allt meist schwer. Eine Face basierte Datenstruktur bietet kaum Vernetzungen der enthaltenen Elemente und erschwert das Formulieren von L"osungen durch die Notwendigkeit vieler Schleifen. Die Laufzeiten werden lang und Kanten basierte Operationen lassen sich durch eine solche Struktur garnicht oder nur sehr schwer realisieren. Die \HES ist eine Datenstruktur welche diese Probleme umgehen k"ann. Elemente eines Meshes sind untereinander vernetzt und Iterationen k"onnen schnell ausgef"uhrt werden.
+Um 3D Modelle in Echtzeit Engines darzustellen werden diese meistens in einer Face basierten Datenstruktur gespeichert. Durch diese Art der Speicherung ist es zwar m"oglich aber sehr aufwendig performante Algorithmen zur Manipulation der Daten in Echtzeit zu formulieren. Sollte dies gelingen sind die gew"ahlten Algorithmen meist kompliziert und der Einstieg f"ur neue Entwickler f"allt meist schwer. Eine Face basierte Datenstruktur bietet kaum Vernetzungen der enthaltenen Elemente und erschwert das Formulieren von L"osungen durch die Notwendigkeit vieler Schleifen. Die Laufzeiten werden lang und Kanten basierte Operationen lassen sich durch eine solche Struktur garnicht oder durch erheblichen rechnerischen Aufwand realisieren. Die \HES ist eine Datenstruktur welche diese Probleme umgehen k"ann. Elemente eines Meshes sind untereinander vernetzt und Iterationen auf dem Mesh k"onnen schnell ausgef"uhrt werden.
 \newline
 
-Um diese Datenstruktur in \CSS zu implementieren und den Zugriff darauf zu verbessern besch"aftigt sich diese Arbeit mit der Frage in wie fern die \HES in \CSS mit LINQ und Lambda Support implementiert werden kann und wo die Vorteile und Nachteile eines solchen Projektes liegen. \LFGS ist ein Projekt welches sich w"ahrend seiner Entwicklung stetig weiter entwickelt hat. Zuerst wurde nur eine Datenstruktur entwickelt. Um sie allerdings zu testen und den Nutzen zu erforschen wurde die Datenstruktur in eine Echtzeit 3D Engine Namens FUSEE integriert. So haben sich neue M"oglichkeiten und Probleme zur L"osung er"offnet.
+Um diese Datenstruktur in \CSS zu implementieren und den Zugriff darauf zu verbessern besch"aftigt sich diese Arbeit mit der Frage in wie fern die \HES in \CSS mit LINQ und Lambda Support implementiert werden kann und wo die Vorteile und Nachteile eines solchen Projektes liegen. \LFGS ist ein Projekt welches sich w"ahrend seiner Entwicklung stetig weiter entwickelt hat. Zuerst wurde nur eine Datenstruktur entwickelt. Um sie allerdings zu testen und den Nutzen zu erforschen wurde die Datenstruktur in eine Echtzeit 3D Engine Namens Fusee integriert. So haben sich neue M"oglichkeiten und Probleme zur L"osung er"offnet.
 \newline
 
-Dieser Text beschreibt, wie es m"oglich ist die \HES in \CSS zu implementieren und zeigt einige der n"otigen Iteratoren f"ur die Manipulation einzelner geometrischer Daten oder ganzer Models/Meshes. Es wird gepr"uft ob LINQ Abfragen in jeder Situation verwendet werden k"onnen oder ob mit Blick auf die Performance des Systems mit Problemen zu rechnen ist. Es werden einige standard Geometrie Manipulationen vorgestellt und ihre Implementierung im Projekt wird beschrieben. Schliesslich m"ochte diese Arbeit einen Ausblick darauf geben was mit solch einem System in einer Engine wie FUSEE getan werden kann und was die m"oglichen Einsatzgebiete von \LFGS in Zukunft sein k"onnten.
+Dieser Text beschreibt, wie es m"oglich ist die \HES in \CSS zu implementieren und zeigt einige der n"otigen Iteratoren f"ur die Manipulation einzelner geometrischer Daten oder ganzer Models/Meshes. Es wird gepr"uft ob LINQ Abfragen in jeder Situation verwendet werden k"onnen oder ob mit Blick auf die Performance des Systems mit Problemen zu rechnen ist. Es werden einige standard Geometrie Manipulationen vorgestellt und ihre Implementierung im Projekt wird beschrieben. Schliesslich m"ochte diese Arbeit einen Ausblick darauf geben was mit solch einem System in einer Engine wie Fusee getan werden kann und was die m"oglichen Einsatzgebiete von \LFGS in Zukunft sein k"onnten.
 \newline
 
 Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur 3D Echtzeit Engines und Interaktive Software und der Funktionsweise der einzelnen Bereiche hinter einer solchen Engine. Im laufe des Studiums wurden einige kleine Softwareprojekte und Spiele entwickelt und so war es der n"achste logische Schritt in einmal tiefer in die Computergrafik einzusteigen. Menschen wie John Carmack (idSoftware), John Romero, Markus "`Notch"' Persson und viele andere, waren eine Inspiration w"ahrend des Studiums und haben den Schreiber dieser Arbeit stetig weiter motiviert.
@@ -238,7 +238,7 @@ Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur 3D Ec
 	%Content
 	\section {Ziele von \LFG}
 	%Content
-	\LFGS hat es sich als Ziel gesetzt die \HES in einem \CSS Projekt einmal grundlegend zu implementieren und herauszufinden wie sehr \CSS's LINQ Abfragen in einem solchen System von Nutzen sind. Die Entwicklung des Softwareprojekts stand hierbei im Vorderung und entwickelte sicher stetig weiter. \LFGS wurde mit der Zeit in die Echtzeit 3D Engine FUSEE integriert und besitzt aktuell einen eigenen Branch im FUSEE Projekt. Das Projekt ist vorerst dazu gedacht Daten von 3D Meshes im Speicher zu halten und ihre Werte "uber bereitgestellte Iteratoren und Transformationen zu manipulieren. Das Projekt zielte nicht darauf ab ein zu einhunder Prozent abgeschlossenes Projekt zu schaffen. Die von \LFGS angebotenen Iteratoren sollen wiederverwendet werden um in Zukunft durch Kombination des bestehenden neue M"oglichkeiten der Geometriemanipulation zu schaffen oder bew"ahrte Algorithmen zu implementieren.
+	\LFGS hat es sich als Ziel gesetzt die \HES in einem \CSS Projekt einmal grundlegend zu implementieren und herauszufinden wie sehr \CSS's LINQ Abfragen in einem solchen System von Nutzen sind. Die Entwicklung des Softwareprojekts stand hierbei im Vorderung und entwickelte sicher stetig weiter. \LFGS wurde mit der Zeit in die Echtzeit 3D Engine Fusee integriert und besitzt aktuell einen eigenen Branch im Fusee Projekt. Das Projekt ist vorerst dazu gedacht Daten von 3D Meshes im Speicher zu halten und ihre Werte "uber bereitgestellte Iteratoren und Transformationen zu manipulieren. Das Projekt zielte nicht darauf ab ein komplett abgeschlossenes Projekt zu schaffen. Die von \LFGS angebotenen Iteratoren sollen vielmehr als eine Ausgangslage darstellen und wiederverwendet werden um in Zukunft durch ihre Kombination des bestehenden Methoden neue M"oglichkeiten der Geometriemanipulation zu schaffen oder bereits bekannte bew"ahrte Algorithmen zu implementieren.
 	%Content
 	\section{Aufbau dieses Textes}
 	%Content
@@ -247,6 +247,7 @@ Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur 3D Ec
 	\section {Verwendete Software}
 \begin{itemize}
 \item Microsoft Visual Studio 2010 \newline wurde verwendet als Entwicklungsumgebung f"ur das Projekt.
+\item Die Erweiterung ReSharper in Version 7.1 f"ur Visual Studio 2010 \url{http://www.jetbrains.com/resharper}
 \item Umlet \url{http://www.umlet.com/} \newline Ein kostenloses Tool um UML Diagramme zu erstellen.
 \item GitHub und die GitShell \url{www.github.com} \newline F"ur die Versionskontrolle des Codes und des Textes und um den Code dieser Arbeit offen anzubieten.
 \item TexWorks \url{www.tug.org/texworks/} \newline Zum schreiben dieser Arbeit.
@@ -354,7 +355,7 @@ Der Vertex speichert eine Information:
 \includegraphics[width=\linewidth]{../Bilder/hesBeziehungen}
 \captionof{figure}{Diese Illustration zeigt die Verbindung der data records an einem beliebigen Polygon durch Pfeilverbindungen.}\label{pic:polyConnections} 
 
-An dieser Stelle sei bereits vorweg genommen, dass \LFGS in seiner Implementierung diese data records um ein paar Beziehungen, welche durch die Verbindung zur Echtzeit 3D Engine FUSEE n"otig werden, erweitert.
+An dieser Stelle sei bereits vorweg genommen, dass \LFGS in seiner Implementierung diese data records um ein paar Beziehungen, welche durch die Verbindung zur Echtzeit 3D Engine Fusee n"otig werden, erweitert.
 
 %Content
 		\subsection {Vorteile der \HES}
@@ -363,9 +364,9 @@ An dieser Stelle sei bereits vorweg genommen, dass \LFGS in seiner Implementieru
 			% Exemplarisch herausfinden wie das Polygon neben einem Würfel heisst das zwischen zwei vertices liegt.
 			Die vielen Verbindungen unter der einzelnen Komponenten in der \HES machen es m"oglich sehr schnelle Iterations Algorithmen zu implementieren. Die Normale eines Faces kann sehr effizient berechnet werden. Es k"onnen auch die Normalen f"ur beliebige Faces unabh"angig vom Rest des Meshes berechnet werden. Dazu ben"otigt man f"ur den Algorithmus nur ein Face als Start Punkt. Der Algorithmus selbst kann f"ur jedes Face der gleiche bleiben.
 
-Subdivision Surface Algorithmen wie Catmull-Clark oder Loop k"onnen mit der Datenstruktur besonders gut realisiert werden. Catmull-Clar ben"otigt dazu ein Mesh aus Quads w"ahrend man mit Loop ein Mesh aus Triangles verarbeiten k"onnte. Beide Mesh Typen, Quads und Triangles, werden vom \LFGS Projekt unterst"utzt. Die FUSEE Engine, in welche das \LFGS Projekt integriert ist, kann im Moment allerdings nur mit Meshes bestehend aus Triangles arbeiten. Aber auch das ist durch die M"oglichkeit der schnellen Iterationen auf der \HES kein Problem.
+Subdivision Surface Algorithmen wie Catmull-Clark oder Loop k"onnen mit der Datenstruktur besonders gut realisiert werden. Catmull-Clar ben"otigt dazu ein Mesh aus Quads w"ahrend man mit Loop ein Mesh aus Triangles verarbeiten k"onnte. Beide Mesh Typen, Quads und Triangles, werden vom \LFGS Projekt unterst"utzt. Die Fusee Engine, in welche das \LFGS Projekt integriert ist, kann im Moment allerdings nur mit Meshes bestehend aus Triangles arbeiten. Aber auch das ist durch die M"oglichkeit der schnellen Iterationen auf der \HES kein Problem.
 
-Die \HES ist also grunds"atzlich sehr flexibel. Es bedingt praktisch nicht, dass jedes Face eines Meshes gleich gro"s ist. \LFG allerdings, in seiner jetzigen Form, erwartet entweder Triangulated Meshes oder Meshes aus Quadlaterals (Quads). Dies ist dem Umstand geschuldet, dass ein Mesh zur weiteren Verwendung in FUSEE konvertiert und verarbeitet werden muss.
+Die \HES ist also grunds"atzlich sehr flexibel. Es bedingt praktisch nicht, dass jedes Face eines Meshes gleich gro"s ist. \LFG allerdings, in seiner jetzigen Form, erwartet entweder Triangulated Meshes oder Meshes aus Quadlaterals (Quads). Dies ist dem Umstand geschuldet, dass ein Mesh zur weiteren Verwendung in Fusee konvertiert und verarbeitet werden muss.
 		\subsection {Nachteile der \HES}
 			%Content
 Es gibt selbst in einer so flexiblen Datenstruktur wie der \HES Nachteile die w"ahrend der Planungsphase oder Implementierung auftreten k"onnen.
@@ -446,7 +447,7 @@ Sicherlich kann diese Arbeit auch nicht fortfahren ohne die Erw"ahnung des OpenM
 		%Content
 		\subsection {Probleme in der aktuellen Forschung}
 			%Content
-			Das Problem der aktuellen Forschung ist also, dass die \HES nur sehr selten in \CSS, wenn "uberhaupt nur testweise (meist sehr minimal oder sogar nur in Pseudocode), implementiert wurde und keine der L"osungen einen Support f"ur LINQ Abfragen und Lambda Ausdr"ucke bietet. Somit ist LFG in Verbindung mit der FUSEE Engine und dem LINQ Support eine neu Entwicklung auf Basis bew"ahrter Strukturen.
+			Das Problem der aktuellen Forschung ist also, dass die \HES nur sehr selten in \CSS, wenn "uberhaupt nur testweise (meist sehr minimal oder sogar nur in Pseudocode), implementiert wurde und keine der L"osungen einen Support f"ur LINQ Abfragen und Lambda Ausdr"ucke bietet. Somit ist LFG in Verbindung mit der Fusee Engine und dem LINQ Support eine neu Entwicklung auf Basis bew"ahrter Strukturen.
 	\section {Einführung zu LINQ in \CS}
 		%Content
 		Language Integrated Query, kurz LINQ und zu deutsch Sprachintegrierte Abfrage, funktioniert ab \CSS 3.0 und ist ein Feature von Microsofts .NET Paket. LINQ ist also ein Produkt von Microsoft und erinnert auf den ersten Blick in seinem syntaktischen und semantischem Aufbau stark an das Open Source Projekt MySQL welches aktuell (Stand Juli 2013) von der Oracle Corporation betreut wird. Beide Projekte unterscheiden sich jedoch wesentlich. LINQ ist in erster Linie ein Feature, dass direkt auf Objekten arbeitet wohingegen MySQL auf relationale Daten angewendet wird. Allerdings kann LINQ viel mehr als das.
@@ -523,9 +524,9 @@ Lambda ist also eine einfache M"oglichkeit Standard LINQ Abfragen aufzuwerten. E
 		%Content
 \section {Das Software Projekt LINQ For Geometry}
 		%Content
-Das Softwareprojekt \LFGS (kurz LFG) welches im Rahmen dieser Thesis Arbeit entworfen und implementiert wurde, stellt eine Umsetzung der \HES zum Handling dreidimensionaler Meshes dar. \LFGS hat darüber hinaus den Anspruch die Datenstruktur durch LINQ Ausdr"ucke und bereit gestellte Iteratoren/Enumeratoren, welche mit LINQ erweitert werden k"onnen, flexibel und zug"anglich zu gestalten. Es bietet einen Converter in das von der FUSEE Engine benutze Mesh Format und kann in Echtzeit Geometrische Operationen auf einem in der Datenstruktur gespeichertem Mesh ausf"uhren. \LFG wurde Anfangs als eigenst"andiges Projekt begonnen. Im sp"ateren Verlauf wurde es in die FUSEE Engine integriert um dort wahlweise Meshes in der \HES im Speicher bereit zu halten. Das \LFGS Projekt ist von FUSEE nicht abh"angig. Es benutzt ledigleich ein Paar der Datentypen aus der Mathematik Bibliothek von FUSEE und den Mesh Datentypen welchen \LFGS aufgrund der converter Funktion nach FUSEE Mesh kennen muss. \LFGS w"are also nach Wunsch auf andere Engines oder Programme mit wenigen Anpassungen portabel.
+Das Softwareprojekt \LFGS (kurz LFG) welches im Rahmen dieser Thesis Arbeit entworfen und implementiert wurde, stellt eine Umsetzung der \HES zum Handling dreidimensionaler Meshes dar. \LFGS hat darüber hinaus den Anspruch die Datenstruktur durch LINQ Ausdr"ucke und bereit gestellte Iteratoren/Enumeratoren, welche mit LINQ erweitert werden k"onnen, flexibel und zug"anglich zu gestalten. Es bietet einen Converter in das von der Fusee Engine benutze Mesh Format und kann in Echtzeit Geometrische Operationen auf einem in der Datenstruktur gespeichertem Mesh ausf"uhren. \LFG wurde Anfangs als eigenst"andiges Projekt begonnen. Im sp"ateren Verlauf wurde es in die Fusee Engine integriert um dort wahlweise Meshes in der \HES im Speicher bereit zu halten. Das \LFGS Projekt ist von Fusee nicht abh"angig. Es benutzt ledigleich ein Paar der Datentypen aus der Mathematik Bibliothek von Fusee und den Mesh Datentypen welchen \LFGS aufgrund der converter Funktion nach Fusee Mesh kennen muss. \LFGS w"are also nach Wunsch auf andere Engines oder Programme mit wenigen Anpassungen portabel.
 
-\LFGS erweitert die \HES um ein paar Funktionen um die korrekte Darstellung von Meshes in FUSEE zu gew"ahrleisten. Dazu z"ahlen Erweiterungen der an den Kanten und Faces gespeicherten Informationen um UV Textur Koordinaten und Face- und Vertex Normalen im Mesh zu speichern.
+\LFGS erweitert die \HES um ein paar Funktionen um die korrekte Darstellung von Meshes in Fusee zu gew"ahrleisten. Dazu z"ahlen Erweiterungen der an den Kanten und Faces gespeicherten Informationen um UV Textur Koordinaten und Face- und Vertex Normalen im Mesh zu speichern.
 Zus"atzlich ist es in der Lage Kanten zu verarbeiten die an mehr als 2 Polygone grenzen. Diese L"osing ist allerdings zum Zeitpunkt Juni 2013 nur als Notl"osung zu betrachten und das massive Edge Sharing (Teilen von Kanten mit vielen Faces) sollte wenn m"oglich bereits beim modellieren eines Meshes vermieden werden.
 \newline
 
@@ -540,26 +541,26 @@ In den n"achsten Abschnitten steht die Implementierung, siehe \ref{uml:klassendi
 			%Content
 			% Was ist das Konzept von LFG, wann hat es sich in Fusee integriert. Wieso ist es so wichtig die hes einzusetzen.
 			% TODO Klassen Diagramme und UML etc.
-			Das \LFG Projekt begann als Thesis Projekt in welchem angedacht war die \HES in \CSS zu implementieren und ihre M"oglichkeiten in Verbindung mit LINQ ausfindig zu machen. Nach einer Weile zeigte sich jedoch, dass es wesentlich interessanter w"are dieses Projekt in einer echten 3D Echtzeit Engine einzusetzten und die M"oglichkeiten direkt in der Engine auszuwerten. Das Projekt wurde dann im n"achsten Schritt in einem extra Branch in die FUSEE Engine intergiert. Der Branch in welchem sich \LFGS aktuell (25. Juli 2013) befindet ist stehts auf dem aktuellen Stand des FUSEE development Branches (develop). Alle aktuellen Ver"anderungen wurden zur Laufzeit des Projekts jeweils aktuell eingepflegt und gemerged um m"oglichen sp"ateren Problemen durch "Anderungen an FUSEE entgegen zu wirken. Diese Arbeit ist von Fusee trotz der engen Bindung als Geometry Datenstruktur fast nahtlos abgekoppelt. Die einzigen Referenzen welche \LFGS auf FUSEE enth"alt beziehen sich auf die Mathematik Bibliothek von FUSEE und das von FUSEE genutze Mesh Format. \LFGS kann dadurch recht einfach von FUSEE gel"ost und in eine andere Engine integriert werden. Lediglich die toMesh() Methode von LFG m"usste dann auf eine neue Engine angepasst werden, falls sich deren Mesh Repr"asentation von der bereits implementierten unterscheidet.
+			Das \LFG Projekt begann als Thesis Projekt in welchem angedacht war die \HES in \CSS zu implementieren und ihre M"oglichkeiten in Verbindung mit LINQ ausfindig zu machen. Nach einer Weile zeigte sich jedoch, dass es wesentlich interessanter w"are dieses Projekt in einer echten 3D Echtzeit Engine einzusetzten und die M"oglichkeiten direkt in der Engine auszuwerten. Das Projekt wurde dann im n"achsten Schritt in einem extra Branch in die Fusee Engine intergiert. Der Branch in welchem sich \LFGS aktuell (25. Juli 2013) befindet ist stehts auf dem aktuellen Stand des Fusee development Branches (develop). Alle aktuellen Ver"anderungen wurden zur Laufzeit des Projekts jeweils aktuell eingepflegt und gemerged um m"oglichen sp"ateren Problemen durch "Anderungen an Fusee entgegen zu wirken. Diese Arbeit ist von Fusee trotz der engen Bindung als Geometry Datenstruktur fast nahtlos abgekoppelt. Die einzigen Referenzen welche \LFGS auf Fusee enth"alt beziehen sich auf die Mathematik Bibliothek von Fusee und das von Fusee genutze Mesh Format. \LFGS kann dadurch recht einfach von Fusee gel"ost und in eine andere Engine integriert werden. Lediglich die toMesh() Methode von LFG m"usste dann auf eine neue Engine angepasst werden, falls sich deren Mesh Repr"asentation von der bereits implementierten unterscheidet.
 %TODO Grafik vom Klassendiagramm und vom External Module
 %TODO Erklärung warum LFG so offen ist. Performance, Einfachheit, Ziel der Arbeit ist eine schnelle Schnittstelle die einfach für jeden benutzbar ist.
 \newline
 
-\LFGS verf"ugt wie alle interessanten Anwendungsm"oglichkeiten in FUSEE "uber ein eigenes Beispiel Projekt im Projektmappenordner "`Examples"'. In diesem Beispiel dreht sich alles um die verwendung von LFG als Handler f"ur die Mesh Daten und dessen M"oglichkeiten. Verschiedene Modelle k"onnen als Mesh in eine FUSEE Applikation geladen werden und durch verschiedene Tastenbelegungen welche in der Methode  PullUserInput() hinterlegt sind auch transformiert werden. Aktuell bietet das Beispiel Projekt an ein Mesh Objekt zu skalieren, es zu drehen, es zu verschieben und die Berechnung der Vertex Normalen aus zu schalten. Alle Berechnungen f"ur die Transformationen laufen dabei direkt auf der \HES in \LFGS ab und werden nicht durch die FUSEE Engine beeinflusst.
+\LFGS verf"ugt wie alle interessanten Anwendungsm"oglichkeiten in Fusee "uber ein eigenes Beispiel Projekt im Projektmappenordner "`Examples"'. In diesem Beispiel dreht sich alles um die verwendung von LFG als Handler f"ur die Mesh Daten und dessen M"oglichkeiten. Verschiedene Modelle k"onnen als Mesh in eine Fusee Applikation geladen werden und durch verschiedene Tastenbelegungen welche in der Methode  PullUserInput() hinterlegt sind auch transformiert werden. Aktuell bietet das Beispiel Projekt an ein Mesh Objekt zu skalieren, es zu drehen, es zu verschieben und die Berechnung der Vertex Normalen aus zu schalten. Alle Berechnungen f"ur die Transformationen laufen dabei direkt auf der \HES in \LFGS ab und werden nicht durch die Fusee Engine beeinflusst.
 % TODO UML Ablaufdiagramm hier
 \newline
 
-In Zukunft ist es angedacht das Projekt \LFGS m"oglicherweise als eine 3D Editor Datenstruktur in FUSEE zu verwenden. Es ist ebenfalls denkbar das Projekt einzusetzen wenn sich Meshes in einer Applikation zur Laufzeit dynamisch ver"andern sollen. Durch die massive Vernetzung der einzelnen Elemente (Half-Edges, Vertices, Faces) der \HES ist das Projekt sehr flexibel einsetzbar. Das VisualStudio Projekt "`LingForGeometry.ExternalModules"' welches mit dem \LFGS Branch von FUSEE kommt ist ein Projekt um die Funktionen dieser Arbeit zu erweitern ohne den Core Code ver"andern zu m"ussen. Das Projekt hat Zugriff auf alle wichtigen Iteratoren/Enumeratoren (LINQ und nicht LINQ basiert) und Collections aus Daten. Um ein Beispiel f"ur diese Funktionen zu haben wurden alle Geometrischen Operationen und Transformationen als externe Funktionen im ExternalModules Projekt implementiert.
+In Zukunft ist es angedacht das Projekt \LFGS m"oglicherweise als eine 3D Editor Datenstruktur in Fusee zu verwenden. Es ist ebenfalls denkbar das Projekt einzusetzen wenn sich Meshes in einer Applikation zur Laufzeit dynamisch ver"andern sollen. Durch die massive Vernetzung der einzelnen Elemente (Half-Edges, Vertices, Faces) der \HES ist das Projekt sehr flexibel einsetzbar. Das VisualStudio Projekt "`LingForGeometry.ExternalModules"' welches mit dem \LFGS Branch von Fusee kommt ist ein Projekt um die Funktionen dieser Arbeit zu erweitern ohne den Core Code ver"andern zu m"ussen. Das Projekt hat Zugriff auf alle wichtigen Iteratoren/Enumeratoren (LINQ und nicht LINQ basiert) und Collections aus Daten. Um ein Beispiel f"ur diese Funktionen zu haben wurden alle Geometrischen Operationen und Transformationen als externe Funktionen im ExternalModules Projekt implementiert.
 			%Content
 		\subsection {Warum die Programmiersprache \CSS f"ur \LFG?}
 			%Content
-			Wie bereits  im oberen Abschnitt \ref{sec:VorteileManaged} angeschnitten, wurde \LFGS daf"ur konzipiert mit der FUSEE Engine zusammen zu arbeiten. \LFGS bietet hierbei eine neue Geometry Objekt Klasse f"ur die FUSEE Engine an, ohne die tats"achliche zu "uberschreiben. Laut aktuellem Stand kann der Benutzer beider Projekte sich also entscheiden welche Meshes er gerne in der \HES laden m"ochte und f"ur welche es gen"ugt sie als Face basiertes Mesh im Speicher zu halten.
+			Wie bereits  im oberen Abschnitt \ref{sec:VorteileManaged} angeschnitten, wurde \LFGS daf"ur konzipiert mit der Fusee Engine zusammen zu arbeiten. \LFGS bietet hierbei eine neue Geometry Objekt Klasse f"ur die Fusee Engine an, ohne die tats"achliche zu "uberschreiben. Laut aktuellem Stand kann der Benutzer beider Projekte sich also entscheiden welche Meshes er gerne in der \HES laden m"ochte und f"ur welche es gen"ugt sie als Face basiertes Mesh im Speicher zu halten.
 
-Damit \LFGS auf diese Art mit der FUSEE Engine kommunizieren kann musste eine gemeinsame Schnittstelle evaluiert werden. Weil beide Projekte die .NET Plattform benutzen und FUSEE in \CSS geschrieben wurde war es naheliegend f"ur \LFGS auch \CSS zu benutzen und da der LINQ Layer ein Produkt von .NET ist, war \CSS die wohl beste Wahl um beide Projekte zusammen zu bringen.
+Damit \LFGS auf diese Art mit der Fusee Engine kommunizieren kann musste eine gemeinsame Schnittstelle evaluiert werden. Weil beide Projekte die .NET Plattform benutzen und Fusee in \CSS geschrieben wurde war es naheliegend f"ur \LFGS auch \CSS zu benutzen und da der LINQ Layer ein Produkt von .NET ist, war \CSS die wohl beste Wahl um beide Projekte zusammen zu bringen.
 			%Content
 		\subsection {Furtwangen University Simulation and Entertainment Engine}
 			%Content
-			Die Furtwangen University Simulation and Entertainment Engine (kurz FUSEE) ist eine Open Source 3D Echtzeit Engine mit einem Schwerpunkt auf einer Multiplattform Unterstützung. Entwickelt wurde sie von einer Projektgruppe an der Hochschule Furtwangen unter der Leitung von Herrn Prof. M"uller an der Fakult"at Digitale Medien.Von der aktuellen Version 0.5 werden folgende Plattformen unterst"utzt.
+			Die Furtwangen University Simulation and Entertainment Engine (kurz Fusee) ist eine Open Source 3D Echtzeit Engine mit einem Schwerpunkt auf einer Multiplattform Unterstützung. Entwickelt wurde sie von einer Projektgruppe an der Hochschule Furtwangen unter der Leitung von Herrn Prof. M"uller an der Fakult"at Digitale Medien.Von der aktuellen Version 0.5 werden folgende Plattformen unterst"utzt.
 \begin{itemize}
 \item Windows OS
 \item Linux OS
@@ -569,7 +570,7 @@ Damit \LFGS auf diese Art mit der FUSEE Engine kommunizieren kann musste eine ge
 \item Der Firefox Browser
 \end{itemize}
 
-Um eine Linux und Android Unterst"utzung zu erreichen ist das Projekt mit Mono, einer .NET Open Source Implementierung, kompatibel. Sogar einen export nach JavaScript durch den JSIL Compiler von Kevin Gadd ist m"oglich. Somit ist FUSEE ohne weitere Plugins im Browser lauff"ahig.
+Um eine Linux und Android Unterst"utzung zu erreichen ist das Projekt mit Mono, einer .NET Open Source Implementierung, kompatibel. Sogar einen export nach JavaScript durch den JSIL Compiler von Kevin Gadd ist m"oglich. Somit ist Fusee ohne weitere Plugins im Browser lauff"ahig.
 
 Hier eine Liste der bereits umgesetzten Features in der Version 0.5:
 \begin{itemize}
@@ -580,21 +581,21 @@ Hier eine Liste der bereits umgesetzten Features in der Version 0.5:
 \item Sound in Browsern und Betriebssystemen vorhanden
 \end{itemize}
 
-\LFGS ist als Projekt in einen eigenen FUSEE Branch integiert. Nach aktuellem Stand (Juli 2013) kann man sich als Benutzer entscheiden ob man dann ein Modell mit dem in FUSEE integrierten Mesh System oder mit dem \HES Geometry System von \LFGS laden m"ochte.
+\LFGS ist als Projekt in einen eigenen Fusee Branch integiert. Nach aktuellem Stand (Juli 2013) kann man sich als Benutzer entscheiden ob man dann ein Modell mit dem in Fusee integrierten Mesh System oder mit dem \HES Geometry System von \LFGS laden m"ochte.
 
-Als Schnittstelle zur GPU (Graphics processing unit) verwendet FUSEE die Low level Bibliothek OpenTK\footnote{\url{http://www.opentk.com/ (gepr"uft 30.07.2013)}} welche in \CSS geschrieben ist und einen wrapper f"ur die OpenGL Multi platform application programming interface (API) darstellt.
+Als Schnittstelle zur GPU (Graphics processing unit) verwendet Fusee die Low level Bibliothek OpenTK\footnote{\url{http://www.opentk.com/ (gepr"uft 30.07.2013)}} welche in \CSS geschrieben ist und einen wrapper f"ur die OpenGL Multi platform application programming interface (API) darstellt.
 
-Weitere Informationen "uber die FUSEE Engine sind auf der offiziellen Homepage \footnote[1]{\url{http://fusee3d.org/}} oder "uber GitHub \footnote[2]{\url{https://github.com/FUSEEProjectTeam/Fusee}} erh"ltlich \footnote[3]{Quelle \url{http://fusee3d.org/about/} (Stand 19.07.2013)}
+Weitere Informationen "uber die Fusee Engine sind auf der offiziellen Homepage \footnote[1]{\url{http://fusee3d.org/}} oder "uber GitHub \footnote[2]{\url{https://github.com/FUSEEProjectTeam/Fusee}} erh"ltlich \footnote[3]{Quelle \url{http://fusee3d.org/about/} (Stand 19.07.2013)}
 			%Content
 \section {Die Vorteile in der Entwicklung mit managed Programmiersprachen}\label{sec:VorteileManaged}
 		%Content
-Durch die enge Verkn"upfung von \LFGS mit der FUSEE Engine war es nat"urlich n"otig das Projekt in der gleichen Programmiersprache wie FUSEE zu implementieren um eine Kommunikation der beiden Projekte zu erlauben. Obwohl die .NET basis hier nat"urlich Spielraum f"ur Entscheidungen zugunsten VB.NET gelassen h"atte. Sinnvoll w"are das nat"urlich nicht gewesen. Hier soll jetzt kurz gekl"art werden was "`Managed Code"' genau bietet und warum \LFGS in einer solchen Sprache wie \CSS implementiert wurde. Nat"urlich einmal davon abgesehen, dass \LFGS mithilfe von LINQ implementiert wurde und LINQ eine der S"aulen des Projekts darstellt.
+Durch die enge Verkn"upfung von \LFGS mit der Fusee Engine war es nat"urlich n"otig das Projekt in der gleichen Programmiersprache wie Fusee zu implementieren um eine Kommunikation der beiden Projekte zu erlauben. Obwohl die .NET basis hier nat"urlich Spielraum f"ur Entscheidungen zugunsten VB.NET gelassen h"atte. Sinnvoll w"are das nat"urlich nicht gewesen. Hier soll jetzt kurz gekl"art werden was "`Managed Code"' genau bietet und warum \LFGS in einer solchen Sprache wie \CSS implementiert wurde. Nat"urlich einmal davon abgesehen, dass \LFGS mithilfe von LINQ implementiert wurde und LINQ eine der S"aulen des Projekts darstellt.
 
 		Managed Code bietet einem Entwickler viele verschiedene Vorteile im Gegensatz zur Entwicklung in einer Nativen Programmiersprache. Im Hinblick auf die \HES sollte besonders das Speichermanagement und die Pointer Verwaltung betrachtet werden. Durch die in \CSS implementierte Garbage Collection ist der Programmierer von der Aufgabe befreit das Speichermanagement selbst zu verwalten. Das bietet einen gro"sen Vorteil in der schnellen Entwicklung von Programmiersprachen. Managed Code ist f"ur viele Entwickler einfacher zu schreiben als native Code in Sprachen wie z.B. C++.
 
 Im Hinblick auf \LFGS f"allt durch die Nutzung von \CSS einiges an Arbeit weg. Nicht mehr gebrauchte tempor"are Listen, von denen es einige im Projekt gibt und Objekte werden automatisch durch die Garbage Collection aufger"aumt und es kommt sehr selten bis kaum zu Memory Leaks durch Programmier- oder Laufzeitfehler. Es ist so wesentlich einfacher externen Nutzern einen Zugang auf den Code des Projekts zu erm"oglichen ohne dass sie Gefahr laufen die Integrit"at der Datenstruktur durch Pointer Manipulationen zu gef"ahrden. \CSS bietet hier also ein gewisses Ma"s an Sicherheit f"ur das System.
 
-Ein weiterer Pluspunkt ist nat"urlich, dass sich bereits viele Entwickler und Studenten der Hochschule Furtwangen die sp"ater m"oglicherweise die FUSEE Engine verwenden m"ochten bereits mit \CSS oder Java, welches \CSS zumindest Syntaktisch sehr "ahnelt, auskennen.
+Ein weiterer Pluspunkt ist nat"urlich, dass sich bereits viele Entwickler und Studenten der Hochschule Furtwangen die sp"ater m"oglicherweise die Fusee Engine verwenden m"ochten bereits mit \CSS oder Java, welches \CSS zumindest Syntaktisch sehr "ahnelt, auskennen.
 		%Content
 \subsection {Der Link von LINQ zur \HES}
 				%Content
@@ -605,14 +606,14 @@ Ein weiterer Pluspunkt ist nat"urlich, dass sich bereits viele Entwickler und St
 		%Content
 		Das Projekt \LFGS benutzt das von Wavefront Technologies entwickelte offene "`Wavefront Object"' Format (Dateiendung .obj) um Modelle aus 3D Modellierungssoftware zu importieren. Wavefront Technologies existiert Heute nicht l"anger. Die Firma wurde in den 1995 von Silicon Graphics augekauft und mit Alias Research zu Alias|Wavefront verschmolzen. Mittlerweile geh"oren beide Firmen zu Autodesk (3DS Max, AutoCAD).
 
-Das .obj Format zeichnet sich durch seine einfache Form und durch die Menschliche Lesbarkeit aus. Das Format ist in ASCII kodiert. Bei diesem Format handelt es sich um ein Face basiertes Format zur speicherung von Mesh Daten. Alle Vertices eines Meshes werden gespeichert und faces definieren ihre Eckpunkte aus den Indizes der Vertices. Es ist ebenfalls m"oglich Texturkoordinaten und Normalen zu speichern. Die optionalen Tags "`mtllib"' und "`mtl"' geben an ob Material Dateien vorliegen und wann und wo diese verwendet werden sollen. Kommentarzeilen werden mit einer Raute "`\#"' gekennzeichnet, Objekte und Gruppen von Objekten mit einem "`o"' und "`g"'. Das Wavefront .obj Format ist heute eine Art Standard. Die meisten 3D Programme k"onnen es importieren und exportieren. Dazu z"ahlen das w"ahrend dieser Arbeit verwendete Cinema 4D von Maxon, sowie die Open Source Software Blender und die FUSEE Engine.
+Das .obj Format zeichnet sich durch seine einfache Form und durch die Menschliche Lesbarkeit aus. Das Format ist in ASCII kodiert. Bei diesem Format handelt es sich um ein Face basiertes Format zur speicherung von Mesh Daten. Alle Vertices eines Meshes werden gespeichert und faces definieren ihre Eckpunkte aus den Indizes der Vertices. Es ist ebenfalls m"oglich Texturkoordinaten und Normalen zu speichern. Die optionalen Tags "`mtllib"' und "`mtl"' geben an ob Material Dateien vorliegen und wann und wo diese verwendet werden sollen. Kommentarzeilen werden mit einer Raute "`\#"' gekennzeichnet, Objekte und Gruppen von Objekten mit einem "`o"' und "`g"'. Das Wavefront .obj Format ist heute eine Art Standard. Die meisten 3D Programme k"onnen es importieren und exportieren. Dazu z"ahlen das w"ahrend dieser Arbeit verwendete Cinema 4D von Maxon, sowie die Open Source Software Blender und die Fusee Engine.
 		%Content
 		\subsection {Warum das Wavefront Object Format}
 			%Content
-			Warum verwendet LFG das Wavefront .obj Format? Der am schwerwiegenste Grund ist sicherlich, dass FUSEE in seiner Standard Implementierung ebenfalls dieses Format verwendet. Um die "Ubersichtlichkeit des Projektes zu erhalten und den Prozess des Imports nicht zu verkomplizieren wurde w"ahrend dieser Arbeit ebenfalls entschieden den Import der Daten im .obj Format vorzunehmen. Der Importer von \LFGS ist jedoch ein andere als der Importer von FUSEE. Haupts"achlich aufgrund einer fehlenden Schnittstelle und anderer Import Algorithmen. Das hat den Vorteil, dass ein sp"aterer BEnutzer des Systems den Importer erweitern kann ohne den Engine Code oder den Code von \LFGS "andern zu m"ussen. Der Importer ist vom LFG Projekt abgekoppelt. Ein Nutzer k"onnte also sogar seinen eigenen Importer f"ur ein anderes Format verwenden solange er der Geometry Klasse das korrekte Datenformat inklusive der ben"otigten Datentypen zum Aufbau der Datenstruktur "ubergibt. Im falle von LFG erwartet die Geometry Klasse eine Collection (einfach verkettete Liste) aus "`GeoFaces"'.
+			Warum verwendet LFG das Wavefront .obj Format? Der am schwerwiegenste Grund ist sicherlich, dass Fusee in seiner Standard Implementierung ebenfalls dieses Format verwendet. Um die "Ubersichtlichkeit des Projektes zu erhalten und den Prozess des Imports nicht zu verkomplizieren wurde w"ahrend dieser Arbeit ebenfalls entschieden den Import der Daten im .obj Format vorzunehmen. Der Importer von \LFGS ist jedoch ein andere als der Importer von Fusee. Haupts"achlich aufgrund einer fehlenden Schnittstelle und anderer Import Algorithmen. Das hat den Vorteil, dass ein sp"aterer BEnutzer des Systems den Importer erweitern kann ohne den Engine Code oder den Code von \LFGS "andern zu m"ussen. Der Importer ist vom LFG Projekt abgekoppelt. Ein Nutzer k"onnte also sogar seinen eigenen Importer f"ur ein anderes Format verwenden solange er der Geometry Klasse das korrekte Datenformat inklusive der ben"otigten Datentypen zum Aufbau der Datenstruktur "ubergibt. Im falle von LFG erwartet die Geometry Klasse eine Collection (einfach verkettete Liste) aus "`GeoFaces"'.
 \lstinputlisting
 			[caption={GeoFace.cs - Ein tempor"arer Face basierter Datentyp.}, label=code:geoface, firstline=20, lastline=24]
-			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Importer/GeoFace.cs}
+			{../../HFU_Fusee/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Importer/GeoFace.cs}
 
 Ein "`GeoFace"' ist ein Konstrukt welches welches ein Polygon (In LFG Face genannt) eines 3D Models (Meshes) repr"asentiert. Jedes GeoFace selbst enth"alt eine Liste aus Fusee.Math float3 Vertice Daten und Fusee.Math float2 UV Koordinaten.
 \newline
@@ -643,7 +644,7 @@ f 5 3 1 7
 			%Content
 		\subsection {Der Importer für das Wavefront Format oder auch Face basierter Import - Edge basiertes Handling}
 			%Content
-			Zum Import Zeitpunkt eines Assets (Meshes) wird zuerst der Inhalt der im Speicher des Betriebssystems abgelegten .obj Datei komplett eingelesen. Die Datei Endung f"ur eine Mesh Datei im FUSEE Universum unterscheidet sich durch die zus"atzliche Endung .model leicht von der Standard Datei Endung. So wird ein Konflikt mit den in Visual Studio benutzen Compilern und dem .obj Format f"ur kompilierte aber noch nicht gelinkte Dateien vermieden. Eine Datei w"urde dann f"ur die Verwendung in FUSEE und LFG als Cube.obj.model benannt werden. Der Importer parsed jetzt alle n"otigen Strings in Integer Werte und Baut aus den Face Definitionen im .obj Format "`GeoFace"' Objekte zusammen. Zu diesem Zeitpunkt liegt das komplette Mesh noch Face basiert vor. Es gibt noch keine Beziehungen zwischen den Einzelnen Elementen und jedes Face steht f"ur sich alleine. Die ganze Collection an Daten wird nun von der Geometry abgeholt und durch den Initialisierungslauf in die \HES "ubersetzt. Erst hier entstehen durch viele Methoden aus den Face basierten Meshes Edge basierte Strukturen.
+			Zum Import Zeitpunkt eines Assets (Meshes) wird zuerst der Inhalt der im Speicher des Betriebssystems abgelegten .obj Datei komplett eingelesen. Die Datei Endung f"ur eine Mesh Datei im Fusee Universum unterscheidet sich durch die zus"atzliche Endung .model leicht von der Standard Datei Endung. So wird ein Konflikt mit den in Visual Studio benutzen Compilern und dem .obj Format f"ur kompilierte aber noch nicht gelinkte Dateien vermieden. Eine Datei w"urde dann f"ur die Verwendung in Fusee und LFG als Cube.obj.model benannt werden. Der Importer parsed jetzt alle n"otigen Strings in Integer Werte und Baut aus den Face Definitionen im .obj Format "`GeoFace"' Objekte zusammen. Zu diesem Zeitpunkt liegt das komplette Mesh noch Face basiert vor. Es gibt noch keine Beziehungen zwischen den Einzelnen Elementen und jedes Face steht f"ur sich alleine. Die ganze Collection an Daten wird nun von der Geometry abgeholt und durch den Initialisierungslauf in die \HES "ubersetzt. Erst hier entstehen durch viele Methoden aus den Face basierten Meshes Edge basierte Strukturen.
 			%Content
 	\section {Initialisierungsablauf und Aufbau der \HES in \LFG}
 			%Content
@@ -690,22 +691,22 @@ Die Handler Konstrukte "`Structs"' in dieser Arbeit, welchen Datentyps auch imme
 Sie enthalten nur einen Index als Zeiger und sehr wenige Funktionen. Ein Handler speichert zur Laufzeit pro Instanz einen Index auf den realen Datensatz f"ur den er einen Handle darstellt. Handler Structs gibt es f"ur Edges, Half-Edges, Faces, FaceNormals, Vertices, VertexNormals und VertexUVs. Sie unterscheiden sich hierbei nur durch die Namensgebung der Structs und der Konstrukturen.
 \lstinputlisting
 			[caption={HandleHalf-Edge.cs - Variablen Deklaration des "`Zeigers"'}, label=code:hhezeiger, firstline=21, lastline=21]
-			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+			{../../HFU_Fusee/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
 
 Ein Handler Struct stellt eine implizite Konvertierung des Handlers, siehe Listing \ref{code:hhecast}, in den Datentypen Integer (int) zur Verfügung.
 \lstinputlisting
 			[caption={HandleHalf-Edge.cs - Impliziter cast nach Integer}, label=code:hhecast, firstline=37, lastline=40]
-			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+			{../../HFU_Fusee/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
 
 Zus"atzlich kann der Entwickler jederzeit abfragen ob der aktuell verwendete Handler schon als valide betrachtet werden kann. Hierzu Listing \ref{code:isvalid} betrachten. Ein Handler ist dann valide, wenn sein Index nicht kleiner als 0 ist. In dieser Arbeit werden einstweilen Handler initialisiert f"ur die zum Zeitpunkt der Initialisierung noch kein Index zur Speicherung bereit steht. Diese vorerst nicht validen Handler werden dann mit dem Wert -1 initialisiert und sind somit zu diesem Zeitpunkt als nicht valide also nicht verwendbar zu betrachten. Um diese sp"ater im Programm zu benutzen, muss also noch der korrekte Index, meistens der Wert einer Count Funktion auf einer Liste eingef"ugt werden.
 \lstinputlisting
 			[caption={HandleHalf-Edge.cs - Is Valid?}, label=code:isvalid, firstline=45, lastline=48]
-			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+			{../../HFU_Fusee/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
 
 Eine Besonderheit der Handler ist die mit "`internal"' gekennzeichnete Deklaration der Indizes. Siehe hierzu Listing \ref{code:hheinternal}. Durch das "`internal"' \CSS Schl"usselwort k"onnen die Handler nur aus der jeweiligen gleichen Assembly angesprochen und ver"andert werden. Dies verhindert einen unbefugten oder unabsichtlichen Fremdzugriff von Au"sen. W"ahrend der Laufzeit wird also die Konsistenz der Datenstruktur in sich gesch"utzt um so das Programm vor Abst"urzen durch Zeiger Fehler zu sch"utzen.
 \lstinputlisting
 			[caption={HandleHalf-Edge.cs - Deklarationen als internal}, label=code:hheinternal, firstline=21, lastline=21]
-			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
+			{../../HFU_Fusee/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
 
 \begin{quote}{\dq}Der interne Zugriff wird h{\"a}ufig in komponentenbasierter Entwicklung verwendet, da er einer Gruppe von Komponenten erm{\"o}glicht, in einer nicht {\"o}ffentlichen Weise zusammenzuwirken, ohne dem Rest des Anwendungscodes zug{\"a}nglich zu sein.{\dq} \cite{MicrosoftCReferenz.2013}\end{quote}
 
@@ -730,14 +731,14 @@ Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann 
 \item Ein HandleFace \_f; (auf das zugeh"orige Face)
 \end{itemize}
 
-In der Implementierung von \LFGS werden an einer Half-Edge noch zus"atzliche Handler Informationen f"ur die Verwendung und Konvertierung des Meshes in und nach FUSEE gespeichert.
+In der Implementierung von \LFGS werden an einer Half-Edge noch zus"atzliche Handler Informationen f"ur die Verwendung und Konvertierung des Meshes in und nach Fusee gespeichert.
 
 \begin{itemize}
 \item HandleVertexNormal \_vn; (auf die Vertex Normale eines Vertex)
 \item HandleVertexUV \_vuv; (auf die UV Texture Koordinaten eines Vertex)
 \end{itemize}
 
-Da jede Half-Edge auch eine Verbindung zum Vertex hat auf den sie zeigt ist es sehr praktisch an ihr auch die zus"atzlichen Informationen zu speichern die der Vertex in FUSEE ben"otigt. Es wird also ein Index auf die Vertex Normale im Speicher zum angesprochenen Vertex gespeichert. Zus"atzlich noch ein Index auf die UV Texture Koordinaten die f"ur den Vertex gelten. So kann die Iteration bei einer sp"ateren Konvertierung der Datenstruktur in ein f"ur FUSEE verst"andliches Mesh Objekt "uberhaupt erst m"oglich gemacht werden. Es w"are mit erheblichem Mehraufwand und wachsendem Speicherverbrauch auch m"oglich gewesen die Informationen an den einzelnen Vertices durch Verkn"upfungen mit Listen welche jeweils die die Daten f"ur einen Vertex speichernzu realisieren, allerdings h"atte das eine regelrechte Aufweichung der Idee der Datenstruktur bedeutet (alle wichtigen Informationen werden an den Half-Edges gespeichert). Zus"atzlich w"are es so wesentlich aufwendiger geworden eine korrekte Kanten und Winkel basierte Vertex Normalen Berechnung pro Vertex pro Face f"ur die in FUSEE vorhandene Beleuchtungsshader zu implementieren wie sie durch diese kleine erweiterung der \HES jetzt bereits in \LFGS vorhanden ist.
+Da jede Half-Edge auch eine Verbindung zum Vertex hat auf den sie zeigt ist es sehr praktisch an ihr auch die zus"atzlichen Informationen zu speichern die der Vertex in Fusee ben"otigt. Es wird also ein Index auf die Vertex Normale im Speicher zum angesprochenen Vertex gespeichert. Zus"atzlich noch ein Index auf die UV Texture Koordinaten die f"ur den Vertex gelten. So kann die Iteration bei einer sp"ateren Konvertierung der Datenstruktur in ein f"ur Fusee verst"andliches Mesh Objekt "uberhaupt erst m"oglich gemacht werden. Es w"are mit erheblichem Mehraufwand und wachsendem Speicherverbrauch auch m"oglich gewesen die Informationen an den einzelnen Vertices durch Verkn"upfungen mit Listen welche jeweils die die Daten f"ur einen Vertex speichernzu realisieren, allerdings h"atte das eine regelrechte Aufweichung der Idee der Datenstruktur bedeutet (alle wichtigen Informationen werden an den Half-Edges gespeichert). Zus"atzlich w"are es so wesentlich aufwendiger geworden eine korrekte Kanten und Winkel basierte Vertex Normalen Berechnung pro Vertex pro Face f"ur die in Fusee vorhandene Beleuchtungsshader zu implementieren wie sie durch diese kleine erweiterung der \HES jetzt bereits in \LFGS vorhanden ist.
 		\subsection {Edges Pointer-Container}
 			%Content
 			Ein Edge Pointer Container, in \LFG zu finden im Struct "`EdgePtrcont.cs"', ist ein Repr"asentation von Kanten in der \HES. Jeder Edge Pointer Container beinhaltet zwei Handles auf Half-Edges.
@@ -770,7 +771,7 @@ So ist es mit ein paar Pointer Spr"ungen m"oglich diesen Algorithmus schnell und
 \item HandleHalfEdge \_h;
 \end{itemize}
 
-Zus"atzlich zu den Standards der \HES bietet \LFGS die M"oglichkeit an jedem Face ein Handle auf eine dem Face zugeh"orige Face Normale zu speichern. Diese Face Normale gibt die Richtung des Faces an sollte die Datenstruktur in eine 3D Engine implementiert werden in welcher Backface Culling unterst"utzt und dabei Normalen als Ausrichtungsmerkmal beachtet werden. In \LFG und seiner Implementierung in der FUSEE Engine wird die Face Normale aktuell nur zur Berechnung der Vertex Normalen herangezogen. FUSEE ben"otigt f"ur das Backface Culling lediglich eine Traversierung der Polygone entgegen des Uhrzeigersinns. Diese Besonderheit tritt in Engines auf welche OpenGL als Grafikschnittstelle verwenden.
+Zus"atzlich zu den Standards der \HES bietet \LFGS die M"oglichkeit an jedem Face ein Handle auf eine dem Face zugeh"orige Face Normale zu speichern. Diese Face Normale gibt die Richtung des Faces an sollte die Datenstruktur in eine 3D Engine implementiert werden in welcher Backface Culling unterst"utzt und dabei Normalen als Ausrichtungsmerkmal beachtet werden. In \LFG und seiner Implementierung in der Fusee Engine wird die Face Normale aktuell nur zur Berechnung der Vertex Normalen herangezogen. Fusee ben"otigt f"ur das Backface Culling lediglich eine Traversierung der Polygone entgegen des Uhrzeigersinns. Diese Besonderheit tritt in Engines auf welche OpenGL als Grafikschnittstelle verwenden.
 \begin{itemize}
 \item HandleFaceNormal \_fn;
 \end{itemize}
@@ -819,9 +820,9 @@ Das Geometry Object wird hier durch Call by Reference (dargestellt durch das Key
 			%Content
 	\section {Anwendungsszenarien von \LFG}
 		%Content
-	\LFGS kann mit der \HES als Basis f"ur viele Anwendungesgebiete interessant sein. Aktuell ist das System als Ersatz f"ur das in FUSEE integrierte Mesh Konzept eingebettet. Hier l"adt es Meshes aus Wavefront Object Dateien w"ahrend der Laufzeit eines FUSEE Programms in den Speicher und h"alt die Daten bereit. Das Mesh kann dann w"ahrend der Laufzeit durch verschiedene Methoden manipuliert werden. Allerdings sind weitere Einsatzgebiete denkbar und teilweise sogar angedacht.
+	\LFGS kann mit der \HES als Basis f"ur viele Anwendungesgebiete interessant sein. Aktuell ist das System als Ersatz f"ur das in Fusee integrierte Mesh Konzept eingebettet. Hier l"adt es Meshes aus Wavefront Object Dateien w"ahrend der Laufzeit eines Fusee Programms in den Speicher und h"alt die Daten bereit. Das Mesh kann dann w"ahrend der Laufzeit durch verschiedene Methoden manipuliert werden. Allerdings sind weitere Einsatzgebiete denkbar und teilweise sogar angedacht.
 Das System k"onnte es zum Beispiel m"oglich machen Meshes zur Laufzeit eines Spiels zu ver"andern. Dabei w"are es denkbar Konstruktion oder Destruktion in einer Echtzeit Spielwelt mit LFG zu realisieren. LFG ist ein sehr gut geeignetes System f"ur alle Algorithmen welche eine Kantenbasierte Pr"asentation der Daten erwarten. Dazu z"ahlen z.B. verschiedene Subdivision Surfacing Algorithmen wie der "`Loop"' und der "`Catmull-Clark"' Algorithmus. Diese Algorithmen beschreiben eine M"oglichkeit Meshes in immer feinere Strukturen zu unterteilen um ihnen so eine gleichm"assigere Oberfl"ache zu verleihen oder Details herauszuarbeiten oder aber diese zu verringern.
-Der interessanteste Fall f"ur \LFG ist sicherlich die m"oglicherweise zuk"unftige Verwendung des Projekts f"ur einen 3D Editor auf Basis der FUSEE Engine. Dabei w"are es dann m"oglich Meshes in Echtzeit zu bearbeiten und sie in der FUSEE Engine anzuzeigen und zu benutzen ganz wie es bereits in 3D Modellierungssoftware wie Cinema 4D M"oglich ist. Die erstellten Meshes k"onnten dann abgespeichert oder direkt als Assets in neuen FUSEE Projekten verwendet werden. Ein Editor mit dieser Funktion k"onnte durch das LinqForGeometry.ExternalModules Projekt recht einfach um neue Funktionen erweitert werden und kann so an die W"unsche und Anforderungen der verschiedenen Nutzer angepasst werden.
+Der interessanteste Fall f"ur \LFG ist sicherlich die m"oglicherweise zuk"unftige Verwendung des Projekts f"ur einen 3D Editor auf Basis der Fusee Engine. Dabei w"are es dann m"oglich Meshes in Echtzeit zu bearbeiten und sie in der Fusee Engine anzuzeigen und zu benutzen ganz wie es bereits in 3D Modellierungssoftware wie Cinema 4D M"oglich ist. Die erstellten Meshes k"onnten dann abgespeichert oder direkt als Assets in neuen Fusee Projekten verwendet werden. Ein Editor mit dieser Funktion k"onnte durch das LinqForGeometry.ExternalModules Projekt recht einfach um neue Funktionen erweitert werden und kann so an die W"unsche und Anforderungen der verschiedenen Nutzer angepasst werden.
 			%Content
 	\section {LINQ Abfragen und ihr Verhalten bei der Selektierung großer Datenmengen in \LFG}
 		%Content
@@ -932,14 +933,14 @@ handleHalfEdge => _LhedgePtrCont[handleHalfEdge]._v
 % IMPORTANT
 \lstinputlisting
 			[caption={Geometry.cs - EnFaceAdjacentHalfEdges()}, label=code:efahe, firstline=951, lastline=965]
-			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Geometry.cs}
+			{../../HFU_Fusee/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Geometry.cs}
 
 Weiterhin gibt es aber auch Iteratoren welche tats"achlich aus einem einzeiligen LINQ Statement bestehen. Fast immer verarbeiten diese Iteratoren die Ergebnisse eines der "`nativ"' auf der Datenstruktur ausgef"uhrten Enumeratoren. Sie erweitern oder ver"andern dessen Ergebnisse. Diese in LINQ formulierten Methoden m"ussen grunds"atzlich wesentlich kleinere Collections an Daten verarbeiten. Aus diesem Grund eignen sich LINQ Abfragen hierf"ur wunderbar. Sie sind somit zug"anglich und gerade noch hinreichend komplex zu gestaltet um auch in Zukunft eine Basis f"ur neue Traversierungsmethoden zu bieten.
 Der EnFaceAdjacentVertices() Enumerator w"urde es hier noch erlauben sein Ergebnis Set noch weiter zu modifizieren. Es w"are denkbar einen neuen Enumerator zu schreiben der zu jedem Vertex der das urspr"ungliche Face begrenzt alle angrenzenden Faces bestimmt. Der Nutzen einer solchen Operation sei hier ausser Acht gelassen. Diese Idee zeigt aber, dass es praktisch m"oglich ist fast alle neuen Ideen durch die Wiederverwendung der LINQ basierten Enumeratoren oder die Erweiterung der "`nativen"' Enumeratoren zu realisieren.
 % IMPORTANT
 \lstinputlisting
 			[caption={Geometry.cs - EnFaceAdjacentVertices()}, label=code:efav, firstline=973, lastline=976]
-			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Geometry.cs}
+			{../../HFU_Fusee/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Geometry.cs}
 
 			%Content
 \subsection {Die Geschwindigkeit der Half-Edge Datenstruktur in den Enumeratoren}
@@ -949,7 +950,7 @@ Wie in der oberen "Ubersicht "uber die Iteratoren \ref{part:iteratoren} gezeigt 
 Die Gr"o"se der Quelldaten Collection hat eine erhebliche Auswirkung auf die Geschwindigkeit eines Iterators. So ist es also essentiell, dass Enumeratoren wie EnFaceAdjacentHalfEdges() im Hinblick auf Geschwindigkeit entworfen werden. Ein Beispiel kann am Iterator EnVertexIncomingHalfEdge(HandleVertex vertexHandle) festgemacht werden. So ist seine Implementierung in Form des folgendes Codes die schnellste im Moment denkbare Version dieses Iterators im Projekt. Der Iterator k"onnte auf zwei Arten im Projekt eingesetzt werden. Die erste denkbare M"oglichkeit w"are den Iterator als Algorithmus zu entwerfen welcher direkt auf der \HES arbeitet.
 \lstinputlisting
 			[caption={Geometry.cs - EnVertexIncomingHalfEdge()}, label=code:alg1, firstline=904, lastline=922]
-			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Geometry.cs}
+			{../../HFU_Fusee/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Geometry.cs}
 
 W"ahrend er als LINQ Abfrage in Methodensyntax
 \begin{lstlisting}[label={code:alg3}]
@@ -971,20 +972,20 @@ Die Kennzahlen der Messung sind in der Einheit Inklusive Samples angegeben. Inkl
 
 \begin{quote}Die Exklusiv-Werte werden anhand der Gesamtzahl an der f{\"u}r eine Funktion erfassten Samplings berechnet, wenn diese ihren eigenen Code ausf{\"u}hrt. Exklusive Werte enthalten kein Samplings, die beim Ausf{\"u}hren untergeordneter Funktionen erfasst werden. Wenn eine erfasste Aufrufliste analysiert wird, wird die exklusive Samplinganzahl nur f{\"u}r die Funktion erh{\"o}ht, die Code ihres Funktionstexts ausf{\"u}hrt. \cite[Analyse von Leistungsdaten]{MicrosoftCReferenz.2013}\end{quote}
 
-\subsubsection{Messeergebnis f"ur den nativen Algorithmus auf der Datenstruktur (alg1) aus \ref{code:alg1}}
+\subsubsection{Messergebnis f"ur den nativen Algorithmus auf der Datenstruktur (alg1) aus \ref{code:alg1}}
 \begin{minipage}[c][7cm]{\linewidth}
 \includegraphics[width=\linewidth]{../Messung/linq-alg1-0}
 \captionof{figure}{Messung der CalcVertexNormal() Methode}\label{messung:alg10}
 \end{minipage}
-Die Insert Operation mit 41.7\% und Remove Operationen  41.0\% haben hier den gr"o"ssten Anteil der Funktion. Der Enumerator folgt dann wie in der unteren Grafik zu sehen ist mit einem Anteil unter 1\%. Somit ist diese Variante die effektivste zur Berechnung der Vertex Normalen.
+Die Insert Operation mit 41.7\% und Remove Operationen  41.0\% haben hier den gr"o"ssten Anteil der Funktion. Der Enumerator folgt dann wie in der unteren Grafik zu sehen ist mit einem Anteil unter 1\%. Somit ist diese Variante nach pr"ufung der anderen beiden Varianten die effektivste zur Berechnung der Vertex Normalen.
 \begin{minipage}[c][7cm]{\linewidth}
 \includegraphics[width=\linewidth]{../Messung/linq-alg1-1}
 \captionof{figure}{Messung des Enumerators EnVertexIncomingHalfEdge() ohne LINQ. Die relevante Zeile ist rot markiert.}\label{messung:alg11}
 \end{minipage}
 
-Hier taucht der Enumerator aufgrund der "`nativen"' Implementierung nur als Wert < 1\% auf. Der gr"o"ste Teil an Inklusiv Samples wird wieder von den internen \CSS Funktionen produziert.
+Hier taucht der Enumerator aufgrund der "`nativen"' Implementierung nur als Wert < 1\% auf. Der gr"o"ste Teil an Inklusiv Samples wird hier von den internen \CSS Funktionen produziert.
 
-\subsubsection{Messeergebnis f"ur die Methodensyntax (alg2) aus \ref{code:alg2}}
+\subsubsection{Messergebnis f"ur die Methodensyntax (alg2) aus \ref{code:alg2}}
 \begin{minipage}[c][8cm]{\linewidth}
 \includegraphics[width=\linewidth]{../Messung/linq-alg2-0}
 \captionof{figure}{Messung der CalcVertexNormal() Methode.}\label{messung:alg20}
@@ -997,7 +998,7 @@ Bei dieser Variante sind die Inklusiv Samples f"ur den Enumerator mit 34.4\% als
 
 Das hohe Ergebnis des Enumerators resuliert aus der riesigen Collection an Half-Edges "uber welche die LINQ Abfrage iterieren muss um alle eingehenden Half-Edges eines Vertex zu finden. Der Native Algorithmus ben"otigt hier nur ein paar Pointer spr"ungen "uber nachbar Half-Edges wie in \ref{code:alg1} dargestellt. \label{ref:linqNativeSampling1}
 
-\subsubsection{Messeergebnis f"ur die Abfragesyntax (alg3) aus \ref{code:alg3}}
+\subsubsection{Messergebnis f"ur die Abfragesyntax (alg3) aus \ref{code:alg3}}
 \begin{minipage}[c][9.5cm]{\linewidth}
 \includegraphics[width=\linewidth]{../Messung/linq-alg3-0}
 \captionof{figure}{Messung der CalcVertexNormal() Methode.}\label{messung:alg30}
@@ -1059,18 +1060,18 @@ Um die Vertices eines Meshes zu transformieren wird eine zuvor in der Methode zu
 Durch die Nutzung von LINQ entwickelt sich der oben genannte Algorithmus zu einem Einzeiler und zeigt hier sehr gut warum LINQ die Entwicklung solcher Algorithmen sehr viel lesbarer und einfacher gestaltet. Die hier gezeigte LINQ Abfrage ist in der Methodensyntax geschrieben.
 \lstinputlisting
 			[caption={Transformation.cs - Manipulation der Vertices}, label=code:transform, firstline=95, lastline=108]
-			{../../HFU_FUSEE/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.ExternalModules/Transformations/Transformations.cs}
+			{../../HFU_Fusee/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.ExternalModules/Transformations/Transformations.cs}
 
 Das Geometry Objekt wird dieser Methode lediglich Call by Reference "ubergeben um die ben"otigte Rechenleistung zu minimieren und die Bearbeitung mit der einzeiligen LINQ Funktion m"oglich zu machen. So werden die Daten direkt ohne zwischenspeichern ressourcenschonend auf der Quelle ver"andert ohne dass das Ergebnis Set dann nochmal explizit gespeichert oder "ubergeben werden muss.
 			%Content
 \newpage
-	\section {Berechnungen f"ur die Darstellung eines Meshes in der FUSEE Engine}
+	\section {Berechnungen f"ur die Darstellung eines Meshes in der Fusee Engine}
 	%Content
-	Um ein in der \LFGS \HES gespeichertes Mesh in der FUSEE Engine zu rendern bedarf es einiger Operationen. Die wichtigsten Operationen f"ur die Vorbereitung der Darstellung sind alle in der LFG Methode ToMesh() zu finden. Diese Methode kann als Konverter bezeichnet werden. Um LFG an eine andere Engine anzupassen m"usste diese Operation falls n"otig ge"andert werden. ToMesh() pr"uft zuerst ob der Benutzer eine Triangulation des Meshes w"unscht. Falls ja wird das Mesh beim ersten Rendern nach ToMesh trianguliert. Diese "Anderung ist zur Laufzeit nicht R"uckg"angig zu machen. Es folgen jetzt einige Schritte die f"ur eine sp"atere Beleuchtungsberechnung in FUSEE n"otig sind.
+	Um ein in der \LFGS \HES gespeichertes Mesh in der Fusee Engine zu rendern bedarf es einiger Operationen. Die wichtigsten Operationen f"ur die Vorbereitung der Darstellung sind alle in der LFG Methode ToMesh() zu finden. Diese Methode kann als Konverter bezeichnet werden. Um LFG an eine andere Engine anzupassen m"usste diese Operation falls n"otig ge"andert werden. ToMesh() pr"uft zuerst ob der Benutzer eine Triangulation des Meshes w"unscht. Falls ja wird das Mesh beim ersten Rendern nach ToMesh trianguliert. Diese "Anderung ist zur Laufzeit nicht R"uckg"angig zu machen. Es folgen jetzt einige Schritte die f"ur eine sp"atere Beleuchtungsberechnung in Fusee n"otig sind.
 
-Die Face Normalen werden jetzt durch CalcFaceNormal(HandleFace face) berechnet. Diese Methode sucht alle Vertices eines Faces heraus und berechnet aus den ersten drei Vertices des Faces durch das Kreuzprodukt eine Normale f"ur das aktuelle Face. Diese Normale wird jetzt in eine Liste eingetragen und ein Handle auf sie wird am Face gespeichert. Die Face Normalen sind ein wichtiges Element um im n"achsten Schritt die Vertex Normalen berechnen zu k"onnen welche in FUSEE f"ur eine korrekte Beleuchtung des Modells verantwortlich sind.
+Die Face Normalen werden jetzt durch CalcFaceNormal(HandleFace face) berechnet. Diese Methode sucht alle Vertices eines Faces heraus und berechnet aus den ersten drei Vertices des Faces durch das Kreuzprodukt eine Normale f"ur das aktuelle Face. Diese Normale wird jetzt in eine Liste eingetragen und ein Handle auf sie wird am Face gespeichert. Die Face Normalen sind ein wichtiges Element um im n"achsten Schritt die Vertex Normalen berechnen zu k"onnen welche in Fusee f"ur eine korrekte Beleuchtung des Modells verantwortlich sind.
 
-Vertex Normalen f"ur FUSEE werden in \LFG durch die Methode CalcVertexNormal(HandleVertex vertex) berechnet. Diese Berechnung ist eine der Aufw"andigsten und auch der langsamsten im Projekt. F"ur jede Eingehende Half-Edge auf einen Vertex wird eine Vertex Normale berechnet. Daraus ergibt sich der Sachverhalt dass jedes Face f"ur den Vertex eine Normale erh"alt um Kanten und Abstufungen korrekt auszuleuchten. Der Ablauf des Algorithmus ist folgender:
+Vertex Normalen f"ur Fusee werden in \LFG durch die Methode CalcVertexNormal(HandleVertex vertex) berechnet. Diese Berechnung ist eine der Aufw"andigsten und auch der langsamsten im Projekt. F"ur jede Eingehende Half-Edge auf einen Vertex wird eine Vertex Normale berechnet. Daraus ergibt sich der Sachverhalt dass jedes Face f"ur den Vertex eine Normale erh"alt um Kanten und Abstufungen korrekt auszuleuchten. Der Ablauf des Algorithmus ist folgender:
 
 \begin{itemize}
 \item Es werden alle eingehenden Half-Edges eines Vertex gesucht.
@@ -1091,7 +1092,7 @@ Vertex Normalen f"ur FUSEE werden in \LFG durch die Methode CalcVertexNormal(Han
 Diese Berechnung der Vertex Normalen kann durch das setzen der Boolean Variable \_VertexNormalActive in Geometry ein oder ausgeschaltet werden. Diese Funktion wurde zu Test Zwecken w"ahrend dieser Arbeit implementiert und kann zum Debugging benutzt werden.
 \newline
 
-Sind jetzt alle Normalen berechnet so iteriert ToMesh() noch einmal "uber alle Faces und Half-Edges und sammelt die relevanten Informationen in Collections welche f"ur FUSEE sp"ater in Arrays konvertiert werden. Hierbei werden, da FUSEE aktuell nur mit Triangles arbeitet (Stand Juli 2013), auch die Triangles neu berechnet. Dazu "lauft ein Iterator "uber die Half-Edges des Meshes und speichert die Indizes der Vertices in der richtigen Reihenfolge in einer Liste ab.
+Sind jetzt alle Normalen berechnet so iteriert ToMesh() noch einmal "uber alle Faces und Half-Edges und sammelt die relevanten Informationen in Collections welche f"ur Fusee sp"ater in Arrays konvertiert werden. Hierbei werden, da Fusee aktuell nur mit Triangles arbeitet (Stand Juli 2013), auch die Triangles neu berechnet. Dazu "lauft ein Iterator "uber die Half-Edges des Meshes und speichert die Indizes der Vertices in der richtigen Reihenfolge in einer Liste ab.
 
 Die meisten OpenGL Echtzeit 3D Engines benutzen aktuell nur noch Triangles f"ur die repr"asentation der Meshes. OpenGL hat die Funktion GL\_QUADS in OpenGL 3.1 und dar"uber entfernt und in 3.0 gilt diese Funktion als "deprecated".
 \begin{quote}GL\_QUADS [...] have been removed from core OpenGL 3.1 and above (they are only deprecated in OpenGL 3.0).\footnote{\url{http://www.opengl.org/wiki/Primitive} (gepr"uft 30.07.2013 Abschnitt "`Quads"')}
@@ -1101,7 +1102,7 @@ Man hat sich f"ur Triangles entschieden da sie zur Repr"asentation von Meshes se
 
 \begin{quote}Many algorithms use triangle meshes for representing geometric surfaces. The simple triangle can serve as a basic surface primitive to adaptively approximate smooth freeform geometry. A triangle mesh naturally allows to adapt the required number of primitives to the geometric shape instead of the basic topology of an arbitrary object. Triangle meshes are efficient, since the triangle is currently the only surface patch that is directly supported by computer graphics hardware and even software rendering methods like ray tracing or radiosity prefer to use piecewise linear primitives to represent geometric objects due to gains in performance. \cite[S.~1]{Campagna.1998}\end{quote}
 
-Zu letzt muss die ToMesh() Methode ein Objekt von dem FUSEE bekannten Datentypen "Mesh" erzeugen und es an den aufrufer zur"uckgeben. Das so erhaltene Objekt kann in einem FUSEE Projekt mit  RC.Render(Mesh meshObjekt) gerendert werden.
+Um die Konvertierung in ein Fusee Mesh Objekt abzuschliessen, muss die ToMesh() Methode ein Objekt von dem Fusee bekannten Datentypen "`Fusee.Mesh'" erzeugen und es an den Aufrufer, in Fall dieses Projektes dem Fusee Beispiel Projekt "`LinqForGeometry"', zur"uckgeben. Das so erzeugte Objekt kann dann in der eigenen Fusee App oder eben dem Beispielprojekt mit einem Aufruf auf die im RenderContext enthaltene Methode "`Render()"', RC.Render(Mesh meshObjekt), angezeigt werden.
 
 	%Content
 	%\section {Implementierung von Catmull Clark als Modul f"ur \LFG}
@@ -1114,6 +1115,10 @@ Zu letzt muss die ToMesh() Methode ein Objekt von dem FUSEE bekannten Datentypen
 				%Content
 				%Content
 
+\section {Welche M"oglichkeiten zur Erweiterung durch eigenen Code bietet \LFG}
+				%Content
+				% Module, zb das Transformationsmodul. Zusätzlich schauen ob man sagen kann das Catmull Clark als Modul läuft etc.
+
 %%%%%%
 %	Hauptteil ENDE
 %%%%%%
@@ -1125,16 +1130,35 @@ Zu letzt muss die ToMesh() Methode ein Objekt von dem FUSEE bekannten Datentypen
 %%%%%%
 
 \chapter {Schluss}
-	\section {Ergebnis der Arbeit}
+	\section {Fazit}
 		%Content
-		\subsection {Der aktuelle Status von \LFG}
-			%Content
-			% Spielraum für Verbesserungen, Beleuchtung, Konvertierung in FUSEE Mesh, Kanten mit mehr als 2 Faces möglich aber nicht schön, etc.
-			\subsubsection {Welche M"oglichkeiten zur Erweiterung durch eigenen Code bietet \LFG}
-				%Content
-				% Module, zb das Transformationsmodul. Zusätzlich schauen ob man sagen kann das Catmull Clark als Modul läuft etc.
-	\section {Zukünftige Entwicklungen und Ausblick auf die Verwendung von \LFG}
+		Zum Ende dieser Arbeit hat sich \LFGS von einer simplen Datenstruktur in eine in die Fusee Engine integrierte Umgebung zum Handling und zur Manipulation von 3D Meshes entwickelt. Das Projekt hat einen Zustand erreicht in welchem es m"oglich ist Meshes zu laden, sie anzuzeigen und verschiedene Elemente des Meshes gezielt zur Laufzeit zu ver"andern. Texturen und Vertex Normalen Beleuchtungsberechnung werden in der Datenstruktur durch die Integration in Fusee unterst"utzt. Das Projekt kann um eigenen Code erweitert werden und bietet eine grundlegene Anzahl an Iteratoren f"ur sp"atere Entwicklungen. Es w"are m"oglich mit diesem Projekt einen 3D Echtzeit Editor in der Fusee Engine zu implementieren. LINQ Abfragen k"onnen nach Wunsch verwendet werden um eigene Enumeratoren/Iteratoren zu entwicklen oder bestehende zu kombinieren. Einige LINQ Abfragen werden f"ur transformations Operationen auf den Meshes genutzt. Hierzu werden Transformationsmatrizen mit Vertices multipliziert.
+
+Trotz der vielenM"oglichkeiten in Iteratoren und Transformationen muss bei der Verwendung der \HES in Verbindung mit LINQ auf die Gr"o"se der Quelldatens"atze in Relation mit dem erwarteten Ergebnisset geachtet werden. Auch hier gelten die allgemeinen Regeln zur Entwicklung von Algorithmen. "Uber eine gro"se Liste mit hunderten von Datens"atzen zu iterieren um einen oder wenige Werte abzurufen l"asst sich auch durch LINQ nämlich kaum performant gestalten. Vor allem bei zeitkritischen Operationen kann dies ein Problem darstellen. Es sollte hier dann auf Algorithmen welche die Topologie der Datenstruktur ausnutzen zur"uckgegriffen werden.
+
+Seine gr"ossen St"arken zeigen LINQ und Lambda dann, wenn relativ kleine oder bereits gefilterte Ergebnis Datens"atze bearbeitet, weiter gefiltert oder auf andere Datentypen gemapped werden m"ussen. Diese LINQ Statements sind oft als sehr effektive Einzeiler zu schreiben und leicht zu verstehen und zu ver"andern. Im Projekt wurden also komplexe Algorithmen welche Zeitkritisch zu betrachten waren als "`native"' Algorithmen direkt auf der Datenstruktur entworfen. Es hat sich gezeigt, dass aus wenigen dieser Algorithmen eine ganze Reihe an grundlegenden LINQ basierten Iteratoren kombiniert werden konnte. Die Basis f"ur f"unf der sieben bereit gestellten Iteratoren bilden die zwei wichtigsten Iteratoren des Programms, welche wiederum als direkte Operationen auf der Datenstruktur entworfen wurden.
+
+%!TODO! Erweiterung für Code? internal und so ...
+
+Der Support f"ur LINQ und Lambda in einer Echtzeit 3D Datenstruktur ist also durchaus m"oglich. Er unterliegt durch die genannten Punkte einigen wenigen Einschr"ankungen ist aber sicherlich als n"utzliche Erweiterung der Datenstruktur und dem gesamten \LFGS System als Datenstruktur zur Bearbeitung von Meshes zu verstehen.
 		%Content
+\section{Ausblick auf die zuk"unftige Verwendung von \LFG}
+\LFGS ist an sich nur eine Basis f"ur weitere Entwicklungen. Das System kann an manchen Stellen noch optimiert werden. Den Anspruch an eine vollst"andig integrierte Version einer Echtzeit 3D Datenstruktur hatte \LFGS ohnehin nie. In Zukunft ist es angedacht das Projekt m"oglicherweise als Datenstruktur f"ur einen Fusee internen 3D Echtzeit Mesh Editor zu verwenden und weitere Algorithmen zur Geometriemanipulation zu formulieren. Das System kann aber auch auf andere 3D Editoren oder Viewer angepasst werden und darf selbstverst"andlich unter Beachtung der bestehenden Lizenzen in diese integriert werden. So ist also zu hoffen, dass diese Arbeit einen Grundstein f"ur weitere interessante Projekte, nicht zuletzt in der Echtzeit 3D Engine Fusee von Herrn Prof. M"uller und seinem Team der Hochschule Furtwangen, legen konnte.
+
+\newpage
+\section {Wo ist der Code und die Dokumentation zu \LFGS zu beziehen und einzusehen?}
+	%Content
+	Sollte am Code von \LFGS Interesse bestehen ist dieser f"ur alle Interessenten, auch Hochschul extern, unter den folgenden GitHub Links abzurufen.
+\begin{itemize}
+\item Im Branch feat\_dsteffen\_LFG unter \url{https://github.com/FUSEEProjectTeam/Fusee} (gepr"uft 01.08.2013)
+\item Oder im LFG eigenen GitHub Repository ohne Fusee Integration. Hier ist der Code allerdings nicht ohne Anpassungen in den Methoden zur Meshkonvertierung lauff"ahig. \url{https://github.com/DomS23/LinqForGeometry} (gepr"uft 01.08.2013)
+\end{itemize}
+
+Der gesamte Code dieser Arbeit ist "`Open Source"' und steht unter der GPL v3 vom 29.Juni 2007, abrufbar unter \url{http://www.gnu.org/licenses/gpl.txt} (gepr"uft 01.08.2013).
+\newline
+
+Eine inoffizielle Deutsche "Ubersetzung des Lizenztextes findet sich unter \url{http://www.gnu.de/documents/gpl.de.html} (gepr"uft 01.08.2013).
+			% Spielraum für Verbesserungen, Beleuchtung, Konvertierung in Fusee Mesh, Kanten mit mehr als 2 Faces möglich aber nicht schön, etc.
 
 %%%%%%
 %	Schluss ENDE
