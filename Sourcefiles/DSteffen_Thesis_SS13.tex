@@ -22,6 +22,7 @@
 \usepackage{url}
 \usepackage{scrpage2}
 \usepackage [singlelinecheck=false] {caption}
+\usepackage{pdfpages}
 
 % Paket fuer das anzeigen von Quellcode
 \usepackage{listings}
@@ -79,6 +80,9 @@ belowskip=2\baselineskip,			% Platz unter dem quellcode block
 }
 % Settings fuer den Sourcecode ENDE
 
+% Listings
+\renewcommand{\lstlistlistingname}{Verzeichnis der Quellcode Beispiele}
+\renewcommand{\lstlistingname}{Quellcode Beispiele}
 
 % Autoren
 \author{
@@ -146,8 +150,10 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 
 \begin{document}
 % Titelblatt START
-\maketitle
+%\maketitle
+\includepdf[pages={1}]{../Bilder/deckblatt.pdf}
 % Titelblatt ENDE
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	Abstract START
@@ -174,13 +180,34 @@ Diese Arbeit zeigt wie eine Implementierung der Half-Edge Datenstruktur f"ur das
 \newpage
 \pagestyle{empty}
 \renewcommand*{\chapterpagestyle}{empty}
-\chapter*{Versicherung}%
-\addcontentsline{toc}{chapter}{Versicherung}%
-Versicherung hier.
+\chapter*{Eidesstattliche Erkl"arung}%
+\addcontentsline{toc}{chapter}{Eidesstattliche Erkl"arung}%
+Ich erkläre hiermit an Eides statt, dass ich die vorliegende Bachlorthesis selbständig und ohne 
+unzulässige fremde Hilfe angefertigt habe. Alle verwendeten Quellen und Hilfsmittel die sowohl zum schreiben dieser Arbeit als auch zum Entwickeln des dazugeh"origen Quellcodes benutzt wurden, sind angegeben.
+
+\vspace*{3cm}
+\hspace*{\fill}\begin{tabular}{@{}l@{}}\hline
+\makebox[9cm]{Dominik Steffen, K"ussaberg den \today}
+\end{tabular}
 \clearpage
 \endgroup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	Versicherung ENDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Logo START
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}
+\vspace*{8cm}
+\includegraphics[width=\linewidth]{../Bilder/Logo}
+\vspace*{1cm}
+\begin{quote}
+"`Focused, hard work is the real key to success. Keep your eyes on the goal, and just keep taking the next step towards completing it. If you aren't sure which way to do something, do it both ways and see which works better."'
+\end{quote} - John Carmack, founder of idSoftware
+%\captionof{figure}{Diese Illustration zeigt die Verbindung der data records an einem beliebigen Polygon durch Pfeilverbindungen.}\label{pic:polyConnections} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Logo START
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Inhaltsverzeichnis START
@@ -240,7 +267,7 @@ Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur 3D Ec
 	%Content
 	\LFGS hat es sich als Ziel gesetzt die \HES in einem \CSS Projekt einmal grundlegend zu implementieren und herauszufinden wie sehr \CSS's LINQ Abfragen in einem solchen System von Nutzen sind. Die Entwicklung des Softwareprojekts stand hierbei im Vorderung und entwickelte sicher stetig weiter. \LFGS wurde mit der Zeit in die Echtzeit 3D Engine Fusee integriert und besitzt aktuell einen eigenen Branch im Fusee Projekt. Das Projekt ist vorerst dazu gedacht Daten von 3D Meshes im Speicher zu halten und ihre Werte "uber bereitgestellte Iteratoren und Transformationen zu manipulieren. Das Projekt zielte nicht darauf ab ein komplett abgeschlossenes Projekt zu schaffen. Die von \LFGS angebotenen Iteratoren sollen vielmehr als eine Ausgangslage darstellen und wiederverwendet werden um in Zukunft durch ihre Kombination des bestehenden Methoden neue M"oglichkeiten der Geometriemanipulation zu schaffen oder bereits bekannte bew"ahrte Algorithmen zu implementieren.
 	%Content
-	\section{Aufbau dieses Textes}
+	\section{Gliederung dieser Arbeit}
 	%Content
 	Diese Arbeit m"ochte zun"achst einen Ausblick dar"uber geben was eine \HES eigentlich ist und wo ihre Vor- und ihre Nachteile liegen. Weiterhin gibt es eine Einf"uhrung in LINQ to objects und den nutzen dieses \CSS Sprachkonstruktes f"ur das \LFGS Projekt. Nat"urlich soll auch die Implementierung des Projekts und die Probleme w"ahrend der selben nicht ausser Acht gelassen werden. Sp"ater m"ochte ger Text noch auf die Vor und Nachteile der \HES in Verbindung mit LINQ und der Verwendung der beiden im Projekt eingehen. Ein Abschnitt "uber die wichtigen Iteratoren beendet den Hauptteil dieser Arbeit und der Schluss fasst nochmal die wichtigsten Einzelheiten und Erkenntnisse zusammen und gibt einen Ausblick auf die m"oglichen zuk"unftigen Verwendungszwecke von \LFG.
 	%Content
@@ -252,6 +279,21 @@ Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur 3D Ec
 \item GitHub und die GitShell \url{www.github.com} \newline F"ur die Versionskontrolle des Codes und des Textes und um den Code dieser Arbeit offen anzubieten.
 \item TexWorks \url{www.tug.org/texworks/} \newline Zum schreiben dieser Arbeit.
 \end{itemize}
+%%%%%%
+%	Einführung / Einleitung ENDE
+%%%%%%
+%%%%%%
+%	Hauptteil START
+%%%%%%
+
+\chapter {Hauptteil}
+	%\section {Gegenüberstellung nativer (OpenMesh.org) und gemanagter Implementierungen der \HES}
+		%Content	
+		%Content
+	%\section {Geschwindigkeitsunterschiede von nativem und \CSS Code}
+		%Content
+		%Content
+
 	\section {Die \HES}
 		%Content
 		% Mark de Berg, Otfried Cheong, Marc van Kreveld, Mark Overmars: Computational Geometry: Algorithms and Applications.
@@ -261,7 +303,7 @@ Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur 3D Ec
 
 Ein Kernelement der \HES und sicherlich ihre bekannteste und herausragenste Eigenschaft ist, dass jede Kante im gespeicherten Modell (Mesh) als Kombination aus zwei Half-Edges repr"asentiert wird. Zwei Half-Edges zusammen ergeben also eine komplette Kante. In der Implementierung dieses Projektes kommt es nicht vor, dass eine Half-Edge f"ur sich alleine steht.
 
-Die Einsatzgebiete der \HES sind vielf"altig. Sie wird wie von Mark de Berg, Otfried Cheong, Marc van Kreveld und Mark Overmars in Computational Geometry \cite{vanMarkdeBerg.2008} (Auflage 3) beschrieben  \begin{quote}dazu eingesetzt Geografische Gegebenheiten etc. auf digitalen Landkarten  als Thematische Karten Overlays dazustellen. \cite[S.~29]{vanMarkdeBerg.2008}\end{quote} Ebenso h"aufig findet man sie in der 3D Computergrafik, wenn auch selten in gr"o"seren Projekten. Meist wird sie als Datenstruktur f"ur kleinere Softwarel"osungen herangezogen. Ein Beispiel ist hier die Demo Szene \footnote[1]{Eine Demo ist in der Demo Szene als Digitale Kunst zu verstehen. Meist ist eine Demo eine Form der Computergrafik Echtzeit-Animationen inklusive Musikuntermalung.} der Computergrafik. Das Entwickler Team "`farbrausch"' das verantwortlich ist f"ur Projekte wie das Preis gekrönte "`kkrieger"' (ein minimalistischer Ego Shooter mit einer Gesamtgr"o"se von 96kb) hat die \HES f"ur ihr Demo Projekt "`debris"' genutzt. \footnote[2]{Viele farbrausch Projekte sind zu finden unter http://www.farb-rausch.de/ (Stand: Juli 2013)}
+Die Einsatzgebiete der \HES sind vielf"altig. Sie wird wie von Mark de Berg, Otfried Cheong, Marc van Kreveld und Mark Overmars in Computational Geometry \cite{vanMarkdeBerg.2008} (Auflage 3) beschrieben  \begin{quote}dazu eingesetzt Geografische Gegebenheiten etc. auf digitalen Landkarten  als Thematische Karten Overlays dazustellen. \cite[S.~29]{vanMarkdeBerg.2008}\end{quote} Ebenso h"aufig findet man sie in der 3D Computergrafik, wenn auch selten in gr"o"seren Projekten. Meist wird sie als Datenstruktur f"ur kleinere Softwarel"osungen herangezogen. Ein Beispiel ist hier die Demo Szene \footnote{Eine Demo ist in der Demo Szene als Digitale Kunst zu verstehen. Meist ist eine Demo eine Form der Computergrafik Echtzeit-Animationen inklusive Musikuntermalung.} der Computergrafik. Das Entwickler Team "`farbrausch"' das verantwortlich ist f"ur Projekte wie das Preis gekrönte "`kkrieger"' (ein minimalistischer Ego Shooter mit einer Gesamtgr"o"se von 96kb) hat die \HES f"ur ihr Demo Projekt "`debris"' genutzt. \footnote{Viele farbrausch Projekte sind zu finden unter http://www.farb-rausch.de/ (Stand: Juli 2013)}
 		\subsection {Die Half-Edge Datenstruktur in \LFGS}
 			%Content
 			%TODO Planare Graphen erkläutern und verstehen
@@ -291,10 +333,10 @@ Die \HES ist also mathematisch betrachtet ein planarer Graph. Laut Eulerscher Po
 
 Somit ist bereits klar, dass sich die Datenstruktur in der Implementierung durch den in diesem Projekt hinzugekommenen data record "`Edge"' unterscheidet. Die Doubly-connected edge list unterscheidet sich weiterhin im Blick auf die Zeiger welche in einem data record gespeichert werden. W"ahrend die hier implementierte \HES in einem Half-Edge record folgende Informationen speichert,
 \begin{itemize}
-\item Zeiger auf ihre Twin Half-Edge
+\item Zeiger auf ihre Twin Half-Edge, auch Nachbar Half-Edge genannt.
 \item Zeiger auf die n"achste Half-Edge im Uhrzeigersinn (Ist variabel implementierbar. \LFGS implementiert die Zeiger im Uhrzeigersinn)
 \begin{itemize}
-\item Sowohl in OpenGL als auch in Direct3D kann eingestellt werden ob die Ausrichtung von Faces anhand des Urhzeigersinns (CW) oder gegen den Uhrzeigersinn (CCW) bestimmt wird. Direct3D benutzt hier die CW Richtung als Standard\footnote[1]{\url{http://msdn.microsoft.com/en-us/library/windows/desktop/bb204882(v=vs.85).aspx} (Stand: 23. Juli 2013)}, OpenGL benutzt als Standard die CCW order. \footnote[2]{\url{http://www.opengl.org/wiki/Face_Culling} (Stand: 23. Juli 2013)}
+\item Sowohl in OpenGL als auch in Direct3D kann eingestellt werden ob die Ausrichtung von Faces anhand des Urhzeigersinns (CW) oder gegen den Uhrzeigersinn (CCW) bestimmt wird. Direct3D benutzt hier die CW Richtung als Standard\footnote{\url{http://msdn.microsoft.com/en-us/library/windows/desktop/bb204882(v=vs.85).aspx} (Stand: 23. Juli 2013)}, OpenGL benutzt als Standard die CCW order. \footnote{\url{http://www.opengl.org/wiki/Face_Culling} (Stand: 23. Juli 2013)}
 \end{itemize}
 \item Zeiger auf den Vertex auf den die Half-Edge zeigt
 \item Zeiger auf das Face zu welchem die Half-Edge geh"ort
@@ -450,9 +492,18 @@ Sicherlich kann diese Arbeit auch nicht fortfahren ohne die Erw"ahnung des OpenM
 			Das Problem der aktuellen Forschung ist also, dass die \HES nur sehr selten in \CSS, wenn "uberhaupt nur testweise (meist sehr minimal oder sogar nur in Pseudocode), implementiert wurde und keine der L"osungen einen Support f"ur LINQ Abfragen und Lambda Ausdr"ucke bietet. Somit ist LFG in Verbindung mit der Fusee Engine und dem LINQ Support eine neu Entwicklung auf Basis bew"ahrter Strukturen.
 	\section {Einführung zu LINQ in \CS}
 		%Content
-		Language Integrated Query, kurz LINQ und zu deutsch Sprachintegrierte Abfrage, funktioniert ab \CSS 3.0 und ist ein Feature von Microsofts .NET Paket. LINQ ist also ein Produkt von Microsoft und erinnert auf den ersten Blick in seinem syntaktischen und semantischem Aufbau stark an das Open Source Projekt MySQL welches aktuell (Stand Juli 2013) von der Oracle Corporation betreut wird. Beide Projekte unterscheiden sich jedoch wesentlich. LINQ ist in erster Linie ein Feature, dass direkt auf Objekten arbeitet wohingegen MySQL auf relationale Daten angewendet wird. Allerdings kann LINQ viel mehr als das.
+		Language Integrated Query, kurz LINQ und zu deutsch Sprachintegrierte Abfrage, wurde mit \CSS 3.0 und .NET 2.0 in die .NET Umgebung integriert. LINQ ist also ein Produkt von Microsoft und erinnert auf den ersten Blick in seinem syntaktischen und semantischem Aufbau stark an die Software MySQL, eine Sprache f"ur die Verwaltung relationaler Datenbanken, welche aktuell (Stand Juli 2013) von der Oracle Corporation betreut wird. Beide Projekte unterscheiden sich jedoch wesentlich. LINQ ist in erster Linie ein Feature, dass direkt auf Objekten arbeitet wohingegen MySQL auf relationale Datenbanken angewendet wird. Allerdings kann LINQ viel mehr als das. LINQ Statements werden zur compile Zeit auf die Korrektheit der Syntax "uberpr"uft und von Microsofts IntelliSense zum Zeitpunkt der Entwicklung auf Fehler untersucht wird. Was einen gr"ossen Vortel des Systems im Gegensatz zu Sprachen wie MySQL darstellt, da diese keiner Syntaktischen Pr"ufung unterzogen wird.
+\newline
 
-LINQ kann als Layer und Bindeglied zwischen Collections aus Daten und den Programmiersprachen des .NET Frameworks betrachtet werden. Es ist hierbei m"oglich LINQ in verschiedenen Bereichen zu nutzen. Es arbeitet sowohl wie bereits erw"ahnt auf Collections aus Daten wie z.B. Listen aus Objekten die sich bereits im Hauptspeicher befinden oder fungiert als Bindeglied zu SQL um Daten aus einem Persistenten Medium auszulesen. Es kann aber auch dazu verwendet werden mit XML Datens"atzen bzw. Dokumenten zu arbeiten ist aber auch in der Lage mit Filesystemen und anderen Datenquellen zu interagieren. Das bedeutet dass LINQ sich nicht grunds"atzlich auf die vorher genannten M"oglichkeiten beschr"ankt sondern offen ist f"ur viele Arten von Daten. Weitere Provider sind LINQ to DataSet und LINQ to SharePoint auf die hier mangels Relevanz zum Projekt auch nicht weiter eingegangen wird.
+LINQ kann als Layer und Bindeglied zwischen Collections aus Daten und den Programmiersprachen des .NET Frameworks betrachtet werden. Es ist hierbei m"oglich LINQ in verschiedenen Bereichen zu nutzen. Es arbeitet sowohl wie bereits erw"ahnt auf Collections aus Daten wie z.B. Listen aus Objekten die sich bereits im Hauptspeicher befinden oder fungiert als Bindeglied zu SQL um Daten aus einem Persistenten Medium wie der Festplatte eines Rechners (Sekund"ar Speicher, HDD/SSD) auszulesen. Hierzu z"ahlen z.B. XML Datens"atzen bzw. Dokumente. Das System ist ebenso dazu in der Lage mit Filesystemen und anderen Datenquellen zu interagieren. Das bedeutet dass LINQ sich nicht grunds"atzlich auf die vorher genannten M"oglichkeiten beschr"ankt sondern offen ist f"ur viele Arten von Datenstrukturen. Weitere Provider sind LINQ to DataSet und LINQ to SharePoint auf die hier mangels Relevanz zum Projekt nicht weiter eingegangen wird.
+\newline
+
+Noch einmal zusammengefasst zeichnen sich als wichtigste Einsatzgebiete f"ur LINQ also die folgenden Methoden aus. Im .NET Namespace finden sich die LINQ Methoden unter System.Linq
+\begin{itemize}
+\item LINQ to Objects die Basis f"ur LINQ Abfragen in .NET. Dieser Provider kann auf alle internen .NET Datenstrukturen oder Benutzerdefinierten Datenstrukturen ausgef"uhrt werden solange die Schnittstelle IEnumerable oder IEnumerable<T> f"ur generische Datenstrukturen implementiert wird.
+\item LINQ to SQL ist dazu geeignet auf SQL Datenbanken, besonders auf den Versionen von Microsoft zu arbeiten.
+\item LINQ to XML ist ein Provider der f"ur eine Zusammenarbeit mit XML genutzt wird. Es handelt sich hierbei um eine XML Programmierschnittstelle. \cite{MicrosoftCReferenz.2013} \footnote{\url{http://msdn.microsoft.com/de-de/library/vstudio/bb387098.aspx} (gepr"uft 01.08.2013)}
+\end{itemize}
 
 Diese Arbeit besch"aftigt sich also haupts"achlich mit dem LINQ Provider (LINQ Anbieter) LINQ to Objects da sich die zu verarbeitenden Daten w"ahrend der Bearbeitungszeit mit LINQ bereits im Speicher des Rechners befinden. Wie erw"ahnt, ist LINQ ein Layer f"ur die Programmiersprachen von .NET und kann deswegen nicht nur in \CSS verwendet werden wie hier, sondern auch in Microsofts VB.NET. Dieses Projekt beschr"ankt sich auf \CSS als Programmiersprache, weswegen auch alle folgenden Codebeispiele in \CSS geschrieben sind. Ein weiterer nicht zu verachtender Vorteil von LINQ im Gegensatz zu den meisten Implementationen von SQL Statements ist, dass die Statemtents vom \CSS compiler zum Zeitpunkt der Kompilierung auf syntaktische Korrektheit gepr"uft werden und der Benutzer vom IntelliSense System von Visual Studio wertvolle Hinweise w"ahrend der Generierung von LINQ Statements erh"alt.
 		%Content
@@ -480,7 +531,7 @@ Ein Statement kann jedoch auch erzwungen direkt ausgef"uhrt werden. Durch einen 
 			{../Codebeispiele/LINQdirectQueryList.cs}
 		%Content
 		\subsection {Abfragesyntax in LINQ}
-		Was im vorigen Absatz als LINQ Statement bezeichnet wurde ist ein LINQ Statement geschrieben in der Abfragesyntax. Diese Syntax zeichnet sich durch einfache Lesbarkeit und einfache Zug"anglichkeit aus. Zur Kompilierzeit wird diese Syntax vom Compiler in die so genannte Methodensyntax "ubersetzt. Die beiden syntaktischen Varianten sind Semantisch identisch auch wenn sie sich auf den ersten Blick sehr unterscheiden.
+		Was im vorigen Code Beispiel \ref{code:linqdirectquery} als LINQ Statement bezeichnet wurde ist ein eigentlich ein besonderes, nämlich ein LINQ Statement geschrieben in der Abfragesyntax. Diese Syntax zeichnet sich durch einfache Lesbarkeit und einfache Zug"anglichkeit aus. Zur Kompilierzeit wird diese Syntax vom Compiler in die so genannte Methodensyntax "ubersetzt. Die beiden syntaktischen Varianten sind Semantisch identisch auch wenn sie sich auf den ersten Blick sehr unterscheiden.
 		%Content
 		\subsection {Methodensyntax in LINQ}
 		Die Methodensyntax in LINQ unterscheidet sich von der Abfragesyntax dadurch, dass anstatt fester keywords wie where, from und select um eine Abfrage zu formen Lambda Ausdr"ucke verwendet werden (Lambda Ausdr"ucke werden im n"achsten Abschnitt n"aher erleutert). In der Referenzdokumentation zu LINQ (Stand Juli 2013) \cite{MicrosoftCReferenz.2013} wird haupts"achlich diese Art der Syntax verwendet. Aus den dort aufgef"uhrten Typen wird in dieser Arbeit sehr h"aufig der Enumerable Typ verwendet.
@@ -491,10 +542,36 @@ Hier ein Vergleich der beiden Syntaktischen M"oglichkeiten zum erstellen von LIN
 			{../Codebeispiele/LINQzweiSynt.cs}
 		%Content
 
-Beide Methoden LINQ Abfragen in \CSS zu schreiben werden vom JIT (Just in Time Compiler) in gleichen Maschinencode "ubersetzt. Der Entwickler kann sich also aussuchen in welcher Syntax er seinen Code am liebsten schreibt. Eine gute "ubersicht von LINQ Standard Operatoren wurde von Don Box und Anders Hejlsberg 2007 in \begin{quote}LINQ: .NET Language-Integrated Query \cite[Standard Query Operators in a Nutshell]{Box.2007}\end{quote} beschrieben. \footnote[1]{Zu finden unter \url{http://msdn.microsoft.com/en-us/library/bb308959.aspx}}
-	\section {Einführung zu Lambda in \CS}
+Beide Methoden LINQ Abfragen in \CSS zu schreiben werden vom JIT (Just in Time Compiler) in gleichen Code "ubersetzt. Sie unterscheiden sich nur selten. Manche Standardoperatoren wie Sum oder Count sind in der Abfragesyntax nicht gegeben. Dieses Projekt wird in Zukunft alle LINQ Abfragen in der Methodensyntax verwenden um den Code zu vereinheitlichen. Der Entwickler kann sich also eigentlich aussuchen in welcher Syntax er seinen Code am liebsten schreibt. Eine gute "ubersicht von LINQ Standard Operatoren wurde von Don Box und Anders Hejlsberg 2007 in \begin{quote}LINQ: .NET Language-Integrated Query \cite[Standard Query Operators in a Nutshell]{Box.2007}\end{quote} beschrieben. \footnote{Zu finden unter \url{http://msdn.microsoft.com/en-us/library/bb308959.aspx}}
+\newline
+
+Hier sollen nur die wichtigsten f"ur diese Arbeit aufgelistet werden.
+
+\addcontentsline{lot}{table}{Standardoperatoren in LINQ}\label{tab:standardoperatoren}
+\begin{tabular}{p{3cm}|p{9cm} |l|l|}
+\hline
+  Operator & Beschreibung\\
+\hline
+\hline
+  Select & Ein Projektionsoperator der auf einer Auswahlfunktion basiert.\\
+\hline
+  Where & Ein Restriktionsparemeter, seine Entscheidungen basieren auf einem angegebenen
+ Pr"adikatausdruck\\
+\hline
+AsEnumerable & Konvertiert die Collection in Objekt vom generischen Typ IEnumerable<T>\\
+\hline
+ToArray, ToList & Konvertiert eine Collection in ein Array oder eine Liste\\
+\hline
+Contains & Pr"uft ob ein Element in der Collection vorhanden ist\\
+\hline
+Distinct & Entfernt Duplikate aus einer Collection \\
+\hline
+\end{tabular}
+
+\newpage
+	\section {Einführung zu Lambda Ausdr"ucken in \CS}
 		%Content
-		Lambda Ausdr"ucke in \CSS sind Anonymen Funktionen sehr "ahnlich. In dieser Arbeit wurden Lambda Ausdr"ucke haupts"achlich in LINQ Statemens verwendet. Syntaktisch ist diese Art Funktionen zu schreiben sehr simpel gestrickt. Das Lambda Zeichen in \CSS wird als \LAM dargestellt. Es folgt immer der Parameterliste und sollte nicht mit den Vergleichsoperatoren \textgreater = und \textless = verwechselt werden. Das Lamba Zeichen bedeutet hier soviel wie "`wechselt zu"' oder "`wird zu"' und steht links des gew"unschten Ausdrucks.
+		Lambda Ausdr"ucke in \CSS sind Anonymen Funktionen sehr "ahnlich. In dieser Arbeit wurden Lambda Ausdr"ucke in LINQ Statemens im Zusammenhang mit Standardabfrageoperatoren verwendet. Syntaktisch ist diese Art Funktionen zu schreiben sehr simpel gestrickt. Das Lambda Zeichen in \CSS wird als \LAM dargestellt. Es folgt immer der Parameterliste und sollte nicht mit den Vergleichsoperatoren \textgreater = und \textless = verwechselt werden. Das Lamba Zeichen bedeutet hier soviel wie "`wechselt zu"' oder "`wird zu"' und steht links des gew"unschten Ausdrucks.
 		%Content
 		\subsection {Lambda Ausdr"ucke in Verbindung mit LINQ}
 Wie bereits beschrieben werden Lambda Ausdr"ucke  in verbindung mit LINQ in der Methodensyntax von LINQ verwendet. Diese Syntax wird meist benutzt um Standardabfrageoperatoren wie Collection.Select(lambda hier) Collection.Where(lambda hier) und Collection.All(lambda hier) zu verwenden. In dieser Arbeit wird der Standardoperator Select() am h"aufigsten verwendet. Select() wendet den angegebenen Lambda Ausdruck auf jedes Element der Collection an auf die der Select operator angewendet wird und gibt falls vorhanden ein Ergebnis zur"uck. Siehe Listing \ref{code:lambdaeasy}
@@ -505,29 +582,14 @@ Lambda ist also eine einfache M"oglichkeit Standard LINQ Abfragen aufzuwerten. E
 \lstinputlisting
 			[caption={LambdaEasy.cs - Einfacher Lambda Ausdruck}, label=code:lambdaeasy]
 			{../Codebeispiele/LambdaEasy.cs}
-%%%%%%
-%	Einführung / Einleitung ENDE
-%%%%%%
 
 
-
-%%%%%%
-%	Hauptteil START
-%%%%%%
-
-\chapter {Hauptteil}
-	%\section {Gegenüberstellung nativer (OpenMesh.org) und gemanagter Implementierungen der \HES}
-		%Content	
-		%Content
-	%\section {Geschwindigkeitsunterschiede von nativem und \CSS Code}
-		%Content
-		%Content
 \section {Das Software Projekt LINQ For Geometry}
 		%Content
 Das Softwareprojekt \LFGS (kurz LFG) welches im Rahmen dieser Thesis Arbeit entworfen und implementiert wurde, stellt eine Umsetzung der \HES zum Handling dreidimensionaler Meshes dar. \LFGS hat darüber hinaus den Anspruch die Datenstruktur durch LINQ Ausdr"ucke und bereit gestellte Iteratoren/Enumeratoren, welche mit LINQ erweitert werden k"onnen, flexibel und zug"anglich zu gestalten. Es bietet einen Converter in das von der Fusee Engine benutze Mesh Format und kann in Echtzeit Geometrische Operationen auf einem in der Datenstruktur gespeichertem Mesh ausf"uhren. \LFG wurde Anfangs als eigenst"andiges Projekt begonnen. Im sp"ateren Verlauf wurde es in die Fusee Engine integriert um dort wahlweise Meshes in der \HES im Speicher bereit zu halten. Das \LFGS Projekt ist von Fusee nicht abh"angig. Es benutzt ledigleich ein Paar der Datentypen aus der Mathematik Bibliothek von Fusee und den Mesh Datentypen welchen \LFGS aufgrund der converter Funktion nach Fusee Mesh kennen muss. \LFGS w"are also nach Wunsch auf andere Engines oder Programme mit wenigen Anpassungen portabel.
 
 \LFGS erweitert die \HES um ein paar Funktionen um die korrekte Darstellung von Meshes in Fusee zu gew"ahrleisten. Dazu z"ahlen Erweiterungen der an den Kanten und Faces gespeicherten Informationen um UV Textur Koordinaten und Face- und Vertex Normalen im Mesh zu speichern.
-Zus"atzlich ist es in der Lage Kanten zu verarbeiten die an mehr als 2 Polygone grenzen. Diese L"osing ist allerdings zum Zeitpunkt Juni 2013 nur als Notl"osung zu betrachten und das massive Edge Sharing (Teilen von Kanten mit vielen Faces) sollte wenn m"oglich bereits beim modellieren eines Meshes vermieden werden.
+Zus"atzlich ist es in der Lage Kanten zu verarbeiten die an mehr als 2 Polygone grenzen. Diese L"osung ist allerdings zum Zeitpunkt Juni 2013 nur als Notl"osung zu betrachten und das massive Edge Sharing (Teilen von Kanten mit vielen Faces) sollte wenn m"oglich bereits beim modellieren eines Meshes vermieden werden.
 \newline
 
 \includegraphics[width=\linewidth]{../Bilder/LFGLayer}
@@ -552,13 +614,7 @@ In den n"achsten Abschnitten steht die Implementierung, siehe \ref{uml:klassendi
 
 In Zukunft ist es angedacht das Projekt \LFGS m"oglicherweise als eine 3D Editor Datenstruktur in Fusee zu verwenden. Es ist ebenfalls denkbar das Projekt einzusetzen wenn sich Meshes in einer Applikation zur Laufzeit dynamisch ver"andern sollen. Durch die massive Vernetzung der einzelnen Elemente (Half-Edges, Vertices, Faces) der \HES ist das Projekt sehr flexibel einsetzbar. Das VisualStudio Projekt "`LingForGeometry.ExternalModules"' welches mit dem \LFGS Branch von Fusee kommt ist ein Projekt um die Funktionen dieser Arbeit zu erweitern ohne den Core Code ver"andern zu m"ussen. Das Projekt hat Zugriff auf alle wichtigen Iteratoren/Enumeratoren (LINQ und nicht LINQ basiert) und Collections aus Daten. Um ein Beispiel f"ur diese Funktionen zu haben wurden alle Geometrischen Operationen und Transformationen als externe Funktionen im ExternalModules Projekt implementiert.
 			%Content
-		\subsection {Warum die Programmiersprache \CSS f"ur \LFG?}
-			%Content
-			Wie bereits  im oberen Abschnitt \ref{sec:VorteileManaged} angeschnitten, wurde \LFGS daf"ur konzipiert mit der Fusee Engine zusammen zu arbeiten. \LFGS bietet hierbei eine neue Geometry Objekt Klasse f"ur die Fusee Engine an, ohne die tats"achliche zu "uberschreiben. Laut aktuellem Stand kann der Benutzer beider Projekte sich also entscheiden welche Meshes er gerne in der \HES laden m"ochte und f"ur welche es gen"ugt sie als Face basiertes Mesh im Speicher zu halten.
-
-Damit \LFGS auf diese Art mit der Fusee Engine kommunizieren kann musste eine gemeinsame Schnittstelle evaluiert werden. Weil beide Projekte die .NET Plattform benutzen und Fusee in \CSS geschrieben wurde war es naheliegend f"ur \LFGS auch \CSS zu benutzen und da der LINQ Layer ein Produkt von .NET ist, war \CSS die wohl beste Wahl um beide Projekte zusammen zu bringen.
-			%Content
-		\subsection {Furtwangen University Simulation and Entertainment Engine}
+		\subsection {Furtwangen University Simulation and Entertainment Engine}\label{sec:fusee}
 			%Content
 			Die Furtwangen University Simulation and Entertainment Engine (kurz Fusee) ist eine Open Source 3D Echtzeit Engine mit einem Schwerpunkt auf einer Multiplattform Unterstützung. Entwickelt wurde sie von einer Projektgruppe an der Hochschule Furtwangen unter der Leitung von Herrn Prof. M"uller an der Fakult"at Digitale Medien.Von der aktuellen Version 0.5 werden folgende Plattformen unterst"utzt.
 \begin{itemize}
@@ -571,7 +627,7 @@ Damit \LFGS auf diese Art mit der Fusee Engine kommunizieren kann musste eine ge
 \end{itemize}
 
 Um eine Linux und Android Unterst"utzung zu erreichen ist das Projekt mit Mono, einer .NET Open Source Implementierung, kompatibel. Sogar einen export nach JavaScript durch den JSIL Compiler von Kevin Gadd ist m"oglich. Somit ist Fusee ohne weitere Plugins im Browser lauff"ahig.
-
+\newpage
 Hier eine Liste der bereits umgesetzten Features in der Version 0.5:
 \begin{itemize}
 \item Multitexturing
@@ -585,7 +641,7 @@ Hier eine Liste der bereits umgesetzten Features in der Version 0.5:
 
 Als Schnittstelle zur GPU (Graphics processing unit) verwendet Fusee die Low level Bibliothek OpenTK\footnote{\url{http://www.opentk.com/ (gepr"uft 30.07.2013)}} welche in \CSS geschrieben ist und einen wrapper f"ur die OpenGL Multi platform application programming interface (API) darstellt.
 
-Weitere Informationen "uber die Fusee Engine sind auf der offiziellen Homepage \footnote[1]{\url{http://fusee3d.org/}} oder "uber GitHub \footnote[2]{\url{https://github.com/FUSEEProjectTeam/Fusee}} erh"ltlich \footnote[3]{Quelle \url{http://fusee3d.org/about/} (Stand 19.07.2013)}
+Weitere Informationen "uber die Fusee Engine sind auf der offiziellen Homepage \footnote{\url{http://fusee3d.org/}} oder "uber GitHub \footnote{\url{https://github.com/FUSEEProjectTeam/Fusee}} erh"ltlich \footnote{Quelle \url{http://fusee3d.org/about/} (Stand 19.07.2013)}
 			%Content
 \section {Die Vorteile in der Entwicklung mit managed Programmiersprachen}\label{sec:VorteileManaged}
 		%Content
@@ -597,6 +653,13 @@ Im Hinblick auf \LFGS f"allt durch die Nutzung von \CSS einiges an Arbeit weg. N
 
 Ein weiterer Pluspunkt ist nat"urlich, dass sich bereits viele Entwickler und Studenten der Hochschule Furtwangen die sp"ater m"oglicherweise die Fusee Engine verwenden m"ochten bereits mit \CSS oder Java, welches \CSS zumindest Syntaktisch sehr "ahnelt, auskennen.
 		%Content
+		\subsection {Warum die Programmiersprache \CSS f"ur \LFG?}
+			%Content
+			Wie bereits im oberen Abschnitt \ref{sec:fusee} angeschnitten, wurde \LFGS daf"ur konzipiert mit der Fusee Engine zusammen zu arbeiten. \LFGS bietet hierbei eine neue Geometry Objekt Klasse f"ur die Fusee Engine an, ohne die tats"achliche zu "uberschreiben. Laut aktuellem Stand kann der Benutzer beider Projekte sich also entscheiden welche Meshes er gerne in der \HES laden m"ochte und f"ur welche es gen"ugt sie als Face basiertes Mesh im Speicher zu halten. Diese Entscheidung l"asst Dynamische entscheidungen zu. Es ist somit im Bereich des M"oglichen manche Meshes als unver"anderbar zu handeln und andere w"ahrend der Laufzeit durch LFG zu manipulieren.
+\newline
+
+Damit \LFGS auf diese Art mit der Fusee Engine kommunizieren kann musste eine gemeinsame Schnittstelle evaluiert werden. Weil beide Projekte die .NET Plattform benutzen und Fusee in \CSS geschrieben wurde war es naheliegend f"ur \LFGS auch \CSS zu benutzen und da der LINQ Layer ein Produkt von .NET ist, war \CSS die wohl beste Wahl um beide Projekte zusammen zu bringen.
+			%Content
 \subsection {Der Link von LINQ zur \HES}
 				%Content
 				% Wie spielt linq in lfg mit, was stützt es, wo wird es nicht verwendet, warum eigtl linq und wie arbeitet es auf den collections von lfg
@@ -716,11 +779,15 @@ Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann 
 
 \section {Pointer Container und ihre Aufgabe in \LFG}
 		%Content
-		Pointer Container in \LFGS sind \CSS Structures und existieren f"ur jeden in der Datenstruktur essentiellen Datentypen und geh"oren zum Kern Projekt (LinqForGeometry.Core) des \LFGS Projekts. Zu den Containern z"ahlen Half-Edges Container, Edge container, Face Container und Vertex Container. Ein Pointer Container wird f"ur jeden Datensatz der in die Datenstruktur eingef"ugt wird initialisiert und in einer Liste gespeichert. Jeder Container enth"alt, den Spezifikationen der \HES folgend Handles auf andere eingepflegte oder in kurzer Zeit einzupflegende Datens"atze z.B. durch eine mathematische Operation (welche den voraussichtlichen Index eines einzuf"ugenden Datensatzes berechnet). Pointer Container sind sozusagen die Gebilde welche die Half-Edge Datenstruktur aufspannen und ihre Eigenschaften im Speicher vorhalten. M"ochte man ein gespeichertes Mesh transformieren so sind alle Operationen die vorgenommen werden "Anderungen an den Pointer Containern bzw. den in ihnen enthaltenen Daten. Pointer Container sind also die Basis des ganzen Programms. Durch die Gegebenheiten der Implementierung von List<T> (Generic Lists) in \CSS ist es leider nicht m"oglich die Container bei "Anderungen direkt in einer Liste zu manipulieren. Jeder Container muss erst aus der Liste kopiert werden um ihn dann zu "andern und anschliessen an der gleichen Stelle wieder einzuf"ugen. N"otig hierzu ist, dass der Index des Containers in der jeweiligen Liste bekannt ist. Hierzu ein kleines Beispiel welches die Erkl"arung etwas erl"autern soll.
+		Pointer Container in \LFGS sind \CSS Structures und existieren f"ur jeden in der Datenstruktur essentiellen Datentypen und geh"oren zum Kern Projekt (LinqForGeometry.Core) des \LFGS Projekts. Zu den Containern z"ahlen Half-Edges Container, Edge container, Face Container und Vertex Container. Ein Pointer Container wird f"ur jeden Datensatz der in die Datenstruktur eingef"ugt wird initialisiert und in einer Liste gespeichert. Jeder Container enth"alt, den Spezifikationen der \HES folgend Handles auf andere eingepflegte oder in kurzer Zeit einzupflegende Datens"atze z.B. durch eine mathematische Operation (welche den voraussichtlichen Index eines einzuf"ugenden Datensatzes berechnet). Pointer Container sind sozusagen die Gebilde welche die Half-Edge Datenstruktur aufspannen und ihre Eigenschaften im Speicher vorhalten. M"ochte man ein gespeichertes Mesh transformieren so sind alle Operationen die vorgenommen werden "Anderungen an den Pointer Containern bzw. den in ihnen enthaltenen Daten. Pointer Container sind also die Basis der ganzen Datenstruktur.
+\newline
+
+Durch die Gegebenheiten der Implementierung von List<T> (Generic Lists) in \CSS ist es leider nicht m"oglich die Container bei "Anderungen direkt in einer Liste zu manipulieren. Jeder Container muss erst aus der Liste kopiert werden um ihn dann zu "andern und anschliessen an der gleichen Stelle wieder einzuf"ugen. N"otig hierzu ist, dass der Index des Containers in der jeweiligen Liste bekannt ist. Hierzu ein kleines Beispiel welches die Erkl"arung etwas erl"autern soll.
 \lstinputlisting
 			[caption={PtrContExample1.cs - Manipulation eines Pointer Containers}, label=code:ptrcontmanip]
 			{../Codebeispiele/PtrContExample1.cs}
 		%Content
+\newpage
 \subsection {Half-Edges Pointer-Container}
 %Content
 			Der Half-Edge Pointer Container, in \LFGS class HEdgePtrCont, speichert alle Informationen die laut \HES an einer Half-Edge anliegen m"ussen. Die zugeh"orige Datei im \LFGS Projekt ist "`HEdgePtrCont.cs"'.
@@ -776,6 +843,7 @@ Zus"atzlich zu den Standards der \HES bietet \LFGS die M"oglichkeit an jedem Fac
 \item HandleFaceNormal \_fn;
 \end{itemize}
 			%Content
+\newpage
 	\section {Die Geometrie in \LFG}
 		%Content
 			Das Geometry Objekt ist der Kern des ganzen \LFGS Projekts. Von der Umwandlung eines mit dem Importer eingelesenen Meshes bis zur Speicherung w"ahrend der Laufzeit managed das Geometry Objekt ein komplettes Mesh. Die gespeicherten Daten im Objekt werden in Collections vorgehalten um einen schnellen Zugriff durch Iteratoren zu gew"ahrleisten. Es werden Listen anstelle von Arrays oder "ahnlichem verwendet um die Handhabung von Zugriffen auf die Daten zu erleichtern.
@@ -816,7 +884,7 @@ Das Geometry Object wird hier durch Call by Reference (dargestellt durch das Key
 		%Content
 		\subsection {Benchmarks zu Laufzeiten des Programms}
 			%Content
-			%TODO einige Benchmarks für verschiedene Models anlegen und aufzeichnen. Das ganze mit FRAPS messen und die Zeiten von der Stoppuhr ablesen.
+			%!TODO! einige Benchmarks für verschiedene Models anlegen und aufzeichnen. Das ganze mit FRAPS messen und die Zeiten von der Stoppuhr ablesen.
 			%Content
 	\section {Anwendungsszenarien von \LFG}
 		%Content
@@ -846,7 +914,7 @@ Im ersten Beispiel, wird der einfache Aufruf eines \LFG basis Enumerators gezeig
 			[caption={EnumeratorForeach1.cs - Aufrufen von Enumeratoren Teil 1}, label=code:enumforeach1, firstline=1, lastline=5]
 			{../Codebeispiele/EnumeratorForeach.cs}
 
-Hier im zweiten Beispiel wird das Ergebnisset erneut durch eine LINQ Abfrage gefiltert. Dieses Beispiel zeigt wie einfach man einen bestehenden Iterator/Enumerator erweitern oder ver"andern kann ohne dass man dessen Implementierung direkt manipuliert. Die LINQ Abfrage "`ver"andert"' durch nur wenig zus"atzlichen Code sogar den Datentypen des Ergebnissets f"ur die "`foreach"' Anweisung.
+Hier im zweiten Beispiel \ref{code:enumforeach2} wird das Ergebnisset erneut durch eine LINQ Abfrage gefiltert. Dieses Beispiel zeigt wie einfach man einen bestehenden Iterator/Enumerator erweitern oder ver"andern kann ohne dass man dessen Implementierung direkt manipuliert. Die LINQ Abfrage "`ver"andert"' durch nur wenig zus"atzlichen Code sogar den Datentypen des Ergebnissets f"ur die "`foreach"' Anweisung.
 \lstinputlisting
 			[caption={EnumeratorForeach1.cs - Aufrufen von Enumeratoren Teil 2}, label=code:enumforeach2, firstline=7, lastline=13]
 			{../Codebeispiele/EnumeratorForeach.cs}
@@ -964,7 +1032,7 @@ return (from e in _LhedgePtrCont where e._v == vertexHandle select _LhedgePtrCon
  formuliert werden k"onnte. Er war w"ahrend dieser Arbeit in LINQ schneller und einfacher zu formulieren, hat aber leider eine h"ohere Laufzeit pro Vertex. Betrachtet man die Methode CalcVertexNormal() welche den EnFaceAdjacentHalfEdges() Enumerator einsetzt zeigt sich folgender Sachverhalt. Aktuell (Stand Juli 2013) fallen die FPS von durchschnittlich 8-12FPS laut FRAPS\footnote{ Demo unter http://www.fraps.com/} , mit Vertex Normalen Berechnung und nativem Algorithmus auf der Datenstruktur (alg1\label{code:alg1}), auf durchschnittliche 3-7 FPS mit den LINQ Abfragen in Abfragesyntax (alg2\label{code:alg2}) und Methodensyntax (alg3\label{code:alg3}). Dieses Beispiel ist auf das Utah Teapot Model mit aktivierter Beleuchtungsberechnung bezogen. Dieser Performance Verlust ist allerdings nicht alleine auf die LINQ Abfrage zur"uckzuf"uhren. Es ist in der Tat so, dass die Laufzeiten der \CSS eigenen Delete und Insert Methoden auf Listen hier ein weiteres Problem darstellt. Gemessen wurden diese Werte mit dem Visual Studio 2010 Leistungsanalyse Tool. Alle Messungen erfolgten wieder auf Basis des Utah Teapots.
 \newline
 
-Um die Messungen\footnote{\label{fn-messungenPC} Messungen durchgef"uhrt auf folgender PC Konfiguration: Intel Core i5 2500k, 16GB 1333er Ram, HDD Festplatte 7200RPM, ATI Radeon HD 7950 3GB VRam, Windows 7 64Bit auf Samsung 840 SSD. Messwerte berechnet durch den Visual Studio 2010 Profiler und FPS Kennzahlen zur Laufzeit durch FRAPS entnommen} zu vergleichen wurde der Teapot jeweils 15 Sekunden mit aktivierter Beleuchtung in der Testszene rotiert. Zuerst wurde eine Rotation um die Z Achse im Uhrzeigersinn f"ur f"unf Sekunden durchgef"uhrt. Darauf folgen 10 Sekunden Rotation um die X Achse im Uhrzeigersinn.
+Um die Messungen\footnote{\label{fn-messungenPC} Messungen durchgef"uhrt auf folgender PC Konfiguration: Intel Core i5 2500k, 16GB 1333er Ram, HDD Festplatte 7200RPM, ATI Radeon HD 7950 3GB VRam, Windows 7 64Bit auf Samsung 840 SSD. Messwerte berechnet durch den Visual Studio 2010 Profiler und FPS Kennzahlen zur Laufzeit durch FRAPS entnommen} zu vergleichen wurde der Teapot jeweils ~15 Sekunden \footnote{Manuel gemessen mit einer Stoppuhr} mit aktivierter Beleuchtung in der Testszene rotiert. Zuerst wurde eine Rotation um die Z Achse im Uhrzeigersinn f"ur f"unf Sekunden durchgef"uhrt. Darauf folgen 10 Sekunden Rotation um die X Achse im Uhrzeigersinn.
 
 Die Kennzahlen der Messung sind in der Einheit Inklusive Samples angegeben. Inklusive Samples beschreiben die Zeit welche eine Funktion inklusive ihrer Kinder Methoden f"ur eine Berechnung ben"otigt. Exklusive Samples beschreiben die Zeit welche im Body der Methode selbst ohne Kinder Methoden verbracht wird.
 
@@ -1169,13 +1237,30 @@ Eine inoffizielle Deutsche "Ubersetzung des Lizenztextes findet sich unter \url{
 % Inhalt ENDE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \part*{Appendix}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Source Code Verzeichnis START
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstlistoflistings
-\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Source Code Verzeichnis ENDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tabellen Verzeichnis START
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\listoftables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tabellen Verzeichnis ENDE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abbildungsverzeichnis START
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\listoffigures
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abbildungsverzeichnis ENDE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1184,7 +1269,6 @@ Eine inoffizielle Deutsche "Ubersetzung des Lizenztextes findet sich unter \url{
 \nocite{*}
 \bibliography{Citavi}
 \addcontentsline{toc}{chapter}{Literaturverzeichnis}
-\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bilbiographie ENDE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

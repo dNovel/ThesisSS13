@@ -1,0 +1,14 @@
+\select@language {german}
+\select@language {german}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Diese Illustration zeigt die Verbindung der data records an einem beliebigen Polygon durch Pfeilverbindungen.\relax }}{9}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Diese Illustration zeigt die verschiedenen Layer von LFG und deren Verbindungen.\relax }}{19}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Dieses UML Diagramm beschreibt die Implementierung des Projektes.\relax }}{29}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Messung der CalcVertexNormal() Methode\relax }}{46}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() ohne LINQ. Die relevante Zeile ist rot markiert.\relax }}{47}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Messung der CalcVertexNormal() Methode.\relax }}{47}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() in Methodensyntax.\relax }}{48}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Messung der CalcVertexNormal() Methode.\relax }}{48}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() in Abfragesyntax.\relax }}{49}
+\addvspace {10\p@ }
