@@ -7,16 +7,16 @@ List<HalfEdgePtrCont> _LhePointerContainers = new List<HalfEdgePtrCont>();
 
 // Now we want to manipulate a specific Pointer Container.
 // So we first need a Handle to a Pointer Container.
-// We retrieve "hep" by selecting the last element in the Pointer Container List. (Does not make any special sense it's just for the example)
-HandleHalfEdge heH = new HandleHalfEdge(_LhePointerContainers.Count() - 1);
-HalfEdgePtrCont hep = _LhePointerContainers[heH];
+// We retrieve "hep" by selecting the third last element in the Pointer Container List.
+// (Does not make any special sense it's just for the example)
+HandleHalfEdge heH = new HandleHalfEdge(_LhePointerContainers.Count() - 3);
 
-// We now can savely remove it from the List
-_LhedgePtrCont.RemoveAt(heH);
+// Now we want to manipulate this data set.
+_LhePtrCont[heH] = new HalfEdgePtrCont()
+{
+    ...
+    _f = _LhePointerContainers[heH]._f,
+    ...
+};
 
-// Let us do whatever we want for example manipulating the face pointer
-// We are setting the face pointer to invalid.
-hep._f = new HandleFace(-1);
-
-// Now we can savely insert the changed Container in the List again
-_LhedgePtrCont.Insert(heH, hep);
+// Note: This is much faster than to allocate a new HalfEdgePtrCont in Memory and then using RemoveAt() and Insert() on the List<t>. 
