@@ -273,10 +273,10 @@ Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur 3D Ec
 	%Content
 	\section {Verwendete Software}
 \begin{itemize}
-\item Microsoft Visual Studio 2010 \newline wurde verwendet als Entwicklungsumgebung f"ur das Projekt.
+\item Microsoft Visual Studio 2010, \newline verwendet als Entwicklungsumgebung f"ur das Softwareprojekt.
 \item Die Erweiterung ReSharper in Version 7.1 f"ur Visual Studio 2010 \url{http://www.jetbrains.com/resharper}
 \item Umlet \url{http://www.umlet.com/} \newline Ein kostenloses Tool um UML Diagramme zu erstellen.
-\item GitHub und die GitShell \url{www.github.com} \newline F"ur die Versionskontrolle des Codes und des Textes und um den Code dieser Arbeit offen anzubieten.
+\item GitHub und die GitShell \url{www.github.com} \newline Verwendet als Versionskontrollsystem und als Distributionswerkzeug für den Quellcode.
 \item TexWorks \url{www.tug.org/texworks/} \newline Zum Schreiben dieser Arbeit.
 \end{itemize}
 %%%%%%
@@ -303,7 +303,7 @@ Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur 3D Ec
 
 Ein Kernelement der \HES und sicherlich ihre bekannteste und herausragendste Eigenschaft ist, dass jede Kante im gespeicherten Modell (Mesh) als Kombination aus zwei Half-Edges repr"asentiert wird. Zwei Half-Edges zusammen ergeben also eine komplette Kante. In der Implementierung dieses Projektes kommt es nicht vor, dass eine Half-Edge f"ur sich alleine steht.
 
-Die Einsatzgebiete der \HES sind vielf"altig. Sie wird wie von Mark de Berg, Otfried Cheong, Marc van Kreveld und Mark Overmars in Computational Geometry \cite{vanMarkdeBerg.2008} (Auflage 3) beschrieben  \begin{quote}dazu eingesetzt Geografische Gegebenheiten etc. auf digitalen Landkarten  als Thematische Karten Overlays dazustellen. \cite[S.~29]{vanMarkdeBerg.2008}\end{quote} Ebenso h"aufig findet man sie in der 3D Computergrafik, wenn auch selten in gr"o"seren Projekten. Meist wird sie als Datenstruktur f"ur kleinere Softwarel"osungen herangezogen. Ein Beispiel ist hier die Demo Szene \footnote{Eine Demo ist in der Demo Szene als Digitale Kunst zu verstehen. Meist ist eine Demo eine Form der Computergrafik Echtzeit-Animationen inklusive Musikuntermalung.} der Computergrafik. Das Entwickler Team "`farbrausch"', das verantwortlich ist f"ur Projekte wie das Preis gekrönte "`kkrieger"' (ein minimalistischer Ego Shooter mit einer Gesamtgr"o"se von 96kb) hat die \HES f"ur ihr Demo Projekt "`debris"' genutzt. \footnote{Viele farbrausch Projekte sind zu finden unter http://www.farb-rausch.de/ (Stand: Juli 2013)}
+Die Einsatzgebiete der \HES sind vielf"altig. Sie wird wie von Mark de Berg, Otfried Cheong, Marc van Kreveld und Mark Overmars in Computational Geometry \cite{vanMarkdeBerg.2008} (Auflage 3) beschrieben  \begin{quote}"`dazu eingesetzt Geografische Gegebenheiten etc. auf digitalen Landkarten  als Thematische Karten Overlays dazustellen."' \cite[S.~29]{vanMarkdeBerg.2008}\end{quote} Ebenso h"aufig findet man sie in der 3D Computergrafik, wenn auch selten in gr"o"seren Projekten. Meist wird sie als Datenstruktur f"ur kleinere Softwarel"osungen herangezogen. Ein Beispiel ist hier die Demo Szene \footnote{Eine Demo ist in der Demo Szene als Digitale Kunst zu verstehen. Meist ist eine Demo eine Form der Computergrafik Echtzeit-Animationen inklusive Musikuntermalung.} der Computergrafik. Das Entwickler Team "`farbrausch"', das verantwortlich ist f"ur Projekte wie das Preis gekrönte "`kkrieger"' (ein minimalistischer Ego Shooter mit einer Gesamtgr"o"se von 96kb) hat die \HES f"ur ihr Demo Projekt "`debris"' genutzt. \footnote{Viele farbrausch Projekte sind zu finden unter http://www.farb-rausch.de/ (Stand: Juli 2013)}
 		\subsection {Die Half-Edge Datenstruktur in \LFGS}
 			%Content
 			%TODO Planare Graphen erkläutern und verstehen
@@ -317,19 +317,19 @@ Die \HES besteht grunds"atzlich aus vier verschiedenen Datens"atzen (data record
 \item Edge, eine Kante welche aus zwei Halbkanten besteht.
 \end{itemize}
 
-\begin{quote}Jeder Datensatz (Half-Edge, Vertex und Face) der Datenstruktur kann ebenfalls dazu benutzt werden Informationen zu speichern welche nicht im direkten Zusammenhang mit den geometrischen Informationen des Meshes stehen. Es ist in etwa m"oglich, Informationen zur Beleuchtungsberechnung (Vertex- und Facenormalen) oder Textur Koordinaten eines Meshes in den Datens"atzen zu speichern. Diese zus"atzlichen Informationen werden im folgenden als Attributs-Informationen bezeichnet. \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
+\begin{quote}"`Jeder Datensatz (Half-Edge, Vertex und Face) der Datenstruktur kann ebenfalls dazu benutzt werden Informationen zu speichern welche nicht im direkten Zusammenhang mit den geometrischen Informationen des Meshes stehen. Es ist in etwa m"oglich, Informationen zur Beleuchtungsberechnung (Vertex- und Facenormalen) oder Textur Koordinaten eines Meshes in den Datens"atzen zu speichern. Diese zus"atzlichen Informationen werden im folgenden als Attributs-Informationen bezeichnet."' \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
 
 Zu beachten ist hierbei, dass die \HES durch ihr wichtigstes Element auch als gerichteter Graph betrachtet werden kann. Jeder Half-Edge, in der Graphentheorie als Bogen bezeichnet, ist genau einem Vertex, in der Graphentheorie als Knoten bezeichnet, zugeordnet. Dieser Zustand ergibt sich durch die Speicherung des Pointers an jeder Half-Edge, der auf den Vertex verweist auf den die Half-Edge zeigt.
-\begin{quote}Ein gerichteter Graph \(G = (V,E)\) besteht aus einer Knotenmenge \(V\) und einer Bogenmenge \(E\), sodass jedem Bogen (jeder Kante) \(e = (u,v)\) eindeutig ein geordnetes Paar \((u,v)\) von Knoten aus \(V\) zugeordnet ist. \cite[S.~127]{Tittmann.2011}\end{quote}
+\begin{quote}"`Ein gerichteter Graph \(G = (V,E)\) besteht aus einer Knotenmenge \(V\) und einer Bogenmenge \(E\), sodass jedem Bogen (jeder Kante) \(e = (u,v)\) eindeutig ein geordnetes Paar \((u,v)\) von Knoten aus \(V\) zugeordnet ist."' \cite[S.~127]{Tittmann.2011}\end{quote}
 
-\begin{quote}In der Half-Edge Datenstruktur sind die Half-Edges also Kanten mit einer Orientierung. Der Vertex dem sie entspringen ist dabei als der Ursprung zu bezeichnen, w{\"a}hrend der Vertex auf den sie zeigen und auf den sie einen Zeiger enthalten, als Ziel (Destination) betrachtet wird. \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
+\begin{quote}"`In der Half-Edge Datenstruktur sind die Half-Edges also Kanten mit einer Orientierung. Der Vertex dem sie entspringen ist dabei als der Ursprung zu bezeichnen, w{\"a}hrend der Vertex auf den sie zeigen und auf den sie einen Zeiger enthalten, als Ziel (Destination) betrachtet wird."' \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
 
-\begin{quote}{\glqq}Because half-edges are oriented we can speak of the \textit{origin }and the \textit{destination }of a half-edge.{\grqq} \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
+\begin{quote}"`Because half-edges are oriented we can speak of the \textit{origin }and the \textit{destination }of a half-edge."' \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
 
 Die \HES ist also mathematisch betrachtet ein planarer Graph. Laut Eulerscher Polyederformel beschrieben von Peter Tittmann \cite[S.~47--50]{Tittmann.2011} ergibt sich folgender Sachverhalt. \(v + f = k + 2\) \(v\) entspricht der Anzahl der Punkte oder Vertices in einem Graphen, \(f\) die Anzahl der Fl"achen oder Faces und \(k\) entspricht der Anzahl der Kanten. Wendet man diesen Ausdruck auf einen W"urfel an, so ensteht die folgende Gleichung \(8 + 6 = 12 + 2\). Es ist also hier tats"achlich so, dass ein W"urfel als planarer Graph betrachtet werden kann. Der gleiche Sachverhalt ergibt sich nun in der Repr"asentation eines W"urfels in der Half-Edge Datenstruktur.
 
 			\subsubsection {Doubly Connected Edge List}
-				Die doubly connected edge list (kurz DECL) wie in \cite{vanMarkdeBerg.2008} erw"ahnt ist der hier verwendeten \HES "ahnlich. Die Strukturen haben nur ein paar wenige Unterschiede. Zuerst einmal ein paar Worte zu den Gemeinsamkeiten. \begin{quote}Die Doubly-connected edge list besteht grunds{\"a}tzlich ebenfalls aus drei verschiedenen Typen von Datens"atzen. Dazu z"ahlen, wie auch in der \HES, Vertices, Faces und Half-Edge Datens"atze. \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
+				Die doubly connected edge list (kurz DECL) wie in \cite{vanMarkdeBerg.2008} erw"ahnt ist der hier verwendeten \HES "ahnlich. Die Strukturen haben nur ein paar wenige Unterschiede. Zuerst einmal ein paar Worte zu den Gemeinsamkeiten. \begin{quote}"`Die Doubly-connected edge list besteht grunds{\"a}tzlich ebenfalls aus drei verschiedenen Typen von Datens"atzen. Dazu z"ahlen, wie auch in der \HES, Vertices, Faces und Half-Edge Datens"atze."' \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
 
 Somit ist bereits klar, dass sich die Datenstruktur in der Implementierung durch den in diesem Projekt hinzugekommenen data record "`Edge"' unterscheidet. Die Doubly-connected edge list unterscheidet sich weiterhin im Blick auf die Zeiger, welche in einem data record gespeichert werden. W"ahrend die hier implementierte \HES in einem Half-Edge record folgende Informationen speichert:
 \begin{itemize}
@@ -423,7 +423,7 @@ Ein auff"alliger Unterschied zu einfacheren Face basierten Datenstrukturen ist d
 Hier eine Beispielhafte Berechung des Datenverbrauchs.
 \newline
 
-Man gehe davon aus jedes gespeicherte Element (Daten in Form von Vertices, Faces, Edges, Half-Edges) wird mit 32bit repr"asentiert und jeder Zeiger (Pointer) wird mit 8bit repr"asentiert. In diesem Fall k"onnte man den Speicherverbrauch eines einfachen sechs Seitigen W"urfels wie folgt beschreiben.
+Man gehe davon aus, jedes gespeicherte Element (Daten in Form von Vertices, Faces, Edges, Half-Edges) wird mit 32bit repr"asentiert und jeder Zeiger (Pointer) wird mit 8bit repr"asentiert. In diesem Fall k"onnte man den Speicherverbrauch zur Laufzeit des Programms im Hauptspeicher des Rechners (RAM) eines einfachen sechs Seitigen W"urfels wie folgt beschreiben.
 
 So stellt die \HES einen W"urfel dar:
 \begin{itemize}
@@ -545,7 +545,7 @@ Hier ein Vergleich der beiden Syntaktischen M"oglichkeiten zum Erstellen von LIN
 			{../Codebeispiele/LINQzweiSynt.cs}
 		%Content
 
-Beide Methoden LINQ Abfragen in \CSS zu schreiben werden vom JIT (Just in Time Compiler) in gleichen Code "ubersetzt. Sie unterscheiden sich nur selten. Manche Standardoperatoren wie Sum oder Count sind in der Abfragesyntax nicht gegeben. Dieses Projekt wird in Zukunft alle LINQ Abfragen in der Methodensyntax verwenden um den Code zu vereinheitlichen. Der Entwickler kann sich also eigentlich aussuchen, in welcher Syntax er seinen Code am liebsten schreibt. Eine gute "ubersicht von LINQ Standard Operatoren wurde von Don Box und Anders Hejlsberg 2007 in \begin{quote}LINQ: .NET Language-Integrated Query \cite[Standard Query Operators in a Nutshell]{Box.2007}\end{quote} beschrieben. \footnote{Zu finden unter \url{http://msdn.microsoft.com/en-us/library/bb308959.aspx}}
+Beide Methoden LINQ Abfragen in \CSS zu schreiben werden vom JIT (Just in Time Compiler) in gleichen Code "ubersetzt. Sie unterscheiden sich nur selten. Manche Standardoperatoren wie Sum oder Count sind in der Abfragesyntax nicht gegeben. Dieses Projekt wird in Zukunft alle LINQ Abfragen in der Methodensyntax verwenden um den Code zu vereinheitlichen. Der Entwickler kann sich also eigentlich aussuchen, in welcher Syntax er seinen Code am liebsten schreibt. Eine gute "ubersicht von LINQ Standard Operatoren wurde von Don Box und Anders Hejlsberg 2007 in \begin{quote}"`LINQ: .NET Language-Integrated Query"' \cite[Standard Query Operators in a Nutshell]{Box.2007}\end{quote} beschrieben. \footnote{Zu finden unter \url{http://msdn.microsoft.com/en-us/library/bb308959.aspx}}
 \newpage
 Hier sollen nur die f"ur dieses Projekt wichtigsten Standardoperatoren aufgelistet werden.
 \newline
@@ -681,7 +681,7 @@ Das .obj Format zeichnet sich durch seine einfache Form und durch die von Mensch
 
 Ein "`GeoFace"' ist ein Konstrukt, das ein Polygon (In LFG Face genannt) eines 3D Models (Meshes) repr"asentiert. Jedes GeoFace selbst enth"alt eine Liste aus Fusee.Math float3 Vertice Daten und Fusee.Math float2 UV Koordinaten.
 \newline
-
+\newpage
 In diesem Beispiel handelt es sich um einen W"urfel, der ohne Normalen oder UV Textur Koordinaten gespeichert wurde. Der W"urfel wurde aus der Software Cinema4D exportiert. Der W"urfel besteht aus Quads. Das ist daran zu erkennen, dass jedes Face 4 Vertices referenziert.
 \begin{lstlisting}
 # WaveFront *.obj file (generated by CINEMA 4D)
@@ -738,10 +738,6 @@ Ein Face muss jetzt nur noch als Face Pointer Container in das System eingef"ugt
 			%TODO Grafik erstellen?
 			%TODO Grafik erstellen?
 			%Content
-		\subsection {UML Diagramme zur Implementierung von \LFG}
-				%Content
-				%TODO Ablaufdiagramm!
-Die in diesem Abschnitt aufgef"uhrten UML Diagramme wurden w"ahrend dieser Arbeit entwickelt und stellen die Basis der Implementierung dar. Diese Diagramme wurden vor der tatsächlichen Entwicklung der betreffenden Funktionen geschrieben und können kleine Unterschiede zum tatsächlichen Code aufweisen.
 
 				%Content
 	\section {Implementierung und Funktion der Handler für die einzelnen Komponenten der HES}
@@ -769,8 +765,8 @@ Eine Besonderheit der Handler ist die mit "`internal"' gekennzeichnete Deklarati
 \lstinputlisting
 			[caption={HandleHalf-Edge.cs - Deklarationen als internal}, label=code:hheinternal, firstline=21, lastline=21]
 			{../../HFU_Fusee/Fusee/src/Engine/LinqForGeometry/LinqForGeometry.Core/src/Handles/HandleHalfEdge.cs}
-
-\begin{quote}{\dq}Der interne Zugriff wird h{\"a}ufig in komponentenbasierter Entwicklung verwendet, da er einer Gruppe von Komponenten erm{\"o}glicht, in einer nicht {\"o}ffentlichen Weise zusammenzuwirken, ohne dem Rest des Anwendungscodes zug{\"a}nglich zu sein.{\dq} \cite{MicrosoftCReferenz.2013}\end{quote}
+\newpage
+\begin{quote}"`Der interne Zugriff wird h{\"a}ufig in komponentenbasierter Entwicklung verwendet, da er einer Gruppe von Komponenten erm{\"o}glicht, in einer nicht {\"o}ffentlichen Weise zusammenzuwirken, ohne dem Rest des Anwendungscodes zug{\"a}nglich zu sein."' \cite{MicrosoftCReferenz.2013}\end{quote}
 
 
 Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann im Visual Studio 2010 Softwareprojekt unter folgender Verzeichnisstruktur betrachtet werden. "`LinqForGeometry/LinqForGeometry.Core/src/Handles"'
@@ -884,7 +880,7 @@ Das Geometrie Objekt kann aus dem \LFG.ExternalModul Projekt heraus angesprochen
 Das Geometry Object wird hier durch Call by Reference (dargestellt durch das Keyword "`ref"' in \CS) "ubergeben. Diese Methode spart aufgrund der Gr"o"se eines Geometry Objekts und der vielen darin enthaltenen Daten einiges an Zeit und Speicherplatz im Arbeitsspeicher (RAM).
 
 		%Content
-		\subsection {Benchmarks zu Laufzeiten des Programms}
+%		\subsection {Benchmarks zu Laufzeiten des Programms}
 			%Content
 			%!TODO! einige Benchmarks für verschiedene Models anlegen und aufzeichnen. Das ganze mit FRAPS messen und die Zeiten von der Stoppuhr ablesen.
 			%Content
@@ -1045,9 +1041,9 @@ Um die Messungen\footnote{Messungen durchgef"uhrt auf folgender PC Konfiguration
 
 Die Kennzahlen der folgenden VS2010 Profiler Messung sind als Inklusive und Exklusive Samples angegeben. Inklusive Samples beschreiben die Zeit die in einer Funktion inklusive ihrer Kinder Methoden f"ur eine Berechnung ben"otigt wird. Exklusive Samples beschreiben die Zeit welche im Body der Methode selbst ohne Kinder Methoden verbracht wird.
 
-\begin{quote}Die Inklusiv-Werte werden anhand der Gesamtzahl der f{\"u}r eine Funktion in der Aufrufliste erfassten Samplings berechnet. Dies gilt auch f{\"u}r die beim Ausf{\"u}hren untergeordneter Funktionen erfassten Samplings. Wenn eine erfasste Aufrufliste analysiert wird, werden die Werte f{\"u}r die inklusiven Samplings aller Funktionen der Aufrufliste erh{\"o}ht. \cite[Analyse von Leistungsdaten]{MicrosoftCReferenz.2013}\end{quote}
+\begin{quote}"`Die Inklusiv-Werte werden anhand der Gesamtzahl der f{\"u}r eine Funktion in der Aufrufliste erfassten Samplings berechnet. Dies gilt auch f{\"u}r die beim Ausf{\"u}hren untergeordneter Funktionen erfassten Samplings. Wenn eine erfasste Aufrufliste analysiert wird, werden die Werte f{\"u}r die inklusiven Samplings aller Funktionen der Aufrufliste erh{\"o}ht."' \cite[Analyse von Leistungsdaten]{MicrosoftCReferenz.2013}\end{quote}
 
-\begin{quote}Die Exklusiv-Werte werden anhand der Gesamtzahl an der f{\"u}r eine Funktion erfassten Samplings berechnet, wenn diese ihren eigenen Code ausf{\"u}hrt. Exklusive Werte enthalten kein Samplings, die beim Ausf{\"u}hren untergeordneter Funktionen erfasst werden. Wenn eine erfasste Aufrufliste analysiert wird, wird die exklusive Samplinganzahl nur f{\"u}r die Funktion erh{\"o}ht, die Code ihres Funktionstexts ausf{\"u}hrt. \cite[Analyse von Leistungsdaten]{MicrosoftCReferenz.2013}\end{quote}
+\begin{quote}"`Die Exklusiv-Werte werden anhand der Gesamtzahl an der f{\"u}r eine Funktion erfassten Samplings berechnet, wenn diese ihren eigenen Code ausf{\"u}hrt. Exklusive Werte enthalten kein Samplings, die beim Ausf{\"u}hren untergeordneter Funktionen erfasst werden. Wenn eine erfasste Aufrufliste analysiert wird, wird die exklusive Samplinganzahl nur f{\"u}r die Funktion erh{\"o}ht, die Code ihres Funktionstexts ausf{\"u}hrt."' \cite[Analyse von Leistungsdaten]{MicrosoftCReferenz.2013}\end{quote}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Nativ%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1204,12 +1200,12 @@ Diese Berechnung der Vertex Normalen kann durch Setzen der Boolean Variable \_Ve
 Sind jetzt alle Normalen berechnet, iteriert ToMesh() noch einmal "uber alle Faces und Half-Edges und sammelt die relevanten Informationen in Collections, die f"ur Fusee sp"ater in Arrays konvertiert werden. Hierbei werden, da Fusee aktuell nur mit Triangles arbeitet (Stand Juli 2013), auch die Triangles neu berechnet. Dazu "lauft ein Iterator "uber die Half-Edges des Meshes und speichert die Indizes der Vertices in der richtigen Reihenfolge in einer Liste ab.
 
 Die meisten OpenGL Echtzeit 3D Engines benutzen aktuell nur noch Triangles f"ur die repr"asentation der Meshes. OpenGL hat die Funktion GL\_QUADS in OpenGL 3.1 und dar"uber entfernt und in 3.0 gilt diese Funktion als "deprecated".
-\begin{quote}GL\_QUADS [...] have been removed from core OpenGL 3.1 and above (they are only deprecated in OpenGL 3.0).\footnote{\url{http://www.opengl.org/wiki/Primitive} (gepr"uft 30.07.2013 Abschnitt "`Quads"')}
-\end{quote}
+\begin{quote}"`GL\_QUADS [...] have been removed from core OpenGL 3.1 and above (they are only deprecated in OpenGL 3.0).\footnote{\url{http://www.opengl.org/wiki/Primitive} (gepr"uft 30.07.2013 Abschnitt "`Quads"')}
+"'\end{quote}
 
 Man hat sich f"ur Triangles entschieden, da sie zur Repr"asentation von Meshes sehr gut geeignet sind. Ein Quad besteht genauer gesagt nur aus zwei Triangles und deswegen sollte die OpenGL API nicht mit zus"atzlichen Konvertierungen belastet werden. Die Khronos Group, welche f"ur die Entwicklung und Wartung von OpenGL zust"andig ist beschrieb im M"arz 2009 in der Spezifikation zu OpenGL 3.1, dass die OpenGL API in Zukunft "`ausged"unnt"' oder "`schlanker"' gemacht werden soll.\footnote{\url{https://www.khronos.org/news/press/khronos-releases-streamlined-opengl-3.1-specification}}
-
-\begin{quote}Many algorithms use triangle meshes for representing geometric surfaces. The simple triangle can serve as a basic surface primitive to adaptively approximate smooth freeform geometry. A triangle mesh naturally allows to adapt the required number of primitives to the geometric shape instead of the basic topology of an arbitrary object. Triangle meshes are efficient, since the triangle is currently the only surface patch that is directly supported by computer graphics hardware and even software rendering methods like ray tracing or radiosity prefer to use piecewise linear primitives to represent geometric objects due to gains in performance. \cite[S.~1]{Campagna.1998}\end{quote}
+\newpage
+\begin{quote}"`Many algorithms use triangle meshes for representing geometric surfaces. The simple triangle can serve as a basic surface primitive to adaptively approximate smooth freeform geometry. A triangle mesh naturally allows to adapt the required number of primitives to the geometric shape instead of the basic topology of an arbitrary object. Triangle meshes are efficient, since the triangle is currently the only surface patch that is directly supported by computer graphics hardware and even software rendering methods like ray tracing or radiosity prefer to use piecewise linear primitives to represent geometric objects due to gains in performance."' \cite[S.~1]{Campagna.1998}\end{quote}
 
 Um die Konvertierung in ein Fusee Mesh Objekt abzuschliessen, muss die ToMesh() Methode ein Objekt von dem Fusee bekannten Datentypen "`Fusee.Mesh"' erzeugen und es an den Aufrufer, in Fall dieses Projektes dem Fusee Beispiel Projekt "`LinqForGeometry"', zur"uckgeben. Das so erzeugte Objekt kann dann in der eigenen Fusee App oder eben dem Beispielprojekt mit einem Aufruf auf die im RenderContext enthaltene Methode "`Render()"', RC.Render(Mesh meshObjekt), angezeigt werden.
 
@@ -1316,6 +1312,11 @@ Der gesamte Code dieser Arbeit ist "`Open Source"' und steht unter der MIT Lizen
 % UML START
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{UML Diagramme}
+\subsection {UML Diagramme zur Implementierung von \LFG}
+				%Content
+				%TODO Ablaufdiagramm!
+Die hier angeh"angten UML Diagramme wurden w"ahrend dieser Arbeit entwickelt und stellen die Basis der Implementierung dar. Diese Diagramme wurden vor der tatsächlichen Entwicklung der betreffenden Funktionen geschrieben und können kleine Unterschiede zum tatsächlichen Code aufweisen.
+
 \includegraphics[width=\linewidth]{../UML/Klassendiagramm}
 %\includepdf[pages={1}, pagecommand={}]{../UML/Klassendiagramm}
 \captionof{figure}{Klassendiagramm: Dieses UML Diagramm beschreibt die Implementierung des Projektes.}\label{uml:klassendiagramm}
