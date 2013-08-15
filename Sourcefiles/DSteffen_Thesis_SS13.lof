@@ -1,19 +1,19 @@
-\select@language {german}
-\select@language {german}
+\select@language {ngerman}
+\select@language {ngerman}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Diese Illustration zeigt die Verbindung der data records an einem beliebigen Polygon durch Pfeilverbindungen.\relax }}{9}
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Diese Illustration zeigt die verschiedenen Layer von LFG und deren Verbindungen.\relax }}{20}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Messung der CalcVertexNormal() Methode\relax }}{47}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() im Gesamtkontext einer Demo Anwendung ohne LINQ. Die relevante Zeile ist blau markiert.\relax }}{47}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Messung der CalcVertexNormal() Methode.\relax }}{48}
-\contentsline {figure}{\numberline {2.6}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() in Methodensyntax.\relax }}{48}
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() in Methodensyntax im Kontext eines Demo Ablaufs.\relax }}{49}
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Messung der CalcVertexNormal() Methode.\relax }}{49}
-\contentsline {figure}{\numberline {2.9}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() in Abfragesyntax.\relax }}{50}
-\contentsline {figure}{\numberline {2.10}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() in Abfragesyntax im Kontext eines Demo Ablaufs.\relax }}{50}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Messung der CalcVertexNormal() Methode\relax }}{48}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() im Gesamtkontext einer Demo Anwendung ohne LINQ. Die relevante Zeile ist blau markiert.\relax }}{49}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Messung der CalcVertexNormal() Methode.\relax }}{49}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() in Methodensyntax.\relax }}{50}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() in Methodensyntax im Kontext eines Demo Ablaufs.\relax }}{50}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Messung der CalcVertexNormal() Methode.\relax }}{51}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() in Abfragesyntax.\relax }}{51}
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Messung des Enumerators EnVertexIncomingHalfEdge() in Abfragesyntax im Kontext eines Demo Ablaufs.\relax }}{52}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Klassendiagramm: Dieses UML Diagramm beschreibt die Implementierung des Projektes.\relax }}{70}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Aktivit"atsdiagramm: Der Iterator zum Finden von eingehenden Half-Edges an einem Vertex.\relax }}{71}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Aktivit"atsdiagramm: Die Methode zum Berechnen von Vertex Normalen\relax }}{72}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Klassendiagramm: Dieses UML Diagramm beschreibt die Implementierung des Projektes.\relax }}{72}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Aktivit"atsdiagramm: Der Iterator zum Finden von eingehenden Half-Edges an einem Vertex.\relax }}{73}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Aktivit"atsdiagramm: Die Methode zum Berechnen von Vertex Normalen\relax }}{74}

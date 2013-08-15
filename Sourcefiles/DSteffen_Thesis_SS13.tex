@@ -3,7 +3,7 @@
 \documentclass[pagesize, paper=a4, fontsize=12pt,titlepage=true, headings=small, headnosepline, abstractoff, liststotoc, nochapterprefix, plainheadsepline]{scrreprt}
 \usepackage[a4paper, left=40mm, right=30mm, top=20mm, bottom=20mm]{geometry}
 \usepackage[utf8]{inputenc}
-\usepackage[german]{babel}
+\usepackage[ngerman]{babel}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -34,43 +34,45 @@
 %plain
 
 % Festlegen der Sprache
-\selectlanguage{german}
+\selectlanguage{ngerman}
 
 % Settings fuer den Sourcecode START
+\definecolor{mywhite}{rgb}{1,1,1}
 \definecolor{mygreen}{rgb}{0,0.4,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mykeywordgray}{rgb}{0.2,0.2,0.2}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 \definecolor{bggray}{rgb}{0.97,0.97,0.97}
-\definecolor{titlegray}{rgb}{0.45,0.45,0.45}
+\definecolor{titlegray}{rgb}{0.4,0.4,0.4}
 
 % Farbe für die Überschriften
 \addtokomafont{sectioning}{\color{titlegray}\rmfamily}
 
 
 \lstset{
-backgroundcolor=\color{bggray},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-basicstyle=\scriptsize, % the size of the fonts that are used for the code
+backgroundcolor=\color{mywhite},  % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+basicstyle=\small, % the size of the fonts that are used for the code
 breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
 breaklines=true,                 % sets automatic line breaking
 captionpos=b,                    % sets the caption-position to bottom
-commentstyle=\color{mygreen},    % comment style
+commentstyle=\small\color{black},    % comment style
 deletekeywords={...},            % if you want to delete keywords from the given language
 escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
 extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
 frame=single,                    % adds a frame around the code
 keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-keywordstyle=\color{blue},       % keyword style
+keywordstyle=\color{mykeywordgray}\bfseries,       % keyword style
 language=[Sharp]C,                 % the language of the code
-morekeywords={*,Select},            % if you want to add more keywords to the set
+morekeywords={*,Select,where,select,Write, from, in, orderby, IEnumerable, Where, OrderBy, FindIndex, List, Count, Insert, Remove},            % if you want to add more keywords to the set
 numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
 numbersep=5pt,                   % how far the line-numbers are from the code
-numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+numberstyle=\color{mygray}, % the style that is used for the line-numbers
 rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
 showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
 showstringspaces=false,          % underline spaces within strings only
 showtabs=false,                  % show tabs within strings adding particular underscores
 stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
-stringstyle=\color{mymauve},     % string literal style
+stringstyle=\color{black},     % string literal style
 tabsize=2,                       % sets default tabsize to 2 spaces
 title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 captionpos=t,
@@ -94,8 +96,8 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 
 % Titel
 \title{LINQ for Geometry}
-\subtitle{Implementierung der Half-Edge Datenstruktur zu Manipulation und Handling Dreidimensionaler Meshes insbesondere durch den Einsatz von LINQ und LAMBA Ausdrücken in Microsofts \CS}
-
+\subtitle{Implementierung der Half-Edge Datenstruktur zum Handling dreidimensionaler Meshes in einer Echtzeit-3D Engine insbesondere durch den Einsatz von LINQ und Lambda Ausdrücken in Microsofts \CS}
+%\subtitle{Implementierung der Half-Edge Datenstruktur zu Manipulation und Handling dreidimensionaler Meshes insbesondere durch den Einsatz von LINQ und LAMBA Ausdrücken in Microsofts \CS}
 \parindent 0pt
 
 
@@ -151,6 +153,7 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 \begin{document}
 % Titelblatt START
 %\maketitle
+\addcontentsline{toc}{chapter}{Titelblatt}
 \includepdf[pages={1}]{../Bilder/deckblatt.pdf}
 % Titelblatt ENDE
 
@@ -162,10 +165,10 @@ Zweitbetreuer: Prof. Wilhelm Walter, Fakultät DM
 
 \newpage
 \pagestyle{empty}
-\renewcommand*{\chapterpagestyle}{empty}
+%\renewcommand*{\chapterpagestyle}{empty}
 \chapter*{Abstract}%
-\addcontentsline{toc}{chapter}{Abstract}
-Diese Arbeit zeigt, wie eine Implementierung der Half-Edge Datenstruktur f"ur das Handling von Mesh Daten umgesetzt werden kann. Die Implementierung des vorgestellten Konzeptes erfolgte in \CSS und ist in die Echtzeit 3D Engine Fusee der Hochschule Furtwangen integriert. Geometrie Daten k"onnen mit der Datenstruktur im Speicher gehalten und manipuliert werden. Im Kern dieser Thesis wird "uberp"uft wie sich LINQ Abfragen in der Datenstruktur realisieren lassen, ob sie  zur Laufzeit Auswirkungen auf die Performance des Systems haben. Ein Ausblick er"ortert wie LINQ die zuk"unftige Formulierung von Geometrie manipulierenden Algorithmen im Fusee Projekt beeinflussen k"onnte. Die Implementierung von \LFGS bietet Iteratoren als Schnittstelle f"ur Benutzer des Systems, mit welchen sich neue komplexe Transformations Algorithmen realisieren lassen. Es ist angedacht, das Projekt zuk"unftig eventuell als Datenstruktur f"ur einen Mesh Editor auf Basis der Fusee Engine einzusetzen. Das Ergebnis, der Code der Arbeit, ist auf GitHub frei zug"anglich und befindet sich in einem seperaten Branch des Fusee Projektes.
+%\addcontentsline{toc}{chapter}{Abstract}
+Diese Arbeit zeigt, wie eine Implementierung der Half-Edge Datenstruktur f"ur das Handling von 3D Mesh Daten umgesetzt werden kann. Die Implementierung des vorgestellten Konzeptes erfolgte in \CSS und ist in die Echtzeit-3D Engine "`Fusee"' der Hochschule Furtwangen integriert. Geometrie Daten k"onnen mit Hilfe der Datenstruktur im Speicher gehalten und manipuliert werden. Im Kern dieser Thesis wird "uberp"uft wie sich LINQ Abfragen in der Datenstruktur realisieren lassen, ob sie  zur Laufzeit Auswirkungen auf die Performance des Systems haben. Ein Ausblick er"ortert wie LINQ die zuk"unftige Umsetzung von Transformationsalgorithmen im Fusee Projekt beeinflussen k"onnte. Die Implementierung von \LFGS bietet Iteratoren als Schnittstellen mit welchen sich neue komplexe Transformationen realisieren lassen. Es ist angedacht, das Projekt zuk"unftig als Datenstruktur f"ur einen Mesh Editor auf Basis der Fusee Engine einzusetzen. Der Quellcode der Arbeit ist auf GitHub unter der MIT Lizenz frei zug"anglich.
 \clearpage
 \endgroup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -179,9 +182,9 @@ Diese Arbeit zeigt, wie eine Implementierung der Half-Edge Datenstruktur f"ur da
 
 \newpage
 \pagestyle{empty}
-\renewcommand*{\chapterpagestyle}{empty}
+%\renewcommand*{\chapterpagestyle}{empty}
 \chapter*{Eidesstattliche Erkl"arung}%
-\addcontentsline{toc}{chapter}{Eidesstattliche Erkl"arung}%
+%\addcontentsline{toc}{chapter}{Eidesstattliche Erkl"arung}
 Ich erkläre hiermit an Eides statt, dass ich die vorliegende Bachelorthesis selbständig und ohne 
 unzulässige fremde Hilfe angefertigt habe. Alle verwendeten Quellen und Hilfsmittel die sowohl zum schreiben dieser Arbeit als auch zum Entwickeln des dazugeh"origen Quellcodes benutzt wurden, habe ich angegeben.
 
@@ -205,7 +208,13 @@ unzulässige fremde Hilfe angefertigt habe. Alle verwendeten Quellen und Hilfsmi
 \begin{quote}
 "`Focused, hard work is the real key to success. Keep your eyes on the goal, and just keep taking the next step towards completing it. If you aren't sure which way to do something, do it both ways and see which works better."'
 \end{quote} - John Carmack, co-founder of idSoftware
-%\captionof{figure}{Diese Illustration zeigt die Verbindung der data records an einem beliebigen Polygon durch Pfeilverbindungen.}\label{pic:polyConnections} 
+%\captionof{figure}{Diese Illustration zeigt die Verbindung der data records an einem beliebigen Polygon durch Pfeilverbindungen.}\label{pic:polyConnections}
+\vspace*{6cm}
+\\Kontakt:\\
+Dominik Steffen (Matr.-Nr.: 233675)\\
+Hochschule Furtwangen\\
+E-Mail:\\
+dominik.steffen@hs-furtwangen.de, dominik.steffen@gmail.com\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	Logo START
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -215,7 +224,7 @@ unzulässige fremde Hilfe angefertigt habe. Alle verwendeten Quellen und Hilfsmi
 	\clearpage
 	\pagestyle{empty}
 	\renewcommand*{\chapterpagestyle}{empty}
-	\addcontentsline{toc}{chapter}{Inhaltsverzeichnis} 
+	%\addcontentsline{toc}{chapter}{Inhaltsverzeichnis} 
 	\tableofcontents
 	\clearpage
 \endgroup
@@ -249,13 +258,13 @@ unzulässige fremde Hilfe angefertigt habe. Alle verwendeten Quellen und Hilfsmi
 Um 3D Modelle in Echtzeit Engines darzustellen werden diese meistens in einer Face basierten Datenstruktur gespeichert. Durch diese Art der Speicherung ist es zwar m"oglich, aber sehr aufwendig, performante Algorithmen zur Manipulation der Daten in Echtzeit zu formulieren. Sollte dies gelingen sind die gew"ahlten Algorithmen meist kompliziert und der Einstieg f"ur neue Entwickler f"allt meist schwer. Eine Face basierte Datenstruktur bietet kaum Vernetzungen der enthaltenen Elemente und erschwert das Formulieren von L"osungen durch die Notwendigkeit vieler Schleifen. Die Laufzeiten werden lang und Kanten basierte Operationen lassen sich durch eine solche Struktur gar nicht oder durch erheblichen rechnerischen Aufwand realisieren. Die \HES ist eine Datenstruktur welche diese Probleme umgehen kann. Elemente eines Meshes sind untereinander vernetzt und Iterationen auf dem Mesh k"onnen schnell ausgef"uhrt werden.
 \newline
 
-Um diese Datenstruktur in \CSS zu implementieren und den Zugriff darauf zu verbessern, besch"aftigt sich diese Arbeit mit der Frage wie die \HES in \CSS mit LINQ und Lambda Support umgesetzt werden kann und wo die Vorteile und Nachteile eines solchen Projektes liegen. \LFGS ist ein Projekt, welches sich w"ahrend seiner Entwicklung stetig weiter entwickelt hat. Zuerst wurde nur eine Datenstruktur entwickelt. Um sie allerdings zu testen und den Nutzen zu erforschen wurde die Datenstruktur in eine Echtzeit 3D Engine namens Fusee integriert.
+Um diese Datenstruktur in \CSS zu implementieren und den Zugriff darauf zu verbessern, besch"aftigt sich diese Arbeit mit der Frage wie die \HES in \CSS mit LINQ und Lambda Support umgesetzt werden kann und wo die Vorteile und Nachteile eines solchen Projektes liegen. \LFGS ist ein Projekt, welches sich w"ahrend seiner Umsetzung stetig weiter entwickelt hat. Zuerst wurde nur eine Datenstruktur entwickelt. Um sie allerdings zu testen und den Nutzen zu erforschen wurde die Datenstruktur in eine Echtzeit-3D Engine namens Fusee integriert.
 \newline
 
 Dieser Text beschreibt auch, einige der wichtigsten Iteratoren f"ur die Manipulation einzelner geometrischer Daten oder ganzer Models/Meshes zur Laufzeit. Es wird gepr"uft, ob LINQ Abfragen in jeder Situation verwendet werden k"onnen oder ob mit Blick auf die Performance des Systems mit Problemen zu rechnen ist. Es werden einige standard Geometrie Manipulationen vorgestellt und ihre Implementierung im Projekt wird beschrieben. Schliesslich m"ochte diese Arbeit einen Ausblick darauf geben was mit solch einem System in einer Engine wie Fusee getan werden kann und was die m"oglichen Einsatzgebiete von \LFGS in Zukunft sein k"onnten.
 \newline
 
-Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur 3D Echtzeit Engines und Interaktive Software und der Funktionsweise der einzelnen Bereiche hinter einer solchen Engine. Im Laufe des Studiums wurden einige kleine Softwareprojekte und Spiele entwickelt und so war es der n"achste logische Schritt etwas tiefer in die Computergrafik und Mesharchitektur einzusteigen. Menschen wie John Carmack (idSoftware), John Romero, Markus "`Notch"' Persson und viele andere, waren eine Inspiration w"ahrend des Studiums und haben den Schreiber dieser Arbeit stetig weiter motiviert.
+Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur Echtzeit-3D Engines und Interaktive Software und der Funktionsweise der einzelnen Bereiche hinter einer solchen Engine. Im Laufe des Studiums wurden einige kleine Softwareprojekte und Spiele entwickelt und so war es der n"achste logische Schritt etwas tiefer in die Computergrafik und die Entwicklung von Datenstrukturen einzusteigen. Menschen wie John Carmack (idSoftware), John Romero, Markus "`Notch"' Persson und viele andere, waren eine Inspiration w"ahrend des Studiums und haben den Schreiber dieser Arbeit stetig motiviert.
 	%Ist eine Implementierung der Half-Edge Datenstruktur in \CSS unter Berücksichtigung von\LQ und Lambda Support möglich?
 	% Verweis darauf, dass es in Echtzeit Engines bis jetzt nicht verwendet wird. Keine bekannte Editor Engine. Jedenfalls nicht offiziell.
 	% Verweis auf die Demo Szene mit kkrieger und debris.
@@ -265,7 +274,7 @@ Der Autor dieser Arbeit interessiert sich bereits seit einigen Jahren f"ur 3D Ec
 	%Content
 	\section {Ziele von \LFG}
 	%Content
-	\LFGS hat es sich als Ziel gesetzt die \HES in einem \CSS Projekt einmal grundlegend zu implementieren und herauszufinden wie sehr \CSS's LINQ Abfragen in einem solchen System von Nutzen sind. Die Entwicklung des Softwareprojekts stand hierbei im Vorderung und entwickelte sicher stetig weiter. \LFGS wurde mit der Zeit in die Echtzeit 3D Engine Fusee integriert und besitzt aktuell einen eigenen Branch im Fusee Projekt. Das Projekt ist vorerst dazu gedacht, Daten von 3D Meshes im Speicher zu halten und ihre Werte "uber bereitgestellte Iteratoren und Transformationen zu manipulieren. Diese Arbeit zielte nicht darauf ab, ein komplett abgeschlossenes Projekt zu erschaffen. Die von \LFGS angebotenen Iteratoren sollen viel mehr als eine Ausgangslage darstellen und wiederverwendet werden um in Zukunft durch ihre Kombination aus bestehenden Methoden neue M"oglichkeiten der Transformation in LFG zu schaffen oder bereits bekannte bew"ahrte Algorithmen zu implementieren.
+	\LFGS hat es sich als Ziel gesetzt die \HES in einem \CSS Projekt einmal grundlegend zu implementieren und herauszufinden wie sehr \CSS's LINQ Abfragen in einem solchen System von Nutzen sind. Die Entwicklung des Softwareprojekts stand hierbei im Vorderung und entwickelte sicher stetig weiter. \LFGS wurde mit der Zeit in die Echtzeit-3D Engine Fusee integriert und besitzt aktuell einen eigenen Branch im Fusee Projekt. Das Projekt ist vorerst dazu gedacht, Daten von 3D Meshes im Speicher zu halten und ihre Werte "uber bereitgestellte Iteratoren und Transformationen zu manipulieren. Diese Arbeit zielte nicht darauf ab, ein komplett abgeschlossenes Projekt zu erschaffen. Die von \LFGS angebotenen Iteratoren sollen viel mehr als eine Ausgangslage darstellen und wiederverwendet werden um in Zukunft durch ihre Kombination aus bestehenden Methoden neue M"oglichkeiten der Transformation in LFG zu schaffen oder bereits bekannte bew"ahrte Algorithmen zu implementieren.
 	%Content
 	\section{Gliederung dieser Arbeit}
 	%Content
@@ -309,19 +318,19 @@ Die Einsatzgebiete der \HES sind vielf"altig. Sie wird wie von Mark de Berg, Otf
 		\subsection {Die Half-Edge Datenstruktur in \LFGS}
 			%Content
 			%TODO Planare Graphen erkläutern und verstehen
-			H"aufig wird in der Thematik die Bezeichnung "`Doubly-connected Edge List"' auch als Synonym f"ur die Bezeichnung "`Half-Edge Data Structure"' verwendet. Im Hinblick auf die Implementierung dieser Arbeit ist das so nicht ganz richtig. Dieser Text bezieht sich im Falle der "`Doubly-connected Edge List"' immer auf die Darstellung von \cite{vanMarkdeBerg.2008}. Es existieren, besonders in diesem Projekt, einige wenige feine Unterschiede der beiden Datenstrukturen. 
+			H"aufig wird in der Thematik die Bezeichnung "`Doubly-connected edge list"' auch als Synonym f"ur die Bezeichnung "`Half-Edge Data Structure"' verwendet. Im Hinblick auf die Implementierung dieser Arbeit ist das so nicht ganz richtig. Dieser Text bezieht sich im Falle der "`Doubly-connected edge list"' immer auf die Darstellung von \cite{vanMarkdeBerg.2008}. Es existieren, besonders in diesem Projekt, einige wenige feine Unterschiede der beiden Datenstrukturen. 
 
 Die \HES besteht grunds"atzlich aus vier verschiedenen Datens"atzen (data records). Dazu z"ahlen:
 \begin{itemize}
 \item Vertex, ein Punkt im dreidimensionalen Raum.
 \item Face, zu betrachten als Polygon (Geometrisches Vieleck mit genau oder mehr als 3 Eckpunkten). Erweitert um zus"atzliche Informationen.
-\item Half-Edge, der wichtigste Datensatz in der Datenstruktur. Eine halbe Kante welche in der \HES die meisten Informationen "uber ein dreidimensionales Modell (Mesh) enth"alt.
+\item Half-Edge, der wichtigste Datensatz in der Datenstruktur. Eine "`halbe"' Kante welche in der \HES die meisten Informationen "uber ein dreidimensionales Modell (Mesh) enth"alt.
 \item Edge, eine Kante welche aus zwei Halbkanten besteht.
 \end{itemize}
 
 \begin{quote}"`Jeder Datensatz (Half-Edge, Vertex und Face) der Datenstruktur kann ebenfalls dazu benutzt werden Informationen zu speichern welche nicht im direkten Zusammenhang mit den geometrischen Informationen des Meshes stehen. Es ist in etwa m"oglich, Informationen zur Beleuchtungsberechnung (Vertex- und Facenormalen) oder Textur Koordinaten eines Meshes in den Datens"atzen zu speichern. Diese zus"atzlichen Informationen werden im folgenden als Attributs-Informationen bezeichnet."' \cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
 
-Zu beachten ist hierbei, dass die \HES durch ihr wichtigstes Element auch als gerichteter Graph betrachtet werden kann. Jede Half-Edge, in der Graphentheorie als Bogen bezeichnet, ist genau einem Vertex, in der Graphentheorie als Knoten bezeichnet, zugeordnet. Dieser Zustand ergibt sich durch die Speicherung des Pointers an jeder Half-Edge, der auf den Vertex verweist auf den die Half-Edge zeigt.
+Zu beachten ist hierbei, dass die \HES durch ihr wichtigstes Element auch als gerichteter Graph betrachtet werden kann. Jede Half-Edge, in der Graphentheorie als Bogen bezeichnet, ist genau einem Vertex, in der Graphentheorie als Knoten bezeichnet, zugeordnet. Dieser Zustand ergibt sich durch die Speicherung des Zeigers an jeder Half-Edge, der auf den Vertex verweist auf den die Half-Edge zeigt.
 \begin{quote}"`Ein gerichteter Graph \(G = (V,E)\) besteht aus einer Knotenmenge \(V\) und einer Bogenmenge \(E\), sodass jedem Bogen (jeder Kante) \(e = (u,v)\) eindeutig ein geordnetes Paar \((u,v)\) von Knoten aus \(V\) zugeordnet ist."' \cite[S.~127]{Tittmann.2011}\end{quote}
 
 \begin{quote}In der Half-Edge Datenstruktur sind die Half-Edges also Kanten mit einer Orientierung. Der Vertex dem sie entspringen ist dabei als der Ursprung zu bezeichnen, w{\"a}hrend der Vertex auf den sie zeigen und auf den sie einen Zeiger enthalten, als Ziel (Destination) betrachtet wird. vgl.\cite[S.~31]{vanMarkdeBerg.2008}\end{quote}
@@ -344,7 +353,7 @@ Somit ist bereits klar, dass sich die Datenstruktur in der Implementierung durch
 \item Zeiger auf das Face zu welchem die Half-Edge geh"ort
 \end{itemize}
 
-Die Doubly-connected Edge List laut \cite{vanMarkdeBerg.2008} speichert ein wenig mehr Informationen.
+Die Doubly-connected edge list laut \cite{vanMarkdeBerg.2008} speichert ein wenig mehr Informationen.
 \begin{itemize}
 \item Zeiger auf ihre Twin Half-Edge.
 \item Zeiger auf die n"achste Half-Edge im Uhrzeigersinn.
@@ -355,7 +364,7 @@ Die Doubly-connected Edge List laut \cite{vanMarkdeBerg.2008} speichert ein weni
 
 Somit ist zu erkennen, dass sich die hier verwendete Struktur von der DCEL auf jeden Fall dadurch unterscheidet, dass sie a) Keinen Pointer auf die vorige Half-Edge speichert und b) Ihr Ziel anstatt ihres Ursprungs speichert.
 
-Allerdings sind die Quellen hierzu nicht immer konsistent da beide Datenstrukturen nirgendwo in einer definitiven Form beschrieben werden. So k"onnen sich verschiedene Implementierungen der gleichen Datenstruktur in Feinheiten unterscheiden. Auch die Namen der Doubly-connected Edge List und der \HES wird wie schon genannt oft synonym, oft aber auch als Unterscheidung benutzt. Das \LFGS Projekt vergleicht hier um einen festen Bezugspunkt zu erhalten also immer die Doubly-connected edge list in der Darstellung von \cite[S.~30 und Folgende]{vanMarkdeBerg.2008} mit der eigenen Implementierung der Half-Edge Datenstruktur.
+Allerdings sind die Quellen hierzu nicht immer konsistent da beide Datenstrukturen nirgendwo in einer definitiven Form beschrieben werden. So k"onnen sich verschiedene Implementierungen der gleichen Datenstruktur in Feinheiten unterscheiden. Auch die Namen der Doubly-connected edge list und der \HES wird wie schon genannt oft synonym, oft aber auch als Unterscheidung benutzt. Das \LFGS Projekt vergleicht hier um einen festen Bezugspunkt zu erhalten also immer die Doubly-connected edge list in der Darstellung von \cite[S.~30 und Folgende]{vanMarkdeBerg.2008} mit der eigenen Implementierung der Half-Edge Datenstruktur.
 
 Diese Verbindungen und Beziehungen der data records in der \HES werden im n"achsten Abschnitt genauer erl"autert.
 
@@ -403,7 +412,7 @@ Der Vertex speichert eine Information:
 \includegraphics[width=\linewidth]{../Bilder/hesBeziehungen}
 \captionof{figure}{Diese Illustration zeigt die Verbindung der data records an einem beliebigen Polygon durch Pfeilverbindungen.}\label{pic:polyConnections} 
 \vspace{15mm}
-An dieser Stelle sei bereits vorweg genommen, dass \LFGS in seiner Implementierung diese data records um ein paar Beziehungen, welche durch die Verbindung zur Echtzeit 3D Engine Fusee n"otig werden, erweitert.
+An dieser Stelle sei bereits vorweg genommen, dass \LFGS in seiner Implementierung diese data records um ein paar Beziehungen, welche durch die Verbindung zur Echtzeit-3D Engine Fusee n"otig werden, erweitert.
 
 %Content
 		\subsection {Vorteile der \HES}
@@ -420,7 +429,7 @@ Die \HES ist also grunds"atzlich sehr flexibel. Es bedingt praktisch nicht, dass
 		\subsection {Nachteile der \HES}
 			%Content
 Es gibt selbst in einer so flexiblen Datenstruktur wie der \HES Nachteile, die w"ahrend der Planungsphase oder Implementierung auftreten k"onnen.
-			Durch ihren Aufbau und die verschiedenen Verbindung welche w"ahrend einer Initialisierung aufgebaut werden m"ussen ist die Datenstruktur sehr komplex. Es erfordert einiges an Zeit und "Uberlegungen ein System f"ur eine Implementierung so zu entwerfen, dass es alle Anforderungen an eine Echtzeit 3D Datenstruktur erf"ullt. Vor einer Implementierung der \HES sollte also gut "uberlegt sein, ob sie f"ur das gestellte Problem eine vern"unftige Art der L"osung darstellt. In \LFGS ist die Datenstruktur eine sehr elegante L"osung. Sie ist hinreichend flexibel um eine m"ogliche L"osung f"ur die Problemstellung "`(Editierbare) Echtzeit 3D Datenstruktur"' darzustellen. Die \HES ist aber nicht als Universall"osung zu betrachten. Wenn der Entwickler nur einige wenige spezielle Operationen auf einem Mesh ausf"uhren m"ochte, so gibt es m"oglicherweise eine effizientere und schnellere Datenstruktur um dies zu bewerkstelligen.
+			Durch ihren Aufbau und die verschiedenen Verbindung welche w"ahrend einer Initialisierung aufgebaut werden m"ussen ist die Datenstruktur sehr komplex. Es erfordert einiges an Zeit und "Uberlegungen ein System f"ur eine Implementierung so zu entwerfen, dass es alle Anforderungen an eine Echtzeit-3D Datenstruktur erf"ullt. Vor einer Implementierung der \HES sollte also gut "uberlegt sein, ob sie f"ur das gestellte Problem eine vern"unftige Art der L"osung darstellt. In \LFGS ist die Datenstruktur eine sehr elegante L"osung. Sie ist hinreichend flexibel um eine m"ogliche L"osung f"ur die Problemstellung "`(Editierbare) Echtzeit-3D Datenstruktur"' darzustellen. Die \HES ist aber nicht als Universall"osung zu betrachten. Wenn der Entwickler nur einige wenige spezielle Operationen auf einem Mesh ausf"uhren m"ochte, so gibt es m"oglicherweise eine effizientere und schnellere Datenstruktur um dies zu bewerkstelligen.
 
 Ein auff"alliger Unterschied zu einfacheren Face basierten Datenstrukturen ist der massiv erh"ohte Overhead, der bei der Erstellung der Datenstruktur entsteht. Im n"achsten Abschnitt wird ein kleines Beispiel exemplarisch den Speicherverbrauch der \HES bestimmen.
 
@@ -490,7 +499,7 @@ Das Beispiel zeigt also, dass bei einem einfachen Mesh der Speicherverbrauch der
 		%Content
 		% TODO
 		% Erwähnen und einordnen von OpenMesh, zusätzlich noch mal eben recherchieren ob es neue Implementierungen der dcel oder der hes gibt welche sich in einer 3d engine oder dergleichen bewegen.
-		Die \HES oder auch die Doubly-connected edge list (DCEL) werden heute zwar relativ h"aufig f"ur 3D Mesh Datenstrukturen eingesetzt, allerdings ist zum Zeitpunkt dieser Arbeit nicht bekannt ob und welche gro"sen Programme diese Datenstruktur zum Handling ihrer 3D Daten einsetzt. Weder f"ur 3DS Max von Autodesk noch f"ur Cinema 4D von Maxon konnten verl"assliche Quellen gefunden werden. Die Open Source Software "`Blender"' verwendet in der Version 2.6 die BMesh Structure. Hierbei handelt es sich um eine vom Blender Team entwickelte Datenstruktur, welche dazu gedacht ist Limitierungen einer "alteren von Blender genutzen Datenstruktur zu beheben. BMesh\footnote{\url{http://wiki.blender.org/index.php/Dev:2.6/Source/Modeling/BMesh/Design} (gepr"uft 30.07.2013)}  ist eine an die Radial Edge Structure \footnote{Weiler, K.J. : The Radial Edge Structure: A Topological Representation for Non-Manifold Geometric Modeling. in Geometric Modeling for CAD Applications, Springer Verlag, May 1986.} angelehnte Struktur. Sie ist der \HES "ahnlich, beide weichen allerdings im Aufbau doch so stark von einander ab um sie sicher zu unterscheiden (Hier sei nur kurz angemerkt, dass BMesh nur auf komplette Kanten setzt und nicht auf Halbkanten). Wo wird die \HES also eingesetzt? Bei den Recherchen zu dieser Arbeit wurde festgestellt, dass viele Studenten und Akademiker diese Datenstruktur f"ur kleine Projekte in der Computergrafik nutzen. Es existieren einige exemplarische Implementierungen ohne die Integration in eine Engine, meistens jedoch in C++ geschrieben und dementsprechend ohne die Nutzung und Unterst"utzung von LINQ. Keines der gefundenen Projekte war in eine Echtzeit 3D Engine integriert. Es wurden auch keine geometrischen Transformationen auf den Datenstrukturen pr"asentiert. Es soll hier aber auf Ryan Holmes Arbeit \cite{Holmes.2012} verwiesen werden. Er hat ein interessantes Projekt Namens "`The DCEL Data Structure for 3D Graphics"'\footnote{Zu finden unter \url{http://www.holmes3d.net/graphics/dcel/}(gepr"uft 30.07.2013)} auf Basis der Doubly-connected edge list erstellt. Es vereinfacht den Einstieg in die Thematik und erkl"art interaktiv die Topologie der \HES und der DCEL.
+		Die \HES oder auch die Doubly-connected edge list (DCEL) werden heute zwar relativ h"aufig f"ur 3D Mesh Datenstrukturen eingesetzt, allerdings ist zum Zeitpunkt dieser Arbeit nicht bekannt ob und welche gro"sen Programme diese Datenstruktur zum Handling ihrer 3D Daten einsetzt. Weder f"ur 3DS Max von Autodesk noch f"ur Cinema 4D von Maxon konnten verl"assliche Quellen gefunden werden. Die Open Source Software "`Blender"' verwendet in der Version 2.6 die BMesh Structure. Hierbei handelt es sich um eine vom Blender Team entwickelte Datenstruktur, welche dazu gedacht ist Limitierungen einer "alteren von Blender genutzen Datenstruktur zu beheben. BMesh\footnote{\url{http://wiki.blender.org/index.php/Dev:2.6/Source/Modeling/BMesh/Design} (gepr"uft 30.07.2013)}  ist eine an die Radial Edge Structure \footnote{Weiler, K.J. : The Radial Edge Structure: A Topological Representation for Non-Manifold Geometric Modeling. in Geometric Modeling for CAD Applications, Springer Verlag, May 1986.} angelehnte Struktur. Sie ist der \HES "ahnlich, beide weichen allerdings im Aufbau doch so stark von einander ab um sie sicher zu unterscheiden (Hier sei nur kurz angemerkt, dass BMesh nur auf komplette Kanten setzt und nicht auf Halbkanten). Wo wird die \HES also eingesetzt? Bei den Recherchen zu dieser Arbeit wurde festgestellt, dass viele Studenten und Akademiker diese Datenstruktur f"ur kleine Projekte in der Computergrafik nutzen. Es existieren einige exemplarische Implementierungen ohne die Integration in eine Engine, meistens jedoch in C++ geschrieben und dementsprechend ohne die Nutzung und Unterst"utzung von LINQ. Keines der gefundenen Projekte war in eine Echtzeit-3D Engine integriert. Es wurden auch keine geometrischen Transformationen auf den Datenstrukturen pr"asentiert. Es soll hier aber auf Ryan Holmes Arbeit \cite{Holmes.2012} verwiesen werden. Er hat ein interessantes Projekt Namens "`The DCEL Data Structure for 3D Graphics"'\footnote{Zu finden unter \url{http://www.holmes3d.net/graphics/dcel/}(gepr"uft 30.07.2013)} auf Basis der Doubly-connected edge list erstellt. Es vereinfacht den Einstieg in die Thematik und erkl"art interaktiv die Topologie der \HES und der DCEL.
 \newline
 
 Sicherlich kann diese Arbeit auch nicht fortfahren ohne die Erw"ahnung des OpenMesh\footnote{Zu finden unter \url{http://www.openmesh.org/} (gepr"uft 29.07.2013)} Projektes, betreut von Prof. Dr. Leif Kobbelt in der Computer Graphics Group der RWTH Aachen. OpenMesh ist eine generische Datenstruktur f"ur die Repr"asentation und Manipulation von polygonalen Mesh Daten \cite{Kobbelt.2013}. OpenMesh war in den Anf"angen dieser Arbeit ein Vorbild f"ur das LFG Projekt ohne jedoch den Anspruch, die Funktionen von OpenMesh nachzubilden. Open Mesh ist zudem Open Source, generisch und in C++ implementiert was einen Vergleich mit LFG zu schwierig macht. LFG orientiert sich in seiner Umsetzung jedoch ausdr"ucklich am Modell der \HES, wie sie durch M.Botsch, S.Steinberg, S.Bischoff und L.Kobbelt im Paper "`OpenMesh - a generic and efficient polygon mesh data structure"' \cite{Botsch.2002} erl"autert wird.
@@ -552,7 +561,8 @@ Hier ein Vergleich der beiden Syntaktischen M"oglichkeiten zum Erstellen von LIN
 		%Content
 
 Beide Methoden LINQ Abfragen in \CSS zu schreiben werden vom JIT (Just in Time Compiler) in gleichen Code "ubersetzt. Sie unterscheiden sich nur selten. Manche Standardoperatoren wie Sum oder Count sind in der Abfragesyntax nicht gegeben. Dieses Projekt wird in Zukunft alle LINQ Abfragen in der Methodensyntax verwenden um den Code zu vereinheitlichen. Der Entwickler kann sich also eigentlich aussuchen, in welcher Syntax er seinen Code am liebsten schreibt. Eine gute "ubersicht von LINQ Standard Operatoren wurde von Don Box und Anders Hejlsberg 2007 in \begin{quote}"`LINQ: .NET Language-Integrated Query"' \cite[Standard Query Operators in a Nutshell]{Box.2007}\end{quote} beschrieben. \footnote{Zu finden unter \url{http://msdn.microsoft.com/en-us/library/bb308959.aspx}}
-\newpage
+\newline
+
 Hier sollen nur die f"ur dieses Projekt wichtigsten Standardoperatoren aufgelistet werden.
 \newline
 
@@ -610,7 +620,7 @@ In den n"achsten Abschnitten steht die Implementierung, siehe \ref{uml:klassendi
 			%Content
 			% Was ist das Konzept von LFG, wann hat es sich in Fusee integriert. Wieso ist es so wichtig die hes einzusetzen.
 			% TODO Klassen Diagramme und UML etc.
-			Das \LFGS Projekt begann als Thesis Projekt, in welchem angedacht war die \HES in \CSS zu implementieren und ihre M"oglichkeiten in Verbindung mit LINQ ausfindig zu machen. Nach einer Weile zeigte sich jedoch, dass es wesentlich interessanter w"are, dieses Projekt in einer echten 3D Echtzeit Engine einzusetzten und die M"oglichkeiten direkt in der Engine auszuwerten. Das Projekt wurde dann im n"achsten Schritt in einem extra Branch in die Fusee Engine intergiert. Der Branch in welchem sich \LFGS aktuell (25. Juli 2013) befindet ist stehts auf dem aktuellen Stand des Fusee development Branches (develop). Alle Ver"anderungen des Fusee Projekts wurden w"ahrend dieser Arbeit sofort eingepflegt um m"oglichen sp"ateren Problemen entgegen zu wirken. Diese Arbeit ist von Fusee trotz der engen Bindung als Geometry Datenstruktur fast nahtlos abgekoppelt. Die einzigen Referenzen welche \LFGS auf Fusee enth"alt beziehen sich auf die Mathematik Bibliothek von Fusee und das von Fusee genutze Mesh Format. \LFGS kann dadurch recht einfach von Fusee gel"ost und in eine andere Engine integriert werden. Lediglich die toMesh() Methode von LFG m"usste dann auf eine neue Engine angepasst werden, falls sich deren Mesh Repr"asentation von der bereits in Fusee implementierten Variante unterscheidet.
+			Das \LFGS Projekt begann als Thesis Projekt, in welchem angedacht war die \HES in \CSS zu implementieren und ihre M"oglichkeiten in Verbindung mit LINQ ausfindig zu machen. Nach einer Weile zeigte sich jedoch, dass es wesentlich interessanter w"are, dieses Projekt in einer echten Echtzeit-3D Engine einzusetzten und die M"oglichkeiten direkt in der Engine auszuwerten. Das Projekt wurde dann im n"achsten Schritt in einem extra Branch in die Fusee Engine intergiert. Der Branch in welchem sich \LFGS aktuell (25. Juli 2013) befindet ist stehts auf dem aktuellen Stand des Fusee development Branches (develop). Alle Ver"anderungen des Fusee Projekts wurden w"ahrend dieser Arbeit sofort eingepflegt um m"oglichen sp"ateren Problemen entgegen zu wirken. Diese Arbeit ist von Fusee trotz der engen Bindung als Geometry Datenstruktur fast nahtlos abgekoppelt. Die einzigen Referenzen welche \LFGS auf Fusee enth"alt beziehen sich auf die Mathematik Bibliothek von Fusee und das von Fusee genutze Mesh Format. \LFGS kann dadurch recht einfach von Fusee gel"ost und in eine andere Engine integriert werden. Lediglich die toMesh() Methode von LFG m"usste dann auf eine neue Engine angepasst werden, falls sich deren Mesh Repr"asentation von der bereits in Fusee implementierten Variante unterscheidet.
 %TODO Grafik vom Klassendiagramm und vom External Module
 %TODO Erklärung warum LFG so offen ist. Performance, Einfachheit, Ziel der Arbeit ist eine schnelle Schnittstelle die einfach für jeden benutzbar ist.
 \newline
@@ -623,7 +633,7 @@ In Zukunft ist es angedacht, das Projekt \LFGS m"oglicherweise als eine 3D Edito
 			%Content
 		\subsection {Furtwangen University Simulation and Entertainment Engine}\label{sec:fusee}
 			%Content
-			Die Furtwangen University Simulation and Entertainment Engine (kurz Fusee) ist eine Open Source 3D Echtzeit Engine mit einem Schwerpunkt auf einer Multiplattform Unterstützung. Entwickelt wurde sie von einer Projektgruppe an der Hochschule Furtwangen unter der Leitung von Herrn Prof. M"uller an der Fakult"at Digitale Medien.Von der aktuellen Version 0.5 werden folgende Plattformen unterst"utzt.
+			Die Furtwangen University Simulation and Entertainment Engine (kurz Fusee) ist eine Open Source Echtzeit-3D Engine mit einem Schwerpunkt auf Multiplattform Unterstützung. Entwickelt wurde sie von einer Projektgruppe an der Hochschule Furtwangen unter der Leitung von Herrn Prof. M"uller an der Fakult"at Digitale Medien.Von der aktuellen Version 0.5 werden folgende Plattformen unterst"utzt.
 \begin{itemize}
 \item Windows OS
 \item Linux OS
@@ -633,7 +643,7 @@ In Zukunft ist es angedacht, das Projekt \LFGS m"oglicherweise als eine 3D Edito
 \item Der Firefox Browser
 \end{itemize}
 
-Um eine Linux und Android Unterst"utzung zu erreichen ist das Projekt mit Mono, einer .NET Open Source Implementierung, kompatibel. Sogar einen Export nach JavaScript durch den JSIL Compiler von Kevin Gadd ist m"oglich. Somit ist Fusee ohne weitere Plugins im Browser lauff"ahig.
+Um eine Linux Unterst"utzung zu realisieren ist das Projekt mit Mono, einer .NET Open Source Version, kompatibel. Sogar einen Export nach JavaScript durch den JSIL Compiler von Kevin Gadd ist m"oglich. Somit ist Fusee ohne weitere Plugins im Browser lauff"ahig.
 \newpage
 Hier eine Liste der bereits umgesetzten Features in der Version 0.5:
 \begin{itemize}
@@ -646,7 +656,7 @@ Hier eine Liste der bereits umgesetzten Features in der Version 0.5:
 
 \LFGS ist als Projekt in einen eigenen Fusee Branch integiert. Nach aktuellem Stand (Juli 2013) kann man sich als Benutzer entscheiden, ob man dann ein Modell mit dem in Fusee integrierten Mesh System oder mit dem \HES Geometry System von \LFGS laden m"ochte.
 
-Als Schnittstelle zur GPU (Graphics Processing Unit) verwendet Fusee die low level Bibliothek OpenTK\footnote{\url{http://www.opentk.com/ (gepr"uft 30.07.2013)}} welche in \CSS geschrieben ist und einen wrapper f"ur die OpenGL Multi platform application programming interface (API) darstellt.
+Als Schnittstelle zur GPU (Graphics Processing Unit) verwendet Fusee die low level Bibliothek OpenTK\footnote{\url{http://www.opentk.com/ (gepr"uft 30.07.2013)}} welche in \CSS geschrieben ist und einen Wrapper f"ur die OpenGL Multi platform application programming interface (API) darstellt.
 
 Weitere Informationen "uber die Fusee Engine sind auf der offiziellen Homepage\footnote{\url{http://fusee3d.org/}} oder "uber GitHub\footnote{\url{https://github.com/FUSEEProjectTeam/Fusee}} erh"ltlich.\footnote{Quelle \url{http://fusee3d.org/about/} (Stand 19.07.2013)}
 			%Content
@@ -784,6 +794,7 @@ Die vollst"andige Implementierung dieses Structs und aller sieben weiteren kann 
 \newline
 
 Durch die Gegebenheiten der Implementierung von List<T> (Generic Lists) in \CSS ist es leider nicht m"oglich, die Container bei "Anderungen direkt in einer Liste zu manipulieren. Jeder Container muss erst aus der Liste kopiert werden um ihn dann zu "andern und anschliessen an der gleichen Stelle wieder einzuf"ugen. N"otig hierzu ist, dass der Index des Containers in der jeweiligen Liste bekannt ist. Hierzu ein kleines Beispiel welches die Erkl"arung etwas erl"autern soll.
+\newpage
 \lstinputlisting
 			[caption={PtrContExample1.cs - Manipulation eines Pointer Containers}, label=code:ptrcontmanip]
 			{../Codebeispiele/PtrContExample1.cs}
@@ -1120,7 +1131,7 @@ Aus den genannten Werten ist also ersichtlich, dass LINQ Abfragen auf gro"sen Da
 Das folgende Diagramm \ref{diag:benchmark} beschreibt Benchmark Ergebnisse welche mit Hilfe einer Fusee Demo Anwendung\footnote{Die f"ur die Messung benutze Demo Anwendung befindet sich im Fusee Beispielprojekt von \LFG. Sie kann durch verschiedene Settings aktiviert werden. Der Quellcode dokumentiert die ben"otigten Variablen.} ermittelt wurden. Gemessen wurde die Transformation von verschiedenen beispielhaften 3d Modellen. Zu diesen Modellen z"ahlen einfachste geometrische Gebilde aber auch komplexere Modelle aus der Computergrafik und ein Modell aus dem 3D Computerspiel "`Doom 3"'. Insgesamt wurden zw"olf Messungen durchgef"uhrt. Die ermittelte Gr"o"se Frames per Second (FPS) kann hier an der x-Achse des Diagramms abgelesen werden. Alle Modelle wurden mit und ohne Vertex Normalen Berechnung gemessen. Die Fusee seitige Beleuchtung war nur im Falle der Messung mit der Vertex Normalen Berechnung aktiv. F"ur jedes Modell wurde die gleiche Textur verwendet.
 \newline
 
-Diese Messung zeigt den Einfluss der Vertex und Polygon Anzahl auf das System zur Laufzeit. Bei den komplexeren Modellen mit einer Polygonanzahl > 200 f"uhrt das Aktivieren der Vertex Normalen Berechnung zu einer reduktion der FPS auf $1/3$ der FPS der Basis Messung ohne Vertex Normalen Berechnung. Diese Tatsache zeigt, dass eine Berechnung solch gro"ser Datenmengen und der darin benutzen Iterationen einiges an Leistung kostet. Die verwendete Methode zur Berechnung der Vertex Normalen ist Kantenbasiert und kann daher nur in einer Datenstruktur wie der \HES eingesetzt werden. In einer Face basierten Datenstruktur w"are diese Berechnung nur noch weiteren erheblichen Mehraufwand zu schaffen.
+Diese Messung zeigt den Einfluss der Vertex und Polygon Anzahl auf das System zur Laufzeit. Bei den komplexeren Modellen mit einer Polygonanzahl > 200 f"uhrt das Aktivieren der Vertex Normalen Berechnung zu einer reduktion der FPS auf $1/3$ der FPS der Basis Messung ohne Vertex Normalen Berechnung. Diese Tatsache zeigt, dass eine Berechnung solch gro"ser Datenmengen und der darin benutzen Iterationen einiges an Leistung kostet. Die verwendete Methode zur Berechnung der Vertex Normalen ist Kantenbasiert und kann daher nur in einer Datenstruktur wie der \HES eingesetzt werden.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Diagramm der Messungen%%%%%%%%%%%%%%%%%%%%%%%
 \includepdf[pages={1}, pagecommand={}]{../Messung/Benchmarks.pdf} \label{diag:benchmark}
@@ -1134,7 +1145,7 @@ Diese Messung zeigt den Einfluss der Vertex und Polygon Anzahl auf das System zu
 
 	\section {Manipulation von Mesh Daten in der Datenstruktur}
 		%Content
-		Um die Mesh Daten eines Geometry Objektes zu manipulieren gibt es verschiedene M"oglichkeiten. Durch Manipulationen kann das Mesh geringf"ugig oder gar komplett ver"andert werden. Es ist allerdings wichtig, keine Verbindungen der Datenstruktur im Geometry Objekt zu besch"adigen. Ein Geometry Objekt h"alt zwei verschiedene Arten von Daten vor. Zum einen sind dies "`reale Daten"'. Dabei handelt es sich um tats"achliche Werte, also in etwa Vertex Koordinaten, Vertex Normalen, Face Normalen und UV Koordinaten. Zum anderen existieren virtuelle Beziehungen der einzelnen Elemente der Datenstruktur untereinander, die hier als Half-Edges, Edges, Vertices und Faces bezeichnet werden. Um also die Form eines Meshes zu ver"andern m"ussen also in aller Regel die Beziehungen der Elemente ver"andert werden. Ein einfaches Beispiel dazu w"are die Triangulation eines Meshs. Es werden hierbei keine neuen realen Daten erzeugt sondern lediglich Half-Edges, Edges und Faces manipuliert.
+		Um die Mesh Daten eines Geometry Objektes zu manipulieren gibt es verschiedene M"oglichkeiten. Durch Manipulationen kann das Mesh geringf"ugig oder gar komplett ver"andert werden. Es ist allerdings wichtig, keine Verbindungen der Datenstruktur im Geometry Objekt zu besch"adigen. Ein Geometry Objekt h"alt zwei verschiedene Arten von Daten vor. Zum einen sind dies "`reale numerische Daten"'. Dabei handelt es sich um tats"achliche Werte, also in etwa Vertex Koordinaten, Vertex Normalen, Face Normalen und UV Koordinaten. Zum anderen existieren virtuelle Beziehungen der einzelnen Elemente der Datenstruktur untereinander, die hier als Half-Edges, Edges, Vertices und Faces bezeichnet werden. Um also die Form eines Meshes zu ver"andern m"ussen also in aller Regel die Beziehungen der Elemente ver"andert werden. Ein einfaches Beispiel dazu w"are die Triangulation eines Meshs. Es werden hierbei keine neuen realen Daten erzeugt sondern lediglich Half-Edges, Edges und Faces manipuliert.
 \newline
 
 Beide Manipulationsarten k"onnen aber auch kombiniert werden. Ein klassischer Fall w"are ein Subdivision Surfacing Algorithmus welcher durch Erweiterung des Geometry Objektes das Mesh in seiner Form ver"andern w"urde. Hierbei ver"andern sich alle Teile eines Geometry Objektes. Es entstehen neue Kanten und Faces und es werden neue Vertices aus bereits vorhandenen berechnet und eingef"ugt. 
@@ -1205,7 +1216,7 @@ Diese Berechnung der Vertex Normalen kann durch Setzen der Boolean Variable \_Ve
 
 Sind jetzt alle Normalen berechnet, iteriert ToMesh() noch einmal "uber alle Faces und Half-Edges und sammelt die relevanten Informationen in Collections, die f"ur Fusee sp"ater in Arrays konvertiert werden. Hierbei werden, da Fusee aktuell nur mit Triangles arbeitet (Stand Juli 2013), auch die Triangles neu berechnet. Dazu "lauft ein Iterator "uber die Half-Edges des Meshes und speichert die Indizes der Vertices in der richtigen Reihenfolge in einer Liste ab.
 
-Die meisten OpenGL Echtzeit 3D Engines benutzen aktuell nur noch Triangles f"ur die repr"asentation der Meshes. OpenGL hat die Funktion GL\_QUADS in OpenGL 3.1 und dar"uber entfernt und in 3.0 gilt diese Funktion als "deprecated".
+Die meisten OpenGL Echtzeit-3D Engines benutzen aktuell nur noch Triangles f"ur die repr"asentation der Meshes. OpenGL hat die Funktion GL\_QUADS in OpenGL 3.1 und dar"uber entfernt und in 3.0 gilt diese Funktion als "deprecated".
 \begin{quote}"`GL\_QUADS [...] have been removed from core OpenGL 3.1 and above (they are only deprecated in OpenGL 3.0).\footnote{\url{http://www.opengl.org/wiki/Primitive} (gepr"uft 30.07.2013 Abschnitt "`Quads"')}
 "'\end{quote}
 
@@ -1243,7 +1254,7 @@ Um die Konvertierung in ein Fusee Mesh Objekt abzuschliessen, muss die ToMesh() 
 \chapter {Schluss}
 	\section {Fazit}
 		%Content
-		Zum Ende dieser Arbeit hat sich \LFGS von einer simplen Datenstruktur in eine in die Fusee Engine integrierte Umgebung zum Handling und zur Manipulation von 3D Meshes entwickelt. Das Projekt hat einen Zustand erreicht, in welchem es m"oglich ist, Meshes zu laden, sie anzuzeigen und verschiedene Elemente des Meshes gezielt zur Laufzeit zu ver"andern. Texturen und Vertex Normalen Beleuchtungsberechnung werden in der Datenstruktur durch die Integration in Fusee unterst"utzt. Das Projekt kann um eigenen Code erweitert werden und bietet eine grundlegende Auswahl an Enumeratoren/Iteratoren f"ur sp"atere Entwicklungen. Es w"are interessant mit diesem Projekt einen 3D Echtzeit Editor in der Fusee Engine zu implementieren. LINQ Abfragen k"onnen nach Wunsch verwendet werden um eigene Enumeratoren/Iteratoren zu entwicklen oder bestehende zu kombinieren. Einige LINQ Abfragen werden f"ur Transformationen auf den Meshes genutzt. Hierzu werden Transformationsmatrizen mit Vertices multipliziert.
+		Zum Ende dieser Arbeit hat sich \LFGS von einer simplen Datenstruktur in eine in die Fusee Engine integrierte Umgebung zum Handling und zur Manipulation von 3D Meshes entwickelt. Das Projekt hat einen Zustand erreicht, in welchem es m"oglich ist, Meshes zu laden, sie anzuzeigen und verschiedene Elemente des Meshes gezielt zur Laufzeit zu ver"andern. Texturen und Vertex Normalen Beleuchtungsberechnung werden in der Datenstruktur durch die Integration in Fusee unterst"utzt. Das Projekt kann um eigenen Code erweitert werden und bietet eine grundlegende Auswahl an Enumeratoren/Iteratoren f"ur sp"atere Entwicklungen. Es w"are interessant mit diesem Projekt einen Echtzeit-3D Editor in der Fusee Engine zu implementieren. LINQ Abfragen k"onnen nach Wunsch verwendet werden um eigene Enumeratoren/Iteratoren zu entwicklen oder bestehende zu kombinieren. Einige LINQ Abfragen werden f"ur Transformationen auf den Meshes genutzt. Hierzu werden Transformationsmatrizen mit Vertices multipliziert.
 
 Trotz der vielen M"oglichkeiten in Iteratoren und Transformationen muss bei der Verwendung der \HES in Verbindung mit LINQ auf die Gr"o"se der Quelldatens"atze in Relation mit dem erwarteten Ergebnisset geachtet werden. Auch hier gelten die allgemeinen Regeln zur Entwicklung von Algorithmen. "Uber eine gro"se Liste mit hunderten von Datens"atzen zu iterieren um einen oder wenige Werte abzurufen l"asst sich auch durch LINQ kaum performant gestalten. Vor allem bei zeitkritischen Operationen kann dies ein Problem darstellen. Algorithmen sollten in einem solchen Fall die Topologie der Datenstruktur nutzen.
 
@@ -1251,21 +1262,21 @@ Die gr"ossten St"arken zeigen LINQ und Lambda dann, wenn relativ kleine oder ber
 
 %!TODO! Erweiterung für Code? internal und so ...
 
-Der Support f"ur LINQ und Lambda in einer Echtzeit 3D Datenstruktur ist also durchaus m"oglich. Er unterliegt durch die genannten Punkte einigen wenigen Einschr"ankungen, ist aber sicherlich als n"utzliche Erweiterung der Datenstruktur und dem gesamten \LFGS System als Datenstruktur zur Bearbeitung von Meshes zu verstehen.
+Der Support f"ur LINQ und Lambda in einer Echtzeit-3D Datenstruktur ist also durchaus m"oglich. Er unterliegt durch die genannten Punkte einigen wenigen Einschr"ankungen, ist aber sicherlich als n"utzliche Erweiterung der Datenstruktur und dem gesamten \LFGS System als Datenstruktur zur Bearbeitung von Meshes zu verstehen.
 		%Content
 \section{Ausblick auf die zuk"unftige Verwendung von \LFG}
-\LFGS ist an sich nur eine Basis f"ur weitere Entwicklungen. Das System kann an manchen Stellen noch optimiert werden. Den Anspruch an eine vollst"andig integrierte Version einer Echtzeit 3D Datenstruktur hatte \LFGS ohnehin nie. In Zukunft ist es angedacht, das Projekt m"oglicherweise als Datenstruktur f"ur einen Fusee internen 3D Echtzeit Mesh Editor zu verwenden und weitere Algorithmen zur Geometriemanipulation zu formulieren. Das System kann aber auch auf andere 3D Editoren oder Viewer angepasst werden und darf selbstverst"andlich unter Beachtung der bestehenden Lizenzen in diese integriert werden. So ist also zu hoffen, dass diese Arbeit einen Grundstein f"ur weitere interessante Projekte, nicht zuletzt in der Echtzeit 3D Engine Fusee von Herrn Prof. M"uller und seinem Team der Hochschule Furtwangen, legen konnte.
+\LFGS ist an sich nur eine Basis f"ur weitere Entwicklungen. Das System kann an manchen Stellen noch optimiert werden. In Zukunft ist es angedacht, das Projekt m"oglicherweise als Datenstruktur f"ur einen Fusee internen Echtzeit-3D Mesh Editor zu verwenden und weitere Algorithmen zur Geometriemanipulation zu formulieren. Das System kann aber auch auf andere 3D Editoren oder Viewer angepasst werden und darf selbstverst"andlich unter Beachtung der bestehenden Lizenzen in diese integriert werden. So ist also zu hoffen, dass diese Arbeit einen Grundstein f"ur weitere interessante Projekte, nicht zuletzt in der Echtzeit-3D Engine Fusee von Herrn Prof. M"uller und seinem Team an der Hochschule Furtwangen, legen konnte.
 
 \newpage
-\section {Wo ist der Code und die Dokumentation zu \LFGS zu beziehen und einzusehen?}
+\section {Wo ist der Code und die Dokumentation zu \LFGS zu beziehen?}
 	%Content
 	Sollte am Code von \LFGS Interesse bestehen, ist dieser f"ur alle Interessenten, auch hochschulextern, unter den folgenden GitHub Links abzurufen.
 \begin{itemize}
-\item Im Branch feat\_dsteffen\_LFG unter \url{https://github.com/FUSEEProjectTeam/Fusee} (gepr"uft 01.08.2013)
-\item Oder im LFG eigenen GitHub Repository ohne Fusee Integration. Hier ist der Code allerdings nicht ohne Anpassungen in den Methoden zur Meshkonvertierung lauff"ahig. \url{https://github.com/DomS23/LinqForGeometry} (gepr"uft 01.08.2013)
+\item Aktuell im Branch feat\_dsteffen\_LFG unter \url{https://github.com/FUSEEProjectTeam/Fusee} (gepr"uft 01.08.2013) \footnote{In Zukunft wird das Projekt voraussichtlich direkt in Fusee integriert sein.}
+\item Im LFG eigenen GitHub Repository ohne Fusee Integration. Hier ist der Code allerdings nicht ohne Anpassungen in den Methoden zur Meshkonvertierung lauff"ahig. \url{https://github.com/DomS23/LinqForGeometry} (gepr"uft 01.08.2013)
 \end{itemize}
 
-Der gesamte Code dieser Arbeit ist "`Open Source"' und steht unter der MIT Lizenz, abrufbar auf der Webseite der "'Open Source Initative"` unter \url{http://opensource.org/licenses/MIT} (geprueft: 07.08.2013). Weitere Lizenz Informationen zum Code finden sich in der MIT-License.txt im Root Verzeichnis des Softwareprojekts.
+Der gesamte Code dieser Arbeit ist "`Open Source"' und steht unter der MIT Lizenz, abrufbar auf der Webseite der "'Open Source Initative"` unter \url{http://opensource.org/licenses/MIT} (geprueft: 07.08.2013). Weitere Lizenz Informationen zum Code finden sich in der MIT-License.txt und der MIT-License\_DE.txt im Root Verzeichnis des Softwareprojekts.
 			% Spielraum für Verbesserungen, Beleuchtung, Konvertierung in Fusee Mesh, Kanten mit mehr als 2 Faces möglich aber nicht schön, etc.
 
 %%%%%%
@@ -1276,7 +1287,7 @@ Der gesamte Code dieser Arbeit ist "`Open Source"' und steht unter der MIT Lizen
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Inhalt ENDE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\part*{Appendix}
+\part*{Anhang}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
